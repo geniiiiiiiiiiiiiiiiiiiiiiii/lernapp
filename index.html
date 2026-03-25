@@ -30,7 +30,6 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    /* HEADER */
     header { padding: 52px 48px 0; max-width: 1100px; margin: 0 auto; }
     .header-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
     .logo-area h1 { font-family: 'Lora', serif; font-size: 2.4rem; font-weight: 600; letter-spacing: -0.5px; line-height: 1.15; }
@@ -43,29 +42,24 @@
     .total-visitors { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--muted); }
     .total-visitors span { font-weight: 600; color: var(--text); font-family: 'Lora', serif; }
 
-    /* DIVIDER */
     .divider { max-width: 1100px; margin: 32px auto 0; padding: 0 48px; }
     .divider hr { border: none; border-top: 1.5px solid var(--border); }
 
-    /* STATS */
     .stats-bar { max-width: 1100px; margin: 28px auto 0; padding: 0 48px; display: flex; gap: 32px; flex-wrap: wrap; }
     .stat { display: flex; flex-direction: column; }
     .stat-num { font-family: 'Lora', serif; font-size: 1.6rem; font-weight: 600; line-height: 1; }
     .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 4px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    /* FILTER */
     .filter-area { max-width: 1100px; margin: 36px auto 0; padding: 0 48px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .filter-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; margin-right: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
     .pill { padding: 6px 16px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--surface); font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.18s ease; font-family: 'DM Sans', sans-serif; }
     .pill:hover { border-color: var(--text); color: var(--text); }
     .pill.active { background: var(--text); border-color: var(--text); color: var(--bg); }
 
-    /* GRID */
     .grid-section { max-width: 1100px; margin: 36px auto 40px; padding: 0 48px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
     .loading-grid { grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted); font-size: 0.9rem; }
 
-    /* CARD */
     .card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 26px 24px 22px; box-shadow: var(--shadow); transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; flex-direction: column; gap: 14px; position: relative; overflow: hidden; }
     .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 16px 16px 0 0; }
     .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-h); }
@@ -98,7 +92,6 @@
     .card-meta { display: flex; gap: 14px; flex-wrap: wrap; }
     .meta-item { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--muted); }
 
-    /* LIVE VIEWERS */
     .live-viewers { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 500; padding: 5px 11px; border-radius: 20px; width: fit-content; }
     .live-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(1.4); } }
@@ -121,7 +114,6 @@
     .open-btn:hover { opacity: 0.82; transform: translateX(2px); }
     .card-date { font-size: 0.75rem; color: var(--muted); font-weight: 300; }
 
-    /* REQUEST BAR */
     .request-bar { max-width: 1100px; margin: 0 auto 20px; padding: 0 48px; }
     .request-inner { display: flex; align-items: flex-start; gap: 14px; background: #f0f7ff; border: 1.5px solid #cde0f5; border-radius: 12px; padding: 14px 18px; }
     .request-icon { flex-shrink: 0; width: 34px; height: 34px; background: #3b82c4; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-top: 1px; }
@@ -129,25 +121,21 @@
     .request-text p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; font-weight: 300; }
     .req-highlight { font-weight: 500; color: #3b82c4; }
 
-    /* DISCLAIMER */
     .disclaimer-bar { max-width: 1100px; margin: 0 auto 32px; padding: 0 48px; }
     .disclaimer-inner { display: flex; align-items: flex-start; gap: 12px; background: #fdfbf7; border: 1.5px solid #e8e2d5; border-radius: 12px; padding: 14px 18px; }
     .disclaimer-inner svg { flex-shrink: 0; color: var(--muted); margin-top: 1px; }
     .disclaimer-inner p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; font-weight: 300; }
     .disclaimer-inner p strong { color: var(--text); font-weight: 600; }
 
-    /* FOOTER */
     footer { border-top: 1.5px solid var(--border); max-width: 1100px; margin: 0 auto; padding: 24px 48px; }
     footer p { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
     footer strong { font-weight: 600; color: var(--text); }
 
-    /* ADMIN TABS */
     .admin-tabs { display: flex; gap: 8px; margin-bottom: 22px; }
     .admin-tab { padding: 8px 18px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.18s; }
     .admin-tab:hover { border-color: var(--text); color: var(--text); }
     .admin-tab.active { background: var(--text); border-color: var(--text); color: var(--bg); }
 
-    /* DELETE LIST */
     #delete-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
     .delete-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg); }
     .delete-item-title { font-size: 0.88rem; font-weight: 600; color: var(--text); }
@@ -155,11 +143,9 @@
     .btn-delete { padding: 6px 14px; background: #fceef0; color: #c43b3b; border: 1.5px solid #f5c0c0; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
     .btn-delete:hover { background: #c43b3b; color: white; border-color: #c43b3b; }
 
-    /* ADMIN TRIGGER */
     .admin-trigger { position: fixed; bottom: 22px; right: 22px; width: 38px; height: 38px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow); opacity: 0.3; transition: opacity 0.2s; z-index: 100; }
     .admin-trigger:hover { opacity: 1; }
 
-    /* MODAL */
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(44,42,38,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(3px); }
     .modal-overlay.open { display: flex; }
     .modal { background: var(--surface); border-radius: 20px; padding: 36px; width: 100%; max-width: 520px; box-shadow: 0 24px 64px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
@@ -179,7 +165,6 @@
     .pw-error { font-size: 0.8rem; color: #c43b3b; margin-top: 4px; display: none; }
     .success-msg { background: #edf8f2; border: 1.5px solid #a3dfc0; color: #2e7d52; border-radius: 10px; padding: 12px 16px; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 12px; }
 
-    /* RESPONSIVE */
     @media (max-width: 640px) {
       header, .divider, .stats-bar, .filter-area, .grid-section, .request-bar, .disclaimer-bar, footer { padding-left: 20px; padding-right: 20px; }
       header { padding-top: 36px; }
@@ -264,17 +249,14 @@
     <p>Lernhub · <strong>F2AB</strong> · Alle Lernapps</p>
   </footer>
 
-  <!-- Admin trigger: tiny gear bottom-right, barely visible -->
   <div class="admin-trigger" id="admin-trigger" title="Admin">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
   </div>
 
-  <!-- Admin Modal -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal">
       <div id="pw-screen">
         <h2>🔒 Admin-Zugang</h2>
-
         <div class="form-row">
           <label>Passwort</label>
           <input type="password" id="pw-input" placeholder="••••••••" />
@@ -346,11 +328,10 @@
     </div>
   </div>
 
-  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp }
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, onValue, set, get, runTransaction, push, onDisconnect, remove }
+    import { getDatabase, ref, onValue, set, get, push, onDisconnect, remove, increment }
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     const app = initializeApp({
@@ -364,53 +345,61 @@
     });
     const db = getDatabase(app);
 
-    const TAG_CLASS = { gesellschaft:'tag-ges', mathematik:'tag-math', französisch:'tag-fra', italienisch:'tag-ita', musik:'tag-mus', wirtschaft:'tag-wir', psychologie:'tag-psy', deutsch:'tag-deu', informatik:'tag-inf', anderes:'tag-other' };
-    const TAG_LABEL = { gesellschaft:'Gesellschaft', mathematik:'Mathematik', französisch:'Französisch', italienisch:'Italienisch', musik:'Musik', wirtschaft:'Wirtschaft', psychologie:'Psychologie', deutsch:'Deutsch', informatik:'Informatik', anderes:'Anderes' };
+    const TAG_CLASS  = { gesellschaft:'tag-ges', mathematik:'tag-math', französisch:'tag-fra', italienisch:'tag-ita', musik:'tag-mus', wirtschaft:'tag-wir', psychologie:'tag-psy', deutsch:'tag-deu', informatik:'tag-inf', anderes:'tag-other' };
+    const TAG_LABEL  = { gesellschaft:'Gesellschaft', mathematik:'Mathematik', französisch:'Französisch', italienisch:'Italienisch', musik:'Musik', wirtschaft:'Wirtschaft', psychologie:'Psychologie', deutsch:'Deutsch', informatik:'Informatik', anderes:'Anderes' };
     const LIVE_CLASS = { gesellschaft:'live-ges', mathematik:'live-math', französisch:'live-fra', italienisch:'live-ita', musik:'live-mus', wirtschaft:'live-wir', psychologie:'live-psy', deutsch:'live-deu', informatik:'live-inf', anderes:'live-other' };
 
-    // Seed Migration if empty
-    get(ref(db,'cards')).then(snap => {
+    // Seed if empty
+    get(ref(db, 'cards')).then(snap => {
       if (!snap.exists()) {
-        set(ref(db,'cards/card_migration'), {
-          title:'Migration', subject:'gesellschaft', year:'2026',
-          link:'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/migration-lerne/',
-          date:'März 2026', order:1
+        set(ref(db, 'cards/card_migration'), {
+          title: 'Migration', subject: 'gesellschaft', year: '2026',
+          link: 'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/migration-lerne/',
+          date: 'März 2026', order: 1
         });
       }
     });
 
-    // Count this visit
-    runTransaction(ref(db,'meta/totalVisitors'), v => (v||0)+1);
+    // ── VISITOR COUNTER ───────────────────────────────────────────────────────
+    // `increment(1)` ist ein atomarer Server-Side Write — kein Read nötig,
+    // kein null-Problem wie bei runTransaction. Zuverlässigste Methode.
+    // sessionStorage verhindert Mehrfachzählung beim Neuladen derselben Tab.
+    if (!sessionStorage.getItem('lernhub_visited')) {
+      sessionStorage.setItem('lernhub_visited', '1');
+      set(ref(db, 'meta/totalVisitors'), increment(1))
+        .catch(err => console.warn('Visitor count failed:', err));
+    }
+    // ─────────────────────────────────────────────────────────────────────────
 
-    // Presence on hub page
-    const myPresence = push(ref(db,'presence/hub'));
+    // Presence
+    const myPresence = push(ref(db, 'presence/hub'));
     set(myPresence, true);
     onDisconnect(myPresence).remove();
 
-    // Total visitors listener
-    onValue(ref(db,'meta/totalVisitors'), snap => {
+    // Display total visitors (live)
+    onValue(ref(db, 'meta/totalVisitors'), snap => {
       const el = document.getElementById('total-visitors-count');
-      if (el) el.textContent = (snap.val()||0).toLocaleString('de-CH');
+      if (el) el.textContent = (snap.val() || 0).toLocaleString('de-CH');
     });
 
-    // Cards listener
-    onValue(ref(db,'cards'), snap => {
+    // Cards
+    onValue(ref(db, 'cards'), snap => {
       const grid = document.getElementById('card-grid');
       grid.innerHTML = '';
       const data = snap.val();
       if (!data) { grid.innerHTML = '<div class="loading-grid">Noch keine Lernapps.</div>'; return; }
 
-      const cards = Object.entries(data).sort((a,b)=>(a[1].order||99)-(b[1].order||99));
+      const cards = Object.entries(data).sort((a, b) => (a[1].order || 99) - (b[1].order || 99));
 
       cards.forEach(([id, card], idx) => {
         const subj = card.subject || 'anderes';
-        const num  = String(idx+1).padStart(2,'0');
+        const num  = String(idx + 1).padStart(2, '0');
         const div  = document.createElement('div');
         div.className = 'card';
         div.dataset.subject = subj;
         div.innerHTML = `
           <div class="card-top">
-            <span class="subject-tag ${TAG_CLASS[subj]||'tag-other'}">${TAG_LABEL[subj]||'Anderes'}</span>
+            <span class="subject-tag ${TAG_CLASS[subj] || 'tag-other'}">${TAG_LABEL[subj] || 'Anderes'}</span>
             <span class="card-number">#${num}</span>
           </div>
           <h2>${card.title}</h2>
@@ -419,10 +408,10 @@
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>F2AB
             </span>
             <span class="meta-item">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${card.year||'2026'}
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${card.year || '2026'}
             </span>
           </div>
-          <div class="live-viewers ${LIVE_CLASS[subj]||'live-other'}" id="live-${id}">
+          <div class="live-viewers ${LIVE_CLASS[subj] || 'live-other'}" id="live-${id}">
             <div class="live-dot"></div>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             <span id="lc-${id}">0</span> schauen gerade
@@ -434,29 +423,25 @@
             <span class="mode-chip">Quiz</span>
           </div>
           <div class="card-footer">
-            <span class="card-date">Hinzugefügt: ${card.date||''}</span>
+            <span class="card-date">Hinzugefügt: ${card.date || ''}</span>
             <a class="open-btn" href="${card.link}" target="_blank">Öffnen <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           </div>`;
         grid.appendChild(div);
 
-        // Live viewers per card
-        onValue(ref(db,`presence/${id}`), s => {
+        onValue(ref(db, `presence/${id}`), s => {
           const c = document.getElementById(`lc-${id}`);
           if (c) c.textContent = s.val() ? Object.keys(s.val()).length : 0;
         });
       });
 
-      // Update stats
-      document.getElementById('count-total').textContent = cards.length;
-      document.getElementById('count-subjects').textContent = new Set(cards.map(([,c])=>c.subject)).size;
-
-      // Re-apply current filter
-      applyFilter(document.querySelector('.pill.active')?.dataset.filter||'alle');
+      document.getElementById('count-total').textContent    = cards.length;
+      document.getElementById('count-subjects').textContent = new Set(cards.map(([, c]) => c.subject)).size;
+      applyFilter(document.querySelector('.pill.active')?.dataset.filter || 'alle');
     });
 
     function applyFilter(f) {
       document.querySelectorAll('#card-grid .card').forEach(c => {
-        c.style.display = (f==='alle' || c.dataset.subject===f) ? '' : 'none';
+        c.style.display = (f === 'alle' || c.dataset.subject === f) ? '' : 'none';
       });
     }
 
@@ -468,29 +453,31 @@
 
     // Expose for admin
     window._firebaseReady = true;
-    window._db = db;
+    window._db  = db;
     window._ref = ref;
     window._set = set;
     window._get = get;
-    window._remove = remove;
+    window._remove    = remove;
     window._TAG_LABEL = TAG_LABEL;
 
-    // Keep a cache of cards for the delete list
     window._cardsCache = {};
-    onValue(ref(db,'cards'), snap => { window._cardsCache = snap.val() || {}; });
+    onValue(ref(db, 'cards'), snap => { window._cardsCache = snap.val() || {}; });
   </script>
 
   <script>
     const ADMIN_PW = 'Ihgi2021asN.';
 
+    // closeModal — war vorher nie definiert (Bug #1)
+    window.closeModal = function() {
+      document.getElementById('modal-overlay').classList.remove('open');
+    };
+
     document.getElementById('admin-trigger').addEventListener('click', () => {
       document.getElementById('modal-overlay').classList.add('open');
-      document.getElementById('pw-screen').style.display = '';
+      document.getElementById('pw-screen').style.display  = '';
       document.getElementById('admin-form').style.display = 'none';
-      document.getElementById('pw-error').style.display = 'none';
-      document.getElementById('pw-input').value = '';
-      // Reset to add tab
-      if (typeof switchTab === 'function') switchTab('add');
+      document.getElementById('pw-error').style.display   = 'none';
+      document.getElementById('pw-input').value           = '';
     });
 
     document.getElementById('modal-overlay').addEventListener('click', e => {
@@ -503,8 +490,9 @@
 
     window.checkPassword = function() {
       if (document.getElementById('pw-input').value === ADMIN_PW) {
-        document.getElementById('pw-screen').style.display = 'none';
+        document.getElementById('pw-screen').style.display  = 'none';
         document.getElementById('admin-form').style.display = '';
+        switchTab('add');
       } else {
         document.getElementById('pw-error').style.display = 'block';
         document.getElementById('pw-input').value = '';
@@ -518,9 +506,9 @@
       document.getElementById('tab-delete').classList.toggle('active', tab === 'delete');
 
       if (tab === 'delete') {
-        const list = document.getElementById('delete-list');
+        const list  = document.getElementById('delete-list');
         list.innerHTML = '';
-        const cards = Object.entries(window._cardsCache).sort((a,b)=>(a[1].order||99)-(b[1].order||99));
+        const cards = Object.entries(window._cardsCache || {}).sort((a, b) => (a[1].order || 99) - (b[1].order || 99));
         if (cards.length === 0) {
           list.innerHTML = '<p style="font-size:0.85rem;color:var(--muted);padding:12px 0;">Keine Lernapps vorhanden.</p>';
           return;
@@ -531,7 +519,7 @@
           item.innerHTML = `
             <div>
               <div class="delete-item-title">${card.title}</div>
-              <div class="delete-item-sub">${window._TAG_LABEL[card.subject]||'Anderes'} · ${card.year||'2026'}</div>
+              <div class="delete-item-sub">${(window._TAG_LABEL || {})[card.subject] || 'Anderes'} · ${card.year || '2026'}</div>
             </div>
             <button class="btn-delete" onclick="deleteCard('${id}', this)">Löschen</button>`;
           list.appendChild(item);
@@ -542,16 +530,12 @@
     window.deleteCard = async function(id, btn) {
       if (!confirm('Sicher? Diese Lernapp wird dauerhaft gelöscht.')) return;
       btn.textContent = '…';
-      btn.disabled = true;
+      btn.disabled    = true;
       await window._remove(window._ref(window._db, `cards/${id}`));
       btn.closest('.delete-item').remove();
       const msg = document.getElementById('delete-msg');
       msg.style.display = 'block';
       setTimeout(() => { msg.style.display = 'none'; }, 3000);
-    };
-
-
-      document.getElementById('modal-overlay').classList.remove('open');
     };
 
     window.addCard = async function() {
@@ -562,14 +546,13 @@
       const date    = document.getElementById('f-date').value.trim();
       if (!title || !link) { alert('Titel und Link sind Pflichtfelder!'); return; }
 
-      // Wait for firebase to be ready
       let attempts = 0;
       while (!window._firebaseReady && attempts < 20) { await new Promise(r => setTimeout(r, 200)); attempts++; }
 
-      const snap = await window._get(window._ref(window._db, 'cards'));
-      const count = snap.exists() ? Object.keys(snap.val()).length : 0;
-      const newId = 'card_' + Date.now();
-      const dateStr = date || new Date().toLocaleDateString('de-CH', { month:'long', year:'numeric' });
+      const snap    = await window._get(window._ref(window._db, 'cards'));
+      const count   = snap.exists() ? Object.keys(snap.val()).length : 0;
+      const newId   = 'card_' + Date.now();
+      const dateStr = date || new Date().toLocaleDateString('de-CH', { month: 'long', year: 'numeric' });
 
       await window._set(window._ref(window._db, `cards/${newId}`), {
         title, subject, year, link, date: dateStr, order: count + 1
@@ -577,9 +560,9 @@
 
       document.getElementById('success-msg').style.display = 'block';
       document.getElementById('f-title').value = '';
-      document.getElementById('f-link').value = '';
-      document.getElementById('f-date').value = '';
-      document.getElementById('f-year').value = '2026';
+      document.getElementById('f-link').value  = '';
+      document.getElementById('f-date').value  = '';
+      document.getElementById('f-year').value  = '2026';
       setTimeout(() => { document.getElementById('success-msg').style.display = 'none'; }, 4000);
     };
   </script>
