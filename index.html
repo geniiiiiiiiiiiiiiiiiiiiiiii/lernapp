@@ -577,9 +577,7 @@
         try {
           snap = await window._get(window._ref(window._db, 'meta/adminHash'));
         } catch(fetchErr) {
-          alert('Firebase lesen fehlgeschlagen: ' + fetchErr.message + '
-
-Firebase-Regeln auf ".read": true setzen!');
+          alert('Firebase lesen fehlgeschlagen: ' + fetchErr.message + '\n\nFirebase-Regeln auf ".read": true setzen!');
           return;
         }
 
@@ -588,9 +586,7 @@ Firebase-Regeln auf ".read": true setzen!');
           try {
             await window._set(window._ref(window._db, 'meta/adminHash'), enteredHash);
           } catch(writeErr) {
-            alert('Firebase schreiben fehlgeschlagen: ' + writeErr.message + '
-
-Firebase-Regeln auf ".write": true setzen!');
+            alert('Firebase schreiben fehlgeschlagen: ' + writeErr.message + '\n\nFirebase-Regeln auf ".write": true setzen!');
             return;
           }
           document.getElementById('pw-screen').style.display  = 'none';
