@@ -265,7 +265,7 @@
   </footer>
 
   <!-- Admin trigger: subtle icon, only visible on long hover -->
-  <button id="admin-trigger" tabindex="-1" aria-hidden="true">
+  <button id="admin-trigger">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
   </button>
 
@@ -538,14 +538,16 @@
     };
 
     // Admin trigger
-    document.getElementById('admin-trigger').addEventListener('click', ()=>{
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('admin-trigger').addEventListener('click', () => {
       document.getElementById('modal-overlay').classList.add('open');
       document.getElementById('pw-screen').style.display  = '';
       document.getElementById('admin-form').style.display = 'none';
       document.getElementById('pw-error').style.display   = 'none';
       document.getElementById('pw-input').value           = '';
       setTimeout(()=>document.getElementById('pw-input').focus(), 80);
-    });
+      });
+    }); // DOMContentLoaded
 
     document.getElementById('modal-overlay').addEventListener('click', e=>{
       if (e.target.id==='modal-overlay') closeModal();
