@@ -89,6 +89,7 @@
 
     .card-number { font-size: 0.72rem; color: var(--muted); font-weight: 400; padding-top: 2px; }
     .card h2 { font-family: 'Lora', serif; font-size: 1.15rem; font-weight: 600; line-height: 1.3; }
+    .card-subtitle { font-size: 0.78rem; color: var(--muted); font-weight: 300; margin-top: -6px; font-style: italic; }
     .card-meta { display: flex; gap: 14px; flex-wrap: wrap; }
     .meta-item { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--muted); }
     .opens-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; color: var(--muted); }
@@ -102,6 +103,9 @@
 
     .card-modes { display: flex; gap: 6px; flex-wrap: wrap; }
     .mode-chip { font-size: 0.7rem; padding: 3px 9px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted); font-weight: 500; }
+    .checkbox-group { display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
+    .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text); cursor: pointer; }
+    .checkbox-label input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--text); cursor: pointer; }
     .card-footer { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .open-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--text); color: var(--bg); text-decoration: none; font-size: 0.82rem; font-weight: 600; padding: 9px 18px; border-radius: 10px; transition: opacity 0.18s, transform 0.18s; font-family: 'DM Sans', sans-serif; }
     .open-btn:hover { opacity: 0.82; transform: translateX(2px); }
@@ -303,6 +307,19 @@
             <label>Titel *</label>
             <input type="text" id="f-title" placeholder="z.B. Migration, Pythagoras…" />
           </div>
+          <div class="form-row">
+            <label>Untertitel <span style="font-weight:300;text-transform:none;letter-spacing:0;">(optional, z.B. «anhand ChatGPT»)</span></label>
+            <input type="text" id="f-subtitle" placeholder="z.B. anhand ChatGPT, Zusammenfassung Müller…" />
+          </div>
+          <div class="form-row">
+            <label>Modi (was ist enthalten?)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" id="m-crash" checked /> Crash Course</label>
+              <label class="checkbox-label"><input type="checkbox" id="m-standard" checked /> Standard</label>
+              <label class="checkbox-label"><input type="checkbox" id="m-voll" checked /> Vollständig</label>
+              <label class="checkbox-label"><input type="checkbox" id="m-quiz" checked /> Quiz</label>
+            </div>
+          </div>
           <div class="form-row-2">
             <div class="form-row">
               <label>Fach *</label>
@@ -445,6 +462,7 @@
             <span class="card-number">#${num}</span>
           </div>
           <h2>${card.title}</h2>
+          ${card.subtitle ? `<p class="card-subtitle">${card.subtitle}</p>` : ''}
           <div class="card-meta">
             <span class="meta-item">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>F2AB
@@ -458,10 +476,7 @@
             </span>
           </div>
           <div class="card-modes">
-            <span class="mode-chip">Crash Course</span>
-            <span class="mode-chip">Standard</span>
-            <span class="mode-chip">Vollständig</span>
-            <span class="mode-chip">Quiz</span>
+            ${(card.modes||['Crash Course','Standard','Vollständig','Quiz']).map(m=>`<span class="mode-chip">${m}</span>`).join('')}
           </div>
           <div class="card-footer">
             <span class="card-date">Hinzugefügt: ${card.date||''}</span>
@@ -702,11 +717,17 @@
     };
 
     window.addCard = async function() {
-      const title   = document.getElementById('f-title').value.trim();
-      const subject = document.getElementById('f-subject').value;
-      const year    = document.getElementById('f-year').value.trim()||'2026';
-      const link    = document.getElementById('f-link').value.trim();
-      const date    = document.getElementById('f-date').value.trim();
+      const title    = document.getElementById('f-title').value.trim();
+      const subtitle = document.getElementById('f-subtitle').value.trim();
+      const subject  = document.getElementById('f-subject').value;
+      const year     = document.getElementById('f-year').value.trim()||'2026';
+      const link     = document.getElementById('f-link').value.trim();
+      const date     = document.getElementById('f-date').value.trim();
+      const modes    = [];
+      if (document.getElementById('m-crash').checked)    modes.push('Crash Course');
+      if (document.getElementById('m-standard').checked) modes.push('Standard');
+      if (document.getElementById('m-voll').checked)     modes.push('Vollständig');
+      if (document.getElementById('m-quiz').checked)     modes.push('Quiz');
       if (!title||!link) { alert('Titel und Link sind Pflichtfelder!'); return; }
       let attempts=0;
       while (!window._firebaseReady&&attempts<30) { await new Promise(r=>setTimeout(r,200)); attempts++; }
@@ -718,13 +739,17 @@
         const count   = snap.exists()?Object.keys(snap.val()).length:0;
         const newId   = 'card_'+Date.now();
         const dateStr = date||new Date().toLocaleDateString('de-CH',{month:'long',year:'numeric'});
-        await window._set(window._ref(window._db,`cards/${newId}`),{title,subject,year,link,date:dateStr,order:count+1,opens:0});
+        const cardData = {title,subject,year,link,date:dateStr,order:count+1,opens:0,modes};
+        if (subtitle) cardData.subtitle = subtitle;
+        await window._set(window._ref(window._db,`cards/${newId}`),cardData);
         document.getElementById('success-msg').style.display='block';
         document.getElementById('error-msg').style.display='none';
         document.getElementById('f-title').value='';
+        document.getElementById('f-subtitle').value='';
         document.getElementById('f-link').value='';
         document.getElementById('f-date').value='';
         document.getElementById('f-year').value='2026';
+        ['m-crash','m-standard','m-voll','m-quiz'].forEach(id=>{ document.getElementById(id).checked=true; });
         setTimeout(()=>{ document.getElementById('success-msg').style.display='none'; },4000);
       } catch(e){
         document.getElementById('error-msg').style.display='block';
