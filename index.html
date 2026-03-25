@@ -92,6 +92,10 @@
     .card-meta { display: flex; gap: 14px; flex-wrap: wrap; }
     .meta-item { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--muted); }
 
+    /* Opens counter badge */
+    .opens-badge { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--muted); }
+    .opens-badge svg { flex-shrink: 0; }
+
     .live-viewers { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 500; padding: 5px 11px; border-radius: 20px; width: fit-content; }
     .live-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(1.4); } }
@@ -164,6 +168,11 @@
     .btn-secondary:hover { border-color: var(--text); color: var(--text); }
     .pw-error { font-size: 0.8rem; color: #c43b3b; margin-top: 4px; display: none; }
     .success-msg { background: #edf8f2; border: 1.5px solid #a3dfc0; color: #2e7d52; border-radius: 10px; padding: 12px 16px; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 12px; }
+
+    /* Firebase rules notice */
+    .rules-notice { background: #fff8ed; border: 1.5px solid #f5d9a0; border-radius: 10px; padding: 12px 16px; font-size: 0.82rem; color: #7a5a1e; margin-bottom: 16px; line-height: 1.55; }
+    .rules-notice strong { font-weight: 600; }
+    .rules-notice code { background: #fef0d0; padding: 1px 5px; border-radius: 4px; font-family: monospace; font-size: 0.78rem; }
 
     @media (max-width: 640px) {
       header, .divider, .stats-bar, .filter-area, .grid-section, .request-bar, .disclaimer-bar, footer { padding-left: 20px; padding-right: 20px; }
@@ -273,7 +282,15 @@
           <button class="admin-tab active" id="tab-add" onclick="switchTab('add')">➕ Hinzufügen</button>
           <button class="admin-tab" id="tab-delete" onclick="switchTab('delete')">🗑️ Entfernen</button>
         </div>
+
         <div id="panel-add">
+          <!-- ⚠️ Firebase Rules reminder — remove once rules are set -->
+          <div class="rules-notice" id="rules-notice">
+            ⚠️ <strong>Wichtig – einmalige Einrichtung:</strong> Damit Hinzufügen & Löschen funktioniert, müssen deine Firebase Realtime Database Regeln auf <code>true</code> gesetzt sein.<br><br>
+            Gehe zu: <strong>Firebase Console → Realtime Database → Regeln</strong> und setze:<br>
+            <code>{ "rules": { ".read": true, ".write": true } }</code><br><br>
+            Danach kannst du diesen Hinweis ignorieren.
+          </div>
           <h2>Neue Lernapp</h2>
           <p class="modal-sub">Erscheint sofort für alle auf dem Lernhub.</p>
           <div class="form-row">
@@ -310,11 +327,13 @@
             <input type="text" id="f-date" placeholder="z.B. März 2026" />
           </div>
           <div class="modal-actions">
-            <button class="btn-primary" onclick="addCard()">Hinzufügen</button>
+            <button class="btn-primary" id="btn-add-submit" onclick="addCard()">Hinzufügen</button>
             <button class="btn-secondary" onclick="closeModal()">Abbrechen</button>
           </div>
           <div class="success-msg" id="success-msg">✅ Lernapp erfolgreich hinzugefügt!</div>
+          <div class="success-msg" id="error-msg" style="background:#fceef0;border-color:#f5c0c0;color:#c43b3b;">❌ Fehler beim Speichern. Bitte Firebase-Regeln prüfen (siehe Hinweis oben).</div>
         </div>
+
         <div id="panel-delete" style="display:none;">
           <h2>Lernapp entfernen</h2>
           <p class="modal-sub">Wähle eine Lernapp aus und lösche sie dauerhaft.</p>
@@ -331,7 +350,7 @@
   <script type="module">
     import { initializeApp }
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, onValue, set, get, push, onDisconnect, remove, increment }
+    import { getDatabase, ref, onValue, set, get, push, onDisconnect, remove, increment, runTransaction }
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     const app = initializeApp({
@@ -349,32 +368,22 @@
     const TAG_LABEL  = { gesellschaft:'Gesellschaft', mathematik:'Mathematik', französisch:'Französisch', italienisch:'Italienisch', musik:'Musik', wirtschaft:'Wirtschaft', psychologie:'Psychologie', deutsch:'Deutsch', informatik:'Informatik', anderes:'Anderes' };
     const LIVE_CLASS = { gesellschaft:'live-ges', mathematik:'live-math', französisch:'live-fra', italienisch:'live-ita', musik:'live-mus', wirtschaft:'live-wir', psychologie:'live-psy', deutsch:'live-deu', informatik:'live-inf', anderes:'live-other' };
 
-    // Seed if empty
+    // ── SEED if empty ─────────────────────────────────────────────────────────
     get(ref(db, 'cards')).then(snap => {
       if (!snap.exists()) {
         set(ref(db, 'cards/card_migration'), {
           title: 'Migration', subject: 'gesellschaft', year: '2026',
           link: 'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/migration-lerne/',
-          date: 'März 2026', order: 1
+          date: 'März 2026', order: 1, opens: 0
         });
       }
-    });
+    }).catch(() => {});
 
-    // ── VISITOR COUNTER ───────────────────────────────────────────────────────
-    // `increment(1)` ist ein atomarer Server-Side Write — kein Read nötig,
-    // kein null-Problem wie bei runTransaction. Zuverlässigste Methode.
-    // sessionStorage verhindert Mehrfachzählung beim Neuladen derselben Tab.
-    if (!sessionStorage.getItem('lernhub_visited')) {
-      sessionStorage.setItem('lernhub_visited', '1');
-      set(ref(db, 'meta/totalVisitors'), increment(1))
-        .catch(err => console.warn('Visitor count failed:', err));
-    }
-    // ─────────────────────────────────────────────────────────────────────────
-
-    // Presence
-    const myPresence = push(ref(db, 'presence/hub'));
-    set(myPresence, true);
-    onDisconnect(myPresence).remove();
+    // ── ALL-TIME VISITOR COUNTER ──────────────────────────────────────────────
+    // Count EVERY page load/refresh (no sessionStorage guard).
+    // Uses runTransaction to safely increment even with concurrent users.
+    runTransaction(ref(db, 'meta/totalVisitors'), current => (current || 0) + 1)
+      .catch(err => console.warn('Visitor count failed:', err));
 
     // Display total visitors (live)
     onValue(ref(db, 'meta/totalVisitors'), snap => {
@@ -382,7 +391,12 @@
       if (el) el.textContent = (snap.val() || 0).toLocaleString('de-CH');
     });
 
-    // Cards
+    // ── PRESENCE (live viewers per card) ─────────────────────────────────────
+    const myPresence = push(ref(db, 'presence/hub'));
+    set(myPresence, true);
+    onDisconnect(myPresence).remove();
+
+    // ── CARDS ─────────────────────────────────────────────────────────────────
     onValue(ref(db, 'cards'), snap => {
       const grid = document.getElementById('card-grid');
       grid.innerHTML = '';
@@ -392,9 +406,10 @@
       const cards = Object.entries(data).sort((a, b) => (a[1].order || 99) - (b[1].order || 99));
 
       cards.forEach(([id, card], idx) => {
-        const subj = card.subject || 'anderes';
-        const num  = String(idx + 1).padStart(2, '0');
-        const div  = document.createElement('div');
+        const subj   = card.subject || 'anderes';
+        const num    = String(idx + 1).padStart(2, '0');
+        const opens  = card.opens || 0;
+        const div    = document.createElement('div');
         div.className = 'card';
         div.dataset.subject = subj;
         div.innerHTML = `
@@ -410,6 +425,10 @@
             <span class="meta-item">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${card.year || '2026'}
             </span>
+            <span class="opens-badge" id="opens-${id}">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span id="oc-${id}">${opens.toLocaleString('de-CH')}</span>&nbsp;mal geöffnet
+            </span>
           </div>
           <div class="live-viewers ${LIVE_CLASS[subj] || 'live-other'}" id="live-${id}">
             <div class="live-dot"></div>
@@ -424,13 +443,32 @@
           </div>
           <div class="card-footer">
             <span class="card-date">Hinzugefügt: ${card.date || ''}</span>
-            <a class="open-btn" href="${card.link}" target="_blank">Öffnen <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            <a class="open-btn" href="${card.link}" target="_blank" data-card-id="${id}">
+              Öffnen
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
           </div>`;
         grid.appendChild(div);
 
+        // Live viewers for this card
         onValue(ref(db, `presence/${id}`), s => {
           const c = document.getElementById(`lc-${id}`);
           if (c) c.textContent = s.val() ? Object.keys(s.val()).length : 0;
+        });
+
+        // Live opens counter for this card
+        onValue(ref(db, `cards/${id}/opens`), s => {
+          const c = document.getElementById(`oc-${id}`);
+          if (c) c.textContent = ((s.val() || 0)).toLocaleString('de-CH');
+        });
+      });
+
+      // Click handler for "Öffnen" buttons — increment opens counter
+      grid.querySelectorAll('.open-btn[data-card-id]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cid = btn.dataset.cardId;
+          runTransaction(ref(db, `cards/${cid}/opens`), current => (current || 0) + 1)
+            .catch(() => {});
         });
       });
 
@@ -451,13 +489,13 @@
       applyFilter(p.dataset.filter);
     }));
 
-    // Expose for admin
+    // ── EXPOSE for admin (non-module scripts) ─────────────────────────────────
     window._firebaseReady = true;
-    window._db  = db;
-    window._ref = ref;
-    window._set = set;
-    window._get = get;
-    window._remove    = remove;
+    window._db     = db;
+    window._ref    = ref;
+    window._set    = set;
+    window._get    = get;
+    window._remove = remove;
     window._TAG_LABEL = TAG_LABEL;
 
     window._cardsCache = {};
@@ -467,7 +505,6 @@
   <script>
     const ADMIN_PW = 'Ihgi2021asN.';
 
-    // closeModal — war vorher nie definiert (Bug #1)
     window.closeModal = function() {
       document.getElementById('modal-overlay').classList.remove('open');
     };
@@ -531,11 +568,17 @@
       if (!confirm('Sicher? Diese Lernapp wird dauerhaft gelöscht.')) return;
       btn.textContent = '…';
       btn.disabled    = true;
-      await window._remove(window._ref(window._db, `cards/${id}`));
-      btn.closest('.delete-item').remove();
-      const msg = document.getElementById('delete-msg');
-      msg.style.display = 'block';
-      setTimeout(() => { msg.style.display = 'none'; }, 3000);
+      try {
+        await window._remove(window._ref(window._db, `cards/${id}`));
+        btn.closest('.delete-item').remove();
+        const msg = document.getElementById('delete-msg');
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 3000);
+      } catch(e) {
+        btn.textContent = 'Löschen';
+        btn.disabled    = false;
+        alert('Fehler: ' + e.message + '\n\nBitte Firebase-Regeln auf ".write": true setzen.');
+      }
     };
 
     window.addCard = async function() {
@@ -544,26 +587,48 @@
       const year    = document.getElementById('f-year').value.trim() || '2026';
       const link    = document.getElementById('f-link').value.trim();
       const date    = document.getElementById('f-date').value.trim();
+
       if (!title || !link) { alert('Titel und Link sind Pflichtfelder!'); return; }
 
+      // Wait for Firebase to be ready
       let attempts = 0;
-      while (!window._firebaseReady && attempts < 20) { await new Promise(r => setTimeout(r, 200)); attempts++; }
+      while (!window._firebaseReady && attempts < 30) {
+        await new Promise(r => setTimeout(r, 200));
+        attempts++;
+      }
+      if (!window._firebaseReady) {
+        alert('Firebase ist noch nicht bereit. Bitte Seite neu laden.');
+        return;
+      }
 
-      const snap    = await window._get(window._ref(window._db, 'cards'));
-      const count   = snap.exists() ? Object.keys(snap.val()).length : 0;
-      const newId   = 'card_' + Date.now();
-      const dateStr = date || new Date().toLocaleDateString('de-CH', { month: 'long', year: 'numeric' });
+      const btn = document.getElementById('btn-add-submit');
+      btn.textContent = '…';
+      btn.disabled    = true;
 
-      await window._set(window._ref(window._db, `cards/${newId}`), {
-        title, subject, year, link, date: dateStr, order: count + 1
-      });
+      try {
+        const snap    = await window._get(window._ref(window._db, 'cards'));
+        const count   = snap.exists() ? Object.keys(snap.val()).length : 0;
+        const newId   = 'card_' + Date.now();
+        const dateStr = date || new Date().toLocaleDateString('de-CH', { month: 'long', year: 'numeric' });
 
-      document.getElementById('success-msg').style.display = 'block';
-      document.getElementById('f-title').value = '';
-      document.getElementById('f-link').value  = '';
-      document.getElementById('f-date').value  = '';
-      document.getElementById('f-year').value  = '2026';
-      setTimeout(() => { document.getElementById('success-msg').style.display = 'none'; }, 4000);
+        await window._set(window._ref(window._db, `cards/${newId}`), {
+          title, subject, year, link, date: dateStr, order: count + 1, opens: 0
+        });
+
+        document.getElementById('success-msg').style.display = 'block';
+        document.getElementById('error-msg').style.display   = 'none';
+        document.getElementById('f-title').value = '';
+        document.getElementById('f-link').value  = '';
+        document.getElementById('f-date').value  = '';
+        document.getElementById('f-year').value  = '2026';
+        setTimeout(() => { document.getElementById('success-msg').style.display = 'none'; }, 4000);
+      } catch(e) {
+        document.getElementById('error-msg').style.display = 'block';
+        console.error('addCard error:', e);
+      } finally {
+        btn.textContent = 'Hinzufügen';
+        btn.disabled    = false;
+      }
     };
   </script>
 
