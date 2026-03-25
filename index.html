@@ -91,11 +91,8 @@
     .card h2 { font-family: 'Lora', serif; font-size: 1.15rem; font-weight: 600; line-height: 1.3; }
     .card-meta { display: flex; gap: 14px; flex-wrap: wrap; }
     .meta-item { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--muted); }
-
-    /* Opens counter – minimal icon + number only */
     .opens-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; color: var(--muted); }
 
-    /* Admin stats box */
     .admin-stats-box { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
     .admin-stat-pill { flex: 1; min-width: 110px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; }
     .admin-stat-pill .asp-num { font-family: 'Lora', serif; font-size: 1.4rem; font-weight: 600; line-height: 1; }
@@ -103,20 +100,7 @@
     .btn-reset { font-size: 0.75rem; padding: 4px 10px; background: #fceef0; color: #c43b3b; border: 1.5px solid #f5c0c0; border-radius: 7px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 600; transition: all 0.18s; margin-top: 4px; width: fit-content; }
     .btn-reset:hover { background: #c43b3b; color: white; border-color: #c43b3b; }
 
-    .live-viewers { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 500; padding: 5px 11px; border-radius: 20px; width: fit-content; }
-    .live-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(1.4); } }
-
-    .live-ges  { background: var(--ges-bg);  color: var(--ges); }  .live-ges  .live-dot { background: var(--ges); }
-    .live-math { background: var(--math-bg); color: var(--math); } .live-math .live-dot { background: var(--math); }
-    .live-fra  { background: var(--fra-bg);  color: var(--fra); }  .live-fra  .live-dot { background: var(--fra); }
-    .live-ita  { background: var(--ita-bg);  color: var(--ita); }  .live-ita  .live-dot { background: var(--ita); }
-    .live-mus  { background: var(--mus-bg);  color: var(--mus); }  .live-mus  .live-dot { background: var(--mus); }
-    .live-wir  { background: var(--wir-bg);  color: var(--wir); }  .live-wir  .live-dot { background: var(--wir); }
-    .live-psy  { background: var(--psy-bg);  color: var(--psy); }  .live-psy  .live-dot { background: var(--psy); }
-    .live-deu  { background: var(--deu-bg);  color: var(--deu); }  .live-deu  .live-dot { background: var(--deu); }
-    .live-inf  { background: var(--inf-bg);  color: var(--inf); }  .live-inf  .live-dot { background: var(--inf); }
-    .live-other{ background: var(--other-bg);color: var(--other); } .live-other .live-dot { background: var(--other); }
 
     .card-modes { display: flex; gap: 6px; flex-wrap: wrap; }
     .mode-chip { font-size: 0.7rem; padding: 3px 9px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted); font-weight: 500; }
@@ -138,11 +122,37 @@
     .disclaimer-inner p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; font-weight: 300; }
     .disclaimer-inner p strong { color: var(--text); font-weight: 600; }
 
+    /* ── CHAT ──────────────────────────────────────────────────────────────── */
+    .chat-section { max-width: 1100px; margin: 0 auto 48px; padding: 0 48px; }
+    .chat-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+    .chat-title { font-family: 'Lora', serif; font-size: 1.2rem; font-weight: 600; }
+    .chat-you { font-size: 0.78rem; color: var(--muted); }
+    .chat-you strong { color: var(--text); font-weight: 600; }
+    .chat-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
+    .chat-messages { height: 360px; overflow-y: auto; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; scroll-behavior: smooth; }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .chat-empty { text-align: center; color: var(--muted); font-size: 0.85rem; margin: auto; padding: 60px 0; font-style: italic; }
+    .chat-msg { display: flex; flex-direction: column; gap: 3px; max-width: 72%; }
+    .chat-msg.mine { align-self: flex-end; align-items: flex-end; }
+    .chat-msg.theirs { align-self: flex-start; align-items: flex-start; }
+    .chat-name { font-size: 0.7rem; color: var(--muted); font-weight: 500; padding: 0 4px; }
+    .chat-bubble { padding: 8px 13px; border-radius: 14px; font-size: 0.87rem; line-height: 1.45; word-break: break-word; }
+    .chat-msg.mine .chat-bubble { background: var(--text); color: var(--bg); border-radius: 14px 14px 4px 14px; }
+    .chat-msg.theirs .chat-bubble { background: var(--bg); border: 1.5px solid var(--border); color: var(--text); border-radius: 14px 14px 14px 4px; }
+    .chat-time { font-size: 0.65rem; color: var(--muted); padding: 0 4px; }
+    .chat-input-row { display: flex; gap: 8px; padding: 12px 14px; border-top: 1.5px solid var(--border); background: var(--bg); }
+    .chat-input { flex: 1; padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; background: var(--surface); color: var(--text); outline: none; transition: border-color 0.18s; }
+    .chat-input:focus { border-color: var(--text); }
+    .chat-send { padding: 9px 18px; background: var(--text); color: var(--bg); border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 600; cursor: pointer; transition: opacity 0.18s; flex-shrink: 0; }
+    .chat-send:hover { opacity: 0.8; }
+    .chat-send:disabled { opacity: 0.4; cursor: default; }
+
     footer { border-top: 1.5px solid var(--border); max-width: 1100px; margin: 0 auto; padding: 24px 48px; }
     footer p { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
     footer strong { font-weight: 600; color: var(--text); }
 
-    .admin-tabs { display: flex; gap: 8px; margin-bottom: 22px; }
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
     .admin-tab { padding: 8px 18px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.18s; }
     .admin-tab:hover { border-color: var(--text); color: var(--text); }
     .admin-tab.active { background: var(--text); border-color: var(--text); color: var(--bg); }
@@ -175,18 +185,17 @@
     .btn-secondary:hover { border-color: var(--text); color: var(--text); }
     .pw-error { font-size: 0.8rem; color: #c43b3b; margin-top: 4px; display: none; }
     .success-msg { background: #edf8f2; border: 1.5px solid #a3dfc0; color: #2e7d52; border-radius: 10px; padding: 12px 16px; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 12px; }
-
-    /* Firebase rules notice */
     .rules-notice { background: #fff8ed; border: 1.5px solid #f5d9a0; border-radius: 10px; padding: 12px 16px; font-size: 0.82rem; color: #7a5a1e; margin-bottom: 16px; line-height: 1.55; }
     .rules-notice strong { font-weight: 600; }
     .rules-notice code { background: #fef0d0; padding: 1px 5px; border-radius: 4px; font-family: monospace; font-size: 0.78rem; }
 
     @media (max-width: 640px) {
-      header, .divider, .stats-bar, .filter-area, .grid-section, .request-bar, .disclaimer-bar, footer { padding-left: 20px; padding-right: 20px; }
+      header, .divider, .stats-bar, .filter-area, .grid-section, .request-bar, .disclaimer-bar, .chat-section, footer { padding-left: 20px; padding-right: 20px; }
       header { padding-top: 36px; }
       .logo-area h1 { font-size: 1.8rem; }
       .grid { grid-template-columns: 1fr; }
       .form-row-2 { grid-template-columns: 1fr; }
+      .chat-msg { max-width: 88%; }
     }
   </style>
 </head>
@@ -261,6 +270,23 @@
     </div>
   </div>
 
+  <!-- ── CHAT ─────────────────────────────────────────────────────────────── -->
+  <div class="chat-section">
+    <div class="chat-header">
+      <span class="chat-title">💬 Klassen-Chat</span>
+      <span class="chat-you">Du chattest als <strong id="chat-myname">…</strong></span>
+    </div>
+    <div class="chat-box">
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-empty">Noch keine Nachrichten. Fang an!</div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-input" type="text" placeholder="Nachricht schreiben…" maxlength="400" autocomplete="off" />
+        <button class="chat-send" id="chat-send">Senden</button>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <p>Lernhub · <strong>F2AB</strong> · Alle Lernapps</p>
   </footer>
@@ -286,18 +312,17 @@
 
       <div id="admin-form" style="display:none;">
         <div class="admin-tabs">
-          <button class="admin-tab active" id="tab-add" onclick="switchTab('add')">➕ Hinzufügen</button>
-          <button class="admin-tab" id="tab-delete" onclick="switchTab('delete')">🗑️ Entfernen</button>
-          <button class="admin-tab" id="tab-stats" onclick="switchTab('stats')">📊 Statistik</button>
+          <button class="admin-tab active" id="tab-add"    onclick="switchTab('add')">➕ Hinzufügen</button>
+          <button class="admin-tab"        id="tab-delete" onclick="switchTab('delete')">🗑️ Entfernen</button>
+          <button class="admin-tab"        id="tab-stats"  onclick="switchTab('stats')">📊 Statistik</button>
+          <button class="admin-tab"        id="tab-chat"   onclick="switchTab('chat')">💬 Chat</button>
         </div>
 
         <div id="panel-add">
-          <!-- ⚠️ Firebase Rules reminder — remove once rules are set -->
-          <div class="rules-notice" id="rules-notice">
-            ⚠️ <strong>Wichtig – einmalige Einrichtung:</strong> Damit Hinzufügen & Löschen funktioniert, müssen deine Firebase Realtime Database Regeln auf <code>true</code> gesetzt sein.<br><br>
+          <div class="rules-notice">
+            ⚠️ <strong>Wichtig – einmalige Einrichtung:</strong> Damit Hinzufügen &amp; Löschen funktioniert, müssen deine Firebase Realtime Database Regeln auf <code>true</code> gesetzt sein.<br><br>
             Gehe zu: <strong>Firebase Console → Realtime Database → Regeln</strong> und setze:<br>
-            <code>{ "rules": { ".read": true, ".write": true } }</code><br><br>
-            Danach kannst du diesen Hinweis ignorieren.
+            <code>{ "rules": { ".read": true, ".write": true } }</code>
           </div>
           <h2>Neue Lernapp</h2>
           <p class="modal-sub">Erscheint sofort für alle auf dem Lernhub.</p>
@@ -339,7 +364,7 @@
             <button class="btn-secondary" onclick="closeModal()">Abbrechen</button>
           </div>
           <div class="success-msg" id="success-msg">✅ Lernapp erfolgreich hinzugefügt!</div>
-          <div class="success-msg" id="error-msg" style="background:#fceef0;border-color:#f5c0c0;color:#c43b3b;">❌ Fehler beim Speichern. Bitte Firebase-Regeln prüfen (siehe Hinweis oben).</div>
+          <div class="success-msg" id="error-msg" style="background:#fceef0;border-color:#f5c0c0;color:#c43b3b;">❌ Fehler beim Speichern. Bitte Firebase-Regeln prüfen.</div>
         </div>
 
         <div id="panel-delete" style="display:none;">
@@ -366,11 +391,27 @@
               <button class="btn-reset" onclick="resetVisitors()">Zurücksetzen</button>
             </div>
           </div>
-          <p style="font-size:0.82rem;color:var(--muted);font-weight:400;margin-bottom:10px;">👁️ Öffnungen pro Lernapp</p>
+          <p style="font-size:0.82rem;color:var(--muted);font-weight:400;margin-bottom:10px;">Öffnungen pro Lernapp</p>
           <div id="admin-opens-list" style="display:flex;flex-direction:column;gap:8px;"></div>
           <div class="modal-actions" style="margin-top:20px;">
             <button class="btn-secondary" onclick="closeModal()">Schliessen</button>
           </div>
+        </div>
+
+        <div id="panel-chat" style="display:none;">
+          <h2>💬 Chat verwalten</h2>
+          <p class="modal-sub">Alle Nachrichten dauerhaft löschen.</p>
+          <div class="admin-stats-box">
+            <div class="admin-stat-pill">
+              <span class="asp-num" id="admin-chat-count">–</span>
+              <span class="asp-label">💬 Nachrichten total</span>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-delete" style="flex:1;padding:11px;" onclick="resetChat()">🗑️ Alle Nachrichten löschen</button>
+            <button class="btn-secondary" onclick="closeModal()">Schliessen</button>
+          </div>
+          <div class="success-msg" id="chat-reset-msg">🗑️ Chat erfolgreich geleert.</div>
         </div>
       </div>
     </div>
@@ -379,7 +420,7 @@
   <script type="module">
     import { initializeApp }
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, onValue, set, get, push, onDisconnect, remove, increment, runTransaction }
+    import { getDatabase, ref, onValue, set, get, push, onDisconnect, remove, query, limitToLast, runTransaction }
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     const app = initializeApp({
@@ -393,34 +434,28 @@
     });
     const db = getDatabase(app);
 
-    const TAG_CLASS  = { gesellschaft:'tag-ges', mathematik:'tag-math', französisch:'tag-fra', italienisch:'tag-ita', musik:'tag-mus', wirtschaft:'tag-wir', psychologie:'tag-psy', deutsch:'tag-deu', informatik:'tag-inf', anderes:'tag-other' };
-    const TAG_LABEL  = { gesellschaft:'Gesellschaft', mathematik:'Mathematik', französisch:'Französisch', italienisch:'Italienisch', musik:'Musik', wirtschaft:'Wirtschaft', psychologie:'Psychologie', deutsch:'Deutsch', informatik:'Informatik', anderes:'Anderes' };
-    const LIVE_CLASS = { gesellschaft:'live-ges', mathematik:'live-math', französisch:'live-fra', italienisch:'live-ita', musik:'live-mus', wirtschaft:'live-wir', psychologie:'live-psy', deutsch:'live-deu', informatik:'live-inf', anderes:'live-other' };
+    const TAG_CLASS = { gesellschaft:'tag-ges', mathematik:'tag-math', französisch:'tag-fra', italienisch:'tag-ita', musik:'tag-mus', wirtschaft:'tag-wir', psychologie:'tag-psy', deutsch:'tag-deu', informatik:'tag-inf', anderes:'tag-other' };
+    const TAG_LABEL = { gesellschaft:'Gesellschaft', mathematik:'Mathematik', französisch:'Französisch', italienisch:'Italienisch', musik:'Musik', wirtschaft:'Wirtschaft', psychologie:'Psychologie', deutsch:'Deutsch', informatik:'Informatik', anderes:'Anderes' };
 
-    // ── SEED if empty ─────────────────────────────────────────────────────────
+    // ── SEED ─────────────────────────────────────────────────────────────────
     get(ref(db, 'cards')).then(snap => {
       if (!snap.exists()) {
         set(ref(db, 'cards/card_migration'), {
-          title: 'Migration', subject: 'gesellschaft', year: '2026',
-          link: 'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/migration-lerne/',
-          date: 'März 2026', order: 1, opens: 0
+          title:'Migration', subject:'gesellschaft', year:'2026',
+          link:'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/migration-lerne/',
+          date:'März 2026', order:1, opens:0
         });
       }
-    }).catch(() => {});
+    }).catch(()=>{});
 
-    // ── ALL-TIME VISITOR COUNTER ──────────────────────────────────────────────
-    // Count EVERY page load/refresh (no sessionStorage guard).
-    // Uses runTransaction to safely increment even with concurrent users.
-    runTransaction(ref(db, 'meta/totalVisitors'), current => (current || 0) + 1)
-      .catch(err => console.warn('Visitor count failed:', err));
-
-    // Display total visitors (live)
+    // ── VISITOR COUNTER ───────────────────────────────────────────────────────
+    runTransaction(ref(db, 'meta/totalVisitors'), cur => (cur||0)+1).catch(()=>{});
     onValue(ref(db, 'meta/totalVisitors'), snap => {
       const el = document.getElementById('total-visitors-count');
-      if (el) el.textContent = (snap.val() || 0).toLocaleString('de-CH');
+      if (el) el.textContent = (snap.val()||0).toLocaleString('de-CH');
     });
 
-    // ── PRESENCE (live viewers per card) ─────────────────────────────────────
+    // ── PRESENCE ──────────────────────────────────────────────────────────────
     const myPresence = push(ref(db, 'presence/hub'));
     set(myPresence, true);
     onDisconnect(myPresence).remove();
@@ -431,19 +466,17 @@
       grid.innerHTML = '';
       const data = snap.val();
       if (!data) { grid.innerHTML = '<div class="loading-grid">Noch keine Lernapps.</div>'; return; }
-
-      const cards = Object.entries(data).sort((a, b) => (a[1].order || 99) - (b[1].order || 99));
-
+      const cards = Object.entries(data).sort((a,b)=>(a[1].order||99)-(b[1].order||99));
       cards.forEach(([id, card], idx) => {
-        const subj   = card.subject || 'anderes';
-        const num    = String(idx + 1).padStart(2, '0');
-        const opens  = card.opens || 0;
-        const div    = document.createElement('div');
+        const subj  = card.subject||'anderes';
+        const num   = String(idx+1).padStart(2,'0');
+        const opens = card.opens||0;
+        const div   = document.createElement('div');
         div.className = 'card';
         div.dataset.subject = subj;
         div.innerHTML = `
           <div class="card-top">
-            <span class="subject-tag ${TAG_CLASS[subj] || 'tag-other'}">${TAG_LABEL[subj] || 'Anderes'}</span>
+            <span class="subject-tag ${TAG_CLASS[subj]||'tag-other'}">${TAG_LABEL[subj]||'Anderes'}</span>
             <span class="card-number">#${num}</span>
           </div>
           <h2>${card.title}</h2>
@@ -452,7 +485,7 @@
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>F2AB
             </span>
             <span class="meta-item">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${card.year || '2026'}
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${card.year||'2026'}
             </span>
             <span class="opens-badge" title="Mal geöffnet">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -466,54 +499,100 @@
             <span class="mode-chip">Quiz</span>
           </div>
           <div class="card-footer">
-            <span class="card-date">Hinzugefügt: ${card.date || ''}</span>
+            <span class="card-date">Hinzugefügt: ${card.date||''}</span>
             <a class="open-btn" href="${card.link}" target="_blank" data-card-id="${id}">
               Öffnen
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
           </div>`;
         grid.appendChild(div);
-
-        // Live viewers for this card
-        onValue(ref(db, `presence/${id}`), s => {
-          const c = document.getElementById(`lc-${id}`);
-          if (c) c.textContent = s.val() ? Object.keys(s.val()).length : 0;
-        });
-
-        // Live opens counter for this card
         onValue(ref(db, `cards/${id}/opens`), s => {
           const c = document.getElementById(`oc-${id}`);
-          if (c) c.textContent = ((s.val() || 0)).toLocaleString('de-CH');
+          if (c) c.textContent = (s.val()||0).toLocaleString('de-CH');
         });
       });
-
-      // Click handler for "Öffnen" buttons — increment opens counter
       grid.querySelectorAll('.open-btn[data-card-id]').forEach(btn => {
         btn.addEventListener('click', () => {
-          const cid = btn.dataset.cardId;
-          runTransaction(ref(db, `cards/${cid}/opens`), current => (current || 0) + 1)
-            .catch(() => {});
+          runTransaction(ref(db, `cards/${btn.dataset.cardId}/opens`), cur=>(cur||0)+1).catch(()=>{});
         });
       });
-
       document.getElementById('count-total').textContent    = cards.length;
-      document.getElementById('count-subjects').textContent = new Set(cards.map(([, c]) => c.subject)).size;
-      applyFilter(document.querySelector('.pill.active')?.dataset.filter || 'alle');
+      document.getElementById('count-subjects').textContent = new Set(cards.map(([,c])=>c.subject)).size;
+      applyFilter(document.querySelector('.pill.active')?.dataset.filter||'alle');
     });
 
     function applyFilter(f) {
       document.querySelectorAll('#card-grid .card').forEach(c => {
-        c.style.display = (f === 'alle' || c.dataset.subject === f) ? '' : 'none';
+        c.style.display = (f==='alle'||c.dataset.subject===f)?'':'none';
       });
     }
-
-    document.querySelectorAll('.pill').forEach(p => p.addEventListener('click', () => {
-      document.querySelectorAll('.pill').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.pill').forEach(p => p.addEventListener('click', ()=>{
+      document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
       p.classList.add('active');
       applyFilter(p.dataset.filter);
     }));
 
-    // ── EXPOSE for admin (non-module scripts) ─────────────────────────────────
+    // ── CHAT ─────────────────────────────────────────────────────────────────
+    // Generate a random anonymous name that persists for this session only
+    const ADJECTIVES = ['Roter','Blauer','Grüner','Gelber','Wilder','Stiller','Schneller','Kluger','Mutiger','Frecher','Cooler','Sanfter','Starker','Flinker','Bunter'];
+    const NOUNS      = ['Fuchs','Tiger','Adler','Wolf','Bär','Dachs','Falke','Luchs','Igel','Löwe','Panda','Rabe','Stier','Marder','Gepard'];
+    const myName     = ADJECTIVES[Math.floor(Math.random()*ADJECTIVES.length)] + ' ' + NOUNS[Math.floor(Math.random()*NOUNS.length)];
+    document.getElementById('chat-myname').textContent = myName;
+
+    const chatRef   = ref(db, 'chat');
+    const chatQuery = query(chatRef, limitToLast(500));
+    let firstLoad   = true;
+
+    onValue(chatQuery, snap => {
+      const box = document.getElementById('chat-messages');
+      const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 60;
+      box.innerHTML = '';
+      const data = snap.val();
+      if (!data) {
+        box.innerHTML = '<div class="chat-empty">Noch keine Nachrichten. Fang an!</div>';
+        // update admin count
+        const cc = document.getElementById('admin-chat-count');
+        if (cc) cc.textContent = '0';
+        return;
+      }
+      const msgs = Object.values(data).sort((a,b)=>a.ts-b.ts);
+      msgs.forEach(msg => {
+        const mine = msg.name === myName;
+        const d    = new Date(msg.ts);
+        const time = d.toLocaleTimeString('de-CH', {hour:'2-digit', minute:'2-digit'});
+        const wrap = document.createElement('div');
+        wrap.className = 'chat-msg ' + (mine ? 'mine' : 'theirs');
+        wrap.innerHTML = `
+          <span class="chat-name">${mine ? 'Du' : msg.name}</span>
+          <div class="chat-bubble">${escapeHtml(msg.text)}</div>
+          <span class="chat-time">${time}</span>`;
+        box.appendChild(wrap);
+      });
+      if (firstLoad || atBottom) box.scrollTop = box.scrollHeight;
+      firstLoad = false;
+      // update admin count
+      const cc = document.getElementById('admin-chat-count');
+      if (cc) cc.textContent = msgs.length.toLocaleString('de-CH');
+    });
+
+    function escapeHtml(t) {
+      return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const text  = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      push(ref(db, 'chat'), { name: myName, text, ts: Date.now() }).catch(e => console.warn('Chat send failed:', e));
+    }
+
+    document.getElementById('chat-send').addEventListener('click', sendMessage);
+    document.getElementById('chat-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    });
+
+    // ── EXPOSE for admin ──────────────────────────────────────────────────────
     window._firebaseReady = true;
     window._db     = db;
     window._ref    = ref;
@@ -521,29 +600,30 @@
     window._get    = get;
     window._remove = remove;
     window._TAG_LABEL = TAG_LABEL;
-
     window._cardsCache = {};
-    onValue(ref(db, 'cards'), snap => { window._cardsCache = snap.val() || {}; });
+    onValue(ref(db, 'cards'), snap => { window._cardsCache = snap.val()||{}; });
 
-    // Live active users count for admin panel
     onValue(ref(db, 'presence/hub'), snap => {
-      const count = snap.val() ? Object.keys(snap.val()).length : 0;
-      window._activeUsers = count;
+      window._activeUsers = snap.val() ? Object.keys(snap.val()).length : 0;
       const el = document.getElementById('admin-active');
-      if (el) el.textContent = count;
+      if (el) el.textContent = window._activeUsers;
     });
-
-    // Live visitor total for admin panel
     onValue(ref(db, 'meta/totalVisitors'), snap => {
-      window._totalVisitors = snap.val() || 0;
+      window._totalVisitors = snap.val()||0;
       const el = document.getElementById('admin-total-vis');
-      if (el) el.textContent = (snap.val() || 0).toLocaleString('de-CH');
+      if (el) el.textContent = (snap.val()||0).toLocaleString('de-CH');
     });
 
-    // Reset visitor counter
     window.resetVisitors = async function() {
       if (!confirm('Besucherzähler wirklich auf 0 zurücksetzen?')) return;
-      await set(ref(db, 'meta/totalVisitors'), 0).catch(e => alert('Fehler: ' + e.message));
+      await set(ref(db, 'meta/totalVisitors'), 0).catch(e=>alert('Fehler: '+e.message));
+    };
+    window.resetChat = async function() {
+      if (!confirm('Wirklich alle Chatnachrichten dauerhaft löschen?')) return;
+      await remove(ref(db, 'chat')).catch(e=>alert('Fehler: '+e.message));
+      const msg = document.getElementById('chat-reset-msg');
+      msg.style.display = 'block';
+      setTimeout(()=>{ msg.style.display='none'; }, 3000);
     };
   </script>
 
@@ -554,20 +634,18 @@
       document.getElementById('modal-overlay').classList.remove('open');
     };
 
-    document.getElementById('admin-trigger').addEventListener('click', () => {
+    document.getElementById('admin-trigger').addEventListener('click', ()=>{
       document.getElementById('modal-overlay').classList.add('open');
       document.getElementById('pw-screen').style.display  = '';
       document.getElementById('admin-form').style.display = 'none';
       document.getElementById('pw-error').style.display   = 'none';
       document.getElementById('pw-input').value           = '';
     });
-
-    document.getElementById('modal-overlay').addEventListener('click', e => {
-      if (e.target.id === 'modal-overlay') closeModal();
+    document.getElementById('modal-overlay').addEventListener('click', e=>{
+      if (e.target.id==='modal-overlay') closeModal();
     });
-
-    document.getElementById('pw-input').addEventListener('keydown', e => {
-      if (e.key === 'Enter') checkPassword();
+    document.getElementById('pw-input').addEventListener('keydown', e=>{
+      if (e.key==='Enter') checkPassword();
     });
 
     window.checkPassword = function() {
@@ -582,59 +660,48 @@
     };
 
     window.switchTab = function(tab) {
-      document.getElementById('panel-add').style.display    = tab === 'add'    ? '' : 'none';
-      document.getElementById('panel-delete').style.display = tab === 'delete' ? '' : 'none';
-      document.getElementById('panel-stats').style.display  = tab === 'stats'  ? '' : 'none';
-      document.getElementById('tab-add').classList.toggle('active',    tab === 'add');
-      document.getElementById('tab-delete').classList.toggle('active', tab === 'delete');
-      document.getElementById('tab-stats').classList.toggle('active',  tab === 'stats');
+      ['add','delete','stats','chat'].forEach(t => {
+        document.getElementById('panel-'+t).style.display = tab===t ? '' : 'none';
+        document.getElementById('tab-'+t).classList.toggle('active', tab===t);
+      });
 
-      if (tab === 'delete') {
+      if (tab==='delete') {
         const list  = document.getElementById('delete-list');
         list.innerHTML = '';
-        const cards = Object.entries(window._cardsCache || {}).sort((a, b) => (a[1].order || 99) - (b[1].order || 99));
-        if (cards.length === 0) {
-          list.innerHTML = '<p style="font-size:0.85rem;color:var(--muted);padding:12px 0;">Keine Lernapps vorhanden.</p>';
-          return;
-        }
-        cards.forEach(([id, card]) => {
+        const cards = Object.entries(window._cardsCache||{}).sort((a,b)=>(a[1].order||99)-(b[1].order||99));
+        if (!cards.length) { list.innerHTML='<p style="font-size:0.85rem;color:var(--muted);padding:12px 0;">Keine Lernapps vorhanden.</p>'; return; }
+        cards.forEach(([id,card])=>{
           const item = document.createElement('div');
           item.className = 'delete-item';
           item.innerHTML = `
             <div>
               <div class="delete-item-title">${card.title}</div>
-              <div class="delete-item-sub">${(window._TAG_LABEL || {})[card.subject] || 'Anderes'} · ${card.year || '2026'}</div>
+              <div class="delete-item-sub">${(window._TAG_LABEL||{})[card.subject]||'Anderes'} · ${card.year||'2026'}</div>
             </div>
-            <button class="btn-delete" onclick="deleteCard('${id}', this)">Löschen</button>`;
+            <button class="btn-delete" onclick="deleteCard('${id}',this)">Löschen</button>`;
           list.appendChild(item);
         });
       }
 
-      if (tab === 'stats') {
-        // Refresh active count
+      if (tab==='stats') {
         const ae = document.getElementById('admin-active');
-        if (ae) ae.textContent = window._activeUsers != null ? window._activeUsers : '–';
+        if (ae) ae.textContent = window._activeUsers!=null ? window._activeUsers : '–';
         const ve = document.getElementById('admin-total-vis');
-        if (ve) ve.textContent = window._totalVisitors != null ? (window._totalVisitors).toLocaleString('de-CH') : '–';
-
-        // Build opens list
+        if (ve) ve.textContent = window._totalVisitors!=null ? window._totalVisitors.toLocaleString('de-CH') : '–';
         const ol = document.getElementById('admin-opens-list');
         ol.innerHTML = '';
-        const cards = Object.entries(window._cardsCache || {}).sort((a, b) => (b[1].opens || 0) - (a[1].opens || 0));
-        if (cards.length === 0) {
-          ol.innerHTML = '<p style="font-size:0.82rem;color:var(--muted);">Keine Lernapps.</p>';
-          return;
-        }
-        cards.forEach(([id, card]) => {
+        const cards = Object.entries(window._cardsCache||{}).sort((a,b)=>(b[1].opens||0)-(a[1].opens||0));
+        if (!cards.length) { ol.innerHTML='<p style="font-size:0.82rem;color:var(--muted);">Keine Lernapps.</p>'; return; }
+        cards.forEach(([id,card])=>{
           const row = document.createElement('div');
-          row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;';
-          row.innerHTML = `
+          row.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;';
+          row.innerHTML=`
             <span style="font-size:0.84rem;font-weight:500;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${card.title}</span>
             <span style="font-size:0.82rem;color:var(--muted);white-space:nowrap;">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span id="aoc-${id}">${(card.opens || 0).toLocaleString('de-CH')}</span>
+              <span id="aoc-${id}">${(card.opens||0).toLocaleString('de-CH')}</span>
             </span>
-            <button class="btn-reset" onclick="resetCardOpens('${id}', this)">Reset</button>`;
+            <button class="btn-reset" onclick="resetCardOpens('${id}',this)">Reset</button>`;
           ol.appendChild(row);
         });
       }
@@ -642,88 +709,59 @@
 
     window.resetCardOpens = async function(id, btn) {
       if (!confirm('Öffnungen für diese Lernapp auf 0 zurücksetzen?')) return;
-      btn.textContent = '…';
-      btn.disabled = true;
+      btn.textContent='…'; btn.disabled=true;
       try {
-        await window._set(window._ref(window._db, `cards/${id}/opens`), 0);
-        const el = document.getElementById(`aoc-${id}`);
-        if (el) el.textContent = '0';
-        // Also update live counter on card
-        const oc = document.getElementById(`oc-${id}`);
-        if (oc) oc.textContent = '0';
-      } catch(e) {
-        alert('Fehler: ' + e.message);
-      } finally {
-        btn.textContent = 'Reset';
-        btn.disabled = false;
-      }
+        await window._set(window._ref(window._db,`cards/${id}/opens`),0);
+        const el=document.getElementById(`aoc-${id}`); if(el) el.textContent='0';
+        const oc=document.getElementById(`oc-${id}`);  if(oc) oc.textContent='0';
+      } catch(e){ alert('Fehler: '+e.message); }
+      finally { btn.textContent='Reset'; btn.disabled=false; }
     };
 
     window.deleteCard = async function(id, btn) {
       if (!confirm('Sicher? Diese Lernapp wird dauerhaft gelöscht.')) return;
-      btn.textContent = '…';
-      btn.disabled    = true;
+      btn.textContent='…'; btn.disabled=true;
       try {
-        await window._remove(window._ref(window._db, `cards/${id}`));
+        await window._remove(window._ref(window._db,`cards/${id}`));
         btn.closest('.delete-item').remove();
-        const msg = document.getElementById('delete-msg');
-        msg.style.display = 'block';
-        setTimeout(() => { msg.style.display = 'none'; }, 3000);
-      } catch(e) {
-        btn.textContent = 'Löschen';
-        btn.disabled    = false;
-        alert('Fehler: ' + e.message + '\n\nBitte Firebase-Regeln auf ".write": true setzen.');
+        const msg=document.getElementById('delete-msg');
+        msg.style.display='block';
+        setTimeout(()=>{ msg.style.display='none'; },3000);
+      } catch(e){
+        btn.textContent='Löschen'; btn.disabled=false;
+        alert('Fehler: '+e.message+'\n\nFirebase-Regeln auf ".write": true setzen.');
       }
     };
 
     window.addCard = async function() {
       const title   = document.getElementById('f-title').value.trim();
       const subject = document.getElementById('f-subject').value;
-      const year    = document.getElementById('f-year').value.trim() || '2026';
+      const year    = document.getElementById('f-year').value.trim()||'2026';
       const link    = document.getElementById('f-link').value.trim();
       const date    = document.getElementById('f-date').value.trim();
-
-      if (!title || !link) { alert('Titel und Link sind Pflichtfelder!'); return; }
-
-      // Wait for Firebase to be ready
-      let attempts = 0;
-      while (!window._firebaseReady && attempts < 30) {
-        await new Promise(r => setTimeout(r, 200));
-        attempts++;
-      }
-      if (!window._firebaseReady) {
-        alert('Firebase ist noch nicht bereit. Bitte Seite neu laden.');
-        return;
-      }
-
-      const btn = document.getElementById('btn-add-submit');
-      btn.textContent = '…';
-      btn.disabled    = true;
-
+      if (!title||!link) { alert('Titel und Link sind Pflichtfelder!'); return; }
+      let attempts=0;
+      while (!window._firebaseReady&&attempts<30) { await new Promise(r=>setTimeout(r,200)); attempts++; }
+      if (!window._firebaseReady) { alert('Firebase nicht bereit. Seite neu laden.'); return; }
+      const btn=document.getElementById('btn-add-submit');
+      btn.textContent='…'; btn.disabled=true;
       try {
-        const snap    = await window._get(window._ref(window._db, 'cards'));
-        const count   = snap.exists() ? Object.keys(snap.val()).length : 0;
-        const newId   = 'card_' + Date.now();
-        const dateStr = date || new Date().toLocaleDateString('de-CH', { month: 'long', year: 'numeric' });
-
-        await window._set(window._ref(window._db, `cards/${newId}`), {
-          title, subject, year, link, date: dateStr, order: count + 1, opens: 0
-        });
-
-        document.getElementById('success-msg').style.display = 'block';
-        document.getElementById('error-msg').style.display   = 'none';
-        document.getElementById('f-title').value = '';
-        document.getElementById('f-link').value  = '';
-        document.getElementById('f-date').value  = '';
-        document.getElementById('f-year').value  = '2026';
-        setTimeout(() => { document.getElementById('success-msg').style.display = 'none'; }, 4000);
-      } catch(e) {
-        document.getElementById('error-msg').style.display = 'block';
-        console.error('addCard error:', e);
-      } finally {
-        btn.textContent = 'Hinzufügen';
-        btn.disabled    = false;
-      }
+        const snap    = await window._get(window._ref(window._db,'cards'));
+        const count   = snap.exists()?Object.keys(snap.val()).length:0;
+        const newId   = 'card_'+Date.now();
+        const dateStr = date||new Date().toLocaleDateString('de-CH',{month:'long',year:'numeric'});
+        await window._set(window._ref(window._db,`cards/${newId}`),{title,subject,year,link,date:dateStr,order:count+1,opens:0});
+        document.getElementById('success-msg').style.display='block';
+        document.getElementById('error-msg').style.display='none';
+        document.getElementById('f-title').value='';
+        document.getElementById('f-link').value='';
+        document.getElementById('f-date').value='';
+        document.getElementById('f-year').value='2026';
+        setTimeout(()=>{ document.getElementById('success-msg').style.display='none'; },4000);
+      } catch(e){
+        document.getElementById('error-msg').style.display='block';
+        console.error('addCard error:',e);
+      } finally { btn.textContent='Hinzufügen'; btn.disabled=false; }
     };
   </script>
 
