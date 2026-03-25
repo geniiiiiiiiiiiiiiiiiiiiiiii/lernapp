@@ -526,7 +526,7 @@
   </script>
 
   <script>
-    // ── PASSWORD CHECK: hash is fetched from Firebase at login time — nothing stored here ──
+    // ── ADMIN — password hash lives in Firebase only, nothing secret here ──
 
     async function sha256hex(text) {
       const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
@@ -537,23 +537,23 @@
       document.getElementById('modal-overlay').classList.remove('open');
     };
 
-    // Admin trigger
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('admin-trigger').addEventListener('click', () => {
+    function openAdminModal() {
       document.getElementById('modal-overlay').classList.add('open');
       document.getElementById('pw-screen').style.display  = '';
       document.getElementById('admin-form').style.display = 'none';
       document.getElementById('pw-error').style.display   = 'none';
       document.getElementById('pw-input').value           = '';
-      setTimeout(()=>document.getElementById('pw-input').focus(), 80);
-      });
-    }); // DOMContentLoaded
+      setTimeout(() => document.getElementById('pw-input').focus(), 80);
+    }
 
-    document.getElementById('modal-overlay').addEventListener('click', e=>{
-      if (e.target.id==='modal-overlay') closeModal();
+    // Wire up after DOM is ready — script is at end of body so DOM exists
+    document.getElementById('admin-trigger').onclick = openAdminModal;
+
+    document.getElementById('modal-overlay').addEventListener('click', e => {
+      if (e.target.id === 'modal-overlay') closeModal();
     });
-    document.getElementById('pw-input').addEventListener('keydown', e=>{
-      if (e.key==='Enter') checkPassword();
+    document.getElementById('pw-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkPassword();
     });
 
     window.checkPassword = async function() {
