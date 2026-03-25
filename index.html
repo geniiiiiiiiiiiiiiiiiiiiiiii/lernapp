@@ -141,6 +141,20 @@
     footer p { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
     footer strong { font-weight: 600; color: var(--text); }
 
+    /* ADMIN TABS */
+    .admin-tabs { display: flex; gap: 8px; margin-bottom: 22px; }
+    .admin-tab { padding: 8px 18px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.18s; }
+    .admin-tab:hover { border-color: var(--text); color: var(--text); }
+    .admin-tab.active { background: var(--text); border-color: var(--text); color: var(--bg); }
+
+    /* DELETE LIST */
+    #delete-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+    .delete-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg); }
+    .delete-item-title { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+    .delete-item-sub { font-size: 0.76rem; color: var(--muted); margin-top: 2px; }
+    .btn-delete { padding: 6px 14px; background: #fceef0; color: #c43b3b; border: 1.5px solid #f5c0c0; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+    .btn-delete:hover { background: #c43b3b; color: white; border-color: #c43b3b; }
+
     /* ADMIN TRIGGER */
     .admin-trigger { position: fixed; bottom: 22px; right: 22px; width: 38px; height: 38px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow); opacity: 0.3; transition: opacity 0.2s; z-index: 100; }
     .admin-trigger:hover { opacity: 1; }
@@ -273,46 +287,61 @@
       </div>
 
       <div id="admin-form" style="display:none;">
-        <h2>➕ Neue Lernapp</h2>
-        <p class="modal-sub">Erscheint sofort für alle auf dem Lernhub.</p>
-        <div class="form-row">
-          <label>Titel *</label>
-          <input type="text" id="f-title" placeholder="z.B. Migration, Pythagoras…" />
+        <div class="admin-tabs">
+          <button class="admin-tab active" id="tab-add" onclick="switchTab('add')">➕ Hinzufügen</button>
+          <button class="admin-tab" id="tab-delete" onclick="switchTab('delete')">🗑️ Entfernen</button>
         </div>
-        <div class="form-row-2">
+        <div id="panel-add">
+          <h2>Neue Lernapp</h2>
+          <p class="modal-sub">Erscheint sofort für alle auf dem Lernhub.</p>
           <div class="form-row">
-            <label>Fach *</label>
-            <select id="f-subject">
-              <option value="gesellschaft">Gesellschaft</option>
-              <option value="mathematik">Mathematik</option>
-              <option value="französisch">Französisch</option>
-              <option value="italienisch">Italienisch</option>
-              <option value="musik">Musik</option>
-              <option value="wirtschaft">Wirtschaft</option>
-              <option value="psychologie">Psychologie</option>
-              <option value="deutsch">Deutsch</option>
-              <option value="informatik">Informatik</option>
-              <option value="anderes">Anderes</option>
-            </select>
+            <label>Titel *</label>
+            <input type="text" id="f-title" placeholder="z.B. Migration, Pythagoras…" />
+          </div>
+          <div class="form-row-2">
+            <div class="form-row">
+              <label>Fach *</label>
+              <select id="f-subject">
+                <option value="gesellschaft">Gesellschaft</option>
+                <option value="mathematik">Mathematik</option>
+                <option value="französisch">Französisch</option>
+                <option value="italienisch">Italienisch</option>
+                <option value="musik">Musik</option>
+                <option value="wirtschaft">Wirtschaft</option>
+                <option value="psychologie">Psychologie</option>
+                <option value="deutsch">Deutsch</option>
+                <option value="informatik">Informatik</option>
+                <option value="anderes">Anderes</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label>Jahr</label>
+              <input type="text" id="f-year" placeholder="2026" value="2026" />
+            </div>
           </div>
           <div class="form-row">
-            <label>Jahr</label>
-            <input type="text" id="f-year" placeholder="2026" value="2026" />
+            <label>Link *</label>
+            <input type="url" id="f-link" placeholder="https://..." />
           </div>
+          <div class="form-row">
+            <label>Datum (Anzeige)</label>
+            <input type="text" id="f-date" placeholder="z.B. März 2026" />
+          </div>
+          <div class="modal-actions">
+            <button class="btn-primary" onclick="addCard()">Hinzufügen</button>
+            <button class="btn-secondary" onclick="closeModal()">Abbrechen</button>
+          </div>
+          <div class="success-msg" id="success-msg">✅ Lernapp erfolgreich hinzugefügt!</div>
         </div>
-        <div class="form-row">
-          <label>Link *</label>
-          <input type="url" id="f-link" placeholder="https://..." />
+        <div id="panel-delete" style="display:none;">
+          <h2>Lernapp entfernen</h2>
+          <p class="modal-sub">Wähle eine Lernapp aus und lösche sie dauerhaft.</p>
+          <div id="delete-list"></div>
+          <div class="modal-actions" style="margin-top:20px;">
+            <button class="btn-secondary" onclick="closeModal()">Schliessen</button>
+          </div>
+          <div class="success-msg" id="delete-msg">🗑️ Lernapp erfolgreich entfernt.</div>
         </div>
-        <div class="form-row">
-          <label>Datum (Anzeige)</label>
-          <input type="text" id="f-date" placeholder="z.B. März 2026" />
-        </div>
-        <div class="modal-actions">
-          <button class="btn-primary" onclick="addCard()">Hinzufügen</button>
-          <button class="btn-secondary" onclick="closeModal()">Abbrechen</button>
-        </div>
-        <div class="success-msg" id="success-msg">✅ Lernapp erfolgreich hinzugefügt!</div>
       </div>
     </div>
   </div>
@@ -321,7 +350,7 @@
   <script type="module">
     import { initializeApp }
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, onValue, set, get, runTransaction, push, onDisconnect }
+    import { getDatabase, ref, onValue, set, get, runTransaction, push, onDisconnect, remove }
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
     const app = initializeApp({
@@ -437,12 +466,18 @@
       applyFilter(p.dataset.filter);
     }));
 
-    // Expose add function
+    // Expose for admin
     window._firebaseReady = true;
     window._db = db;
     window._ref = ref;
     window._set = set;
     window._get = get;
+    window._remove = remove;
+    window._TAG_LABEL = TAG_LABEL;
+
+    // Keep a cache of cards for the delete list
+    window._cardsCache = {};
+    onValue(ref(db,'cards'), snap => { window._cardsCache = snap.val() || {}; });
   </script>
 
   <script>
@@ -454,6 +489,8 @@
       document.getElementById('admin-form').style.display = 'none';
       document.getElementById('pw-error').style.display = 'none';
       document.getElementById('pw-input').value = '';
+      // Reset to add tab
+      if (typeof switchTab === 'function') switchTab('add');
     });
 
     document.getElementById('modal-overlay').addEventListener('click', e => {
@@ -474,7 +511,46 @@
       }
     };
 
-    window.closeModal = function() {
+    window.switchTab = function(tab) {
+      document.getElementById('panel-add').style.display    = tab === 'add'    ? '' : 'none';
+      document.getElementById('panel-delete').style.display = tab === 'delete' ? '' : 'none';
+      document.getElementById('tab-add').classList.toggle('active',    tab === 'add');
+      document.getElementById('tab-delete').classList.toggle('active', tab === 'delete');
+
+      if (tab === 'delete') {
+        const list = document.getElementById('delete-list');
+        list.innerHTML = '';
+        const cards = Object.entries(window._cardsCache).sort((a,b)=>(a[1].order||99)-(b[1].order||99));
+        if (cards.length === 0) {
+          list.innerHTML = '<p style="font-size:0.85rem;color:var(--muted);padding:12px 0;">Keine Lernapps vorhanden.</p>';
+          return;
+        }
+        cards.forEach(([id, card]) => {
+          const item = document.createElement('div');
+          item.className = 'delete-item';
+          item.innerHTML = `
+            <div>
+              <div class="delete-item-title">${card.title}</div>
+              <div class="delete-item-sub">${window._TAG_LABEL[card.subject]||'Anderes'} · ${card.year||'2026'}</div>
+            </div>
+            <button class="btn-delete" onclick="deleteCard('${id}', this)">Löschen</button>`;
+          list.appendChild(item);
+        });
+      }
+    };
+
+    window.deleteCard = async function(id, btn) {
+      if (!confirm('Sicher? Diese Lernapp wird dauerhaft gelöscht.')) return;
+      btn.textContent = '…';
+      btn.disabled = true;
+      await window._remove(window._ref(window._db, `cards/${id}`));
+      btn.closest('.delete-item').remove();
+      const msg = document.getElementById('delete-msg');
+      msg.style.display = 'block';
+      setTimeout(() => { msg.style.display = 'none'; }, 3000);
+    };
+
+
       document.getElementById('modal-overlay').classList.remove('open');
     };
 
