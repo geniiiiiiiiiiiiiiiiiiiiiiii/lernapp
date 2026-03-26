@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lernhub – F2AB</title>
+  <meta name="description" content="Alle Lernapps der F2AB – übersichtlich an einem Ort." />
+  <meta name="theme-color" content="#2c2a26" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Lernhub" />
+  <link rel="manifest" href="manifest.json" />
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -14,749 +20,805 @@
       --muted:     #8a8680;
       --shadow:    0 2px 12px rgba(0,0,0,0.07);
       --shadow-h:  0 6px 28px rgba(0,0,0,0.12);
-      --ges:       #e07b3b; --ges-bg:  #fdf0e6;
-      --math:      #2e9e6b; --math-bg: #edf8f2;
-      --fra:       #c43b6e; --fra-bg:  #fceef4;
-      --ita:       #3b9e7c; --ita-bg:  #edf8f4;
-      --mus:       #7c5ec4; --mus-bg:  #f3eefb;
-      --wir:       #3b9ec4; --wir-bg:  #eef8fc;
-      --psy:       #9e3b7c; --psy-bg:  #fbeef6;
-      --deu:       #6b7c3b; --deu-bg:  #f3f6ee;
-      --inf:       #3b6b9e; --inf-bg:  #eef3fc;
-      --other:     #5e7a8a; --other-bg:#eef3f6;
+      --ges:  #e07b3b; --ges-bg:  #fdf0e6;
+      --math: #2e9e6b; --math-bg: #edf8f2;
+      --fra:  #c43b6e; --fra-bg:  #fceef4;
+      --ita:  #3b9e7c; --ita-bg:  #edf8f4;
+      --mus:  #7c5ec4; --mus-bg:  #f3eefb;
+      --wir:  #3b9ec4; --wir-bg:  #eef8fc;
+      --psy:  #9e3b7c; --psy-bg:  #fbeef6;
+      --deu:  #6b7c3b; --deu-bg:  #f3f6ee;
+      --inf:  #3b6b9e; --inf-bg:  #eef3fc;
+      --other:#5e7a8a; --other-bg:#eef3f6;
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    header{padding:52px 48px 0;max-width:1100px;margin:0 auto;}
+    .header-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+    .logo-area h1{font-family:'Lora',serif;font-size:2.4rem;font-weight:600;letter-spacing:-0.5px;line-height:1.15;}
+    .logo-area h1 span{font-style:italic;color:var(--muted);}
+    .logo-area h1 a{text-decoration:none;color:inherit;transition:opacity .18s;}
+    .logo-area h1 a:hover{opacity:.7;}
+    .logo-area p{margin-top:8px;font-size:.95rem;color:var(--muted);font-weight:300;}
+    .header-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+    .badge{background:var(--text);color:var(--bg);font-size:.75rem;font-weight:600;padding:5px 12px;border-radius:20px;letter-spacing:.6px;text-transform:uppercase;}
+    .total-visitors{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);}
+    .total-visitors span{font-weight:600;color:var(--text);font-family:'Lora',serif;}
+    .header-pills{display:flex;gap:7px;margin-top:4px;flex-wrap:wrap;justify-content:flex-end;}
+    .hpill{display:inline-flex;align-items:center;gap:6px;font-size:.77rem;font-weight:500;padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .18s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+    .hpill:hover{border-color:var(--text);color:var(--text);}
+    .hpill.granted{background:var(--text);border-color:var(--text);color:var(--bg);}
+    .hpill.denied{opacity:.45;cursor:not-allowed;}
 
-    header { padding: 52px 48px 0; max-width: 1100px; margin: 0 auto; }
-    .header-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-    .logo-area h1 { font-family: 'Lora', serif; font-size: 2.4rem; font-weight: 600; letter-spacing: -0.5px; line-height: 1.15; }
-    .logo-area h1 span { font-style: italic; color: var(--muted); }
-    .logo-area h1 a { text-decoration: none; color: inherit; transition: opacity 0.18s; }
-    .logo-area h1 a:hover { opacity: 0.7; }
-    .logo-area p { margin-top: 8px; font-size: 0.95rem; color: var(--muted); font-weight: 300; }
-    .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-    .badge { background: var(--text); color: var(--bg); font-size: 0.75rem; font-weight: 600; padding: 5px 12px; border-radius: 20px; letter-spacing: 0.6px; text-transform: uppercase; }
-    .total-visitors { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--muted); }
-    .total-visitors span { font-weight: 600; color: var(--text); font-family: 'Lora', serif; }
+    .divider{max-width:1100px;margin:32px auto 0;padding:0 48px;}
+    .divider hr{border:none;border-top:1.5px solid var(--border);}
+    .stats-bar{max-width:1100px;margin:28px auto 0;padding:0 48px;display:flex;gap:32px;flex-wrap:wrap;}
+    .stat{display:flex;flex-direction:column;}
+    .stat-num{font-family:'Lora',serif;font-size:1.6rem;font-weight:600;line-height:1;}
+    .stat-label{font-size:.78rem;color:var(--muted);margin-top:4px;font-weight:400;text-transform:uppercase;letter-spacing:.5px;}
+    .filter-area{max-width:1100px;margin:36px auto 0;padding:0 48px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+    .filter-label{font-size:.8rem;color:var(--muted);font-weight:500;margin-right:4px;text-transform:uppercase;letter-spacing:.5px;}
+    .pill{padding:6px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-size:.82rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .18s;font-family:'DM Sans',sans-serif;}
+    .pill:hover{border-color:var(--text);color:var(--text);}
+    .pill.active{background:var(--text);border-color:var(--text);color:var(--bg);}
+    .grid-section{max-width:1100px;margin:36px auto 40px;padding:0 48px;}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;}
+    .loading-grid{grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-size:.9rem;}
+    .card{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:26px 24px 22px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;}
+    .card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;}
+    .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-h);}
+    .card[data-subject="gesellschaft"]::before{background:var(--ges);}
+    .card[data-subject="mathematik"]::before{background:var(--math);}
+    .card[data-subject="französisch"]::before{background:var(--fra);}
+    .card[data-subject="italienisch"]::before{background:var(--ita);}
+    .card[data-subject="musik"]::before{background:var(--mus);}
+    .card[data-subject="wirtschaft"]::before{background:var(--wir);}
+    .card[data-subject="psychologie"]::before{background:var(--psy);}
+    .card[data-subject="deutsch"]::before{background:var(--deu);}
+    .card[data-subject="informatik"]::before{background:var(--inf);}
+    .card[data-subject="anderes"]::before{background:var(--other);}
+    .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+    .subject-tag{font-size:.72rem;font-weight:600;padding:4px 11px;border-radius:12px;text-transform:uppercase;letter-spacing:.5px;}
+    .tag-ges{background:var(--ges-bg);color:var(--ges);}
+    .tag-math{background:var(--math-bg);color:var(--math);}
+    .tag-fra{background:var(--fra-bg);color:var(--fra);}
+    .tag-ita{background:var(--ita-bg);color:var(--ita);}
+    .tag-mus{background:var(--mus-bg);color:var(--mus);}
+    .tag-wir{background:var(--wir-bg);color:var(--wir);}
+    .tag-psy{background:var(--psy-bg);color:var(--psy);}
+    .tag-deu{background:var(--deu-bg);color:var(--deu);}
+    .tag-inf{background:var(--inf-bg);color:var(--inf);}
+    .tag-other{background:var(--other-bg);color:var(--other);}
+    .card-number{font-size:.72rem;color:var(--muted);font-weight:400;padding-top:2px;}
+    .card h2{font-family:'Lora',serif;font-size:1.15rem;font-weight:600;line-height:1.3;}
+    .card-subtitle{font-size:.78rem;color:var(--muted);font-weight:300;margin-top:-6px;font-style:italic;}
+    .card-meta{display:flex;gap:14px;flex-wrap:wrap;}
+    .meta-item{display:flex;align-items:center;gap:5px;font-size:.8rem;color:var(--muted);}
+    .opens-badge{display:inline-flex;align-items:center;gap:4px;font-size:.8rem;color:var(--muted);}
+    .card-modes{display:flex;gap:6px;flex-wrap:wrap;}
+    .mode-chip{font-size:.7rem;padding:3px 9px;border-radius:8px;border:1px solid var(--border);color:var(--muted);font-weight:500;}
+    .card-footer{margin-top:auto;padding-top:10px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .open-btn{display:inline-flex;align-items:center;gap:7px;background:var(--text);color:var(--bg);text-decoration:none;font-size:.82rem;font-weight:600;padding:9px 18px;border-radius:10px;transition:opacity .18s,transform .18s;font-family:'DM Sans',sans-serif;}
+    .open-btn:hover{opacity:.82;transform:translateX(2px);}
+    .card-date{font-size:.75rem;color:var(--muted);font-weight:300;}
+    .request-bar{max-width:1100px;margin:0 auto 20px;padding:0 48px;}
+    .request-inner{display:flex;align-items:flex-start;gap:14px;background:#f0f7ff;border:1.5px solid #cde0f5;border-radius:12px;padding:14px 18px;}
+    .request-icon{flex-shrink:0;width:34px;height:34px;background:#3b82c4;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;margin-top:1px;}
+    .request-text strong{font-size:.88rem;font-weight:600;color:var(--text);display:block;margin-bottom:3px;}
+    .request-text p{font-size:.8rem;color:var(--muted);line-height:1.55;font-weight:300;}
+    .req-highlight{font-weight:500;color:#3b82c4;}
+    .disclaimer-bar{max-width:1100px;margin:0 auto 32px;padding:0 48px;}
+    .disclaimer-inner{display:flex;align-items:flex-start;gap:12px;background:#fdfbf7;border:1.5px solid #e8e2d5;border-radius:12px;padding:14px 18px;}
+    .disclaimer-inner svg{flex-shrink:0;color:var(--muted);margin-top:1px;}
+    .disclaimer-inner p{font-size:.8rem;color:var(--muted);line-height:1.55;font-weight:300;}
+    .disclaimer-inner p strong{color:var(--text);font-weight:600;}
+    footer{border-top:1.5px solid var(--border);max-width:1100px;margin:0 auto;padding:24px 48px;}
+    footer p{font-size:.8rem;color:var(--muted);font-weight:300;}
+    footer strong{font-weight:600;color:var(--text);}
 
-    .divider { max-width: 1100px; margin: 32px auto 0; padding: 0 48px; }
-    .divider hr { border: none; border-top: 1.5px solid var(--border); }
-
-    .stats-bar { max-width: 1100px; margin: 28px auto 0; padding: 0 48px; display: flex; gap: 32px; flex-wrap: wrap; }
-    .stat { display: flex; flex-direction: column; }
-    .stat-num { font-family: 'Lora', serif; font-size: 1.6rem; font-weight: 600; line-height: 1; }
-    .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 4px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px; }
-
-    .filter-area { max-width: 1100px; margin: 36px auto 0; padding: 0 48px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .filter-label { font-size: 0.8rem; color: var(--muted); font-weight: 500; margin-right: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .pill { padding: 6px 16px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--surface); font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.18s ease; font-family: 'DM Sans', sans-serif; }
-    .pill:hover { border-color: var(--text); color: var(--text); }
-    .pill.active { background: var(--text); border-color: var(--text); color: var(--bg); }
-
-    .grid-section { max-width: 1100px; margin: 36px auto 40px; padding: 0 48px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
-    .loading-grid { grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted); font-size: 0.9rem; }
-
-    .card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px; padding: 26px 24px 22px; box-shadow: var(--shadow); transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; flex-direction: column; gap: 14px; position: relative; overflow: hidden; }
-    .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 16px 16px 0 0; }
-    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-h); }
-    .card[data-subject="gesellschaft"]::before { background: var(--ges); }
-    .card[data-subject="mathematik"]::before   { background: var(--math); }
-    .card[data-subject="französisch"]::before  { background: var(--fra); }
-    .card[data-subject="italienisch"]::before  { background: var(--ita); }
-    .card[data-subject="musik"]::before        { background: var(--mus); }
-    .card[data-subject="wirtschaft"]::before   { background: var(--wir); }
-    .card[data-subject="psychologie"]::before  { background: var(--psy); }
-    .card[data-subject="deutsch"]::before      { background: var(--deu); }
-    .card[data-subject="informatik"]::before   { background: var(--inf); }
-    .card[data-subject="anderes"]::before      { background: var(--other); }
-
-    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-    .subject-tag { font-size: 0.72rem; font-weight: 600; padding: 4px 11px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .tag-ges   { background: var(--ges-bg);  color: var(--ges); }
-    .tag-math  { background: var(--math-bg); color: var(--math); }
-    .tag-fra   { background: var(--fra-bg);  color: var(--fra); }
-    .tag-ita   { background: var(--ita-bg);  color: var(--ita); }
-    .tag-mus   { background: var(--mus-bg);  color: var(--mus); }
-    .tag-wir   { background: var(--wir-bg);  color: var(--wir); }
-    .tag-psy   { background: var(--psy-bg);  color: var(--psy); }
-    .tag-deu   { background: var(--deu-bg);  color: var(--deu); }
-    .tag-inf   { background: var(--inf-bg);  color: var(--inf); }
-    .tag-other { background: var(--other-bg);color: var(--other); }
-
-    .card-number { font-size: 0.72rem; color: var(--muted); font-weight: 400; padding-top: 2px; }
-    .card h2 { font-family: 'Lora', serif; font-size: 1.15rem; font-weight: 600; line-height: 1.3; }
-    .card-subtitle { font-size: 0.78rem; color: var(--muted); font-weight: 300; margin-top: -6px; font-style: italic; }
-    .card-meta { display: flex; gap: 14px; flex-wrap: wrap; }
-    .meta-item { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--muted); }
-    .opens-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; color: var(--muted); }
-
-    .admin-stats-box { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-    .admin-stat-pill { flex: 1; min-width: 110px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; }
-    .admin-stat-pill .asp-num { font-family: 'Lora', serif; font-size: 1.4rem; font-weight: 600; line-height: 1; }
-    .admin-stat-pill .asp-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    .btn-reset { font-size: 0.75rem; padding: 4px 10px; background: #fceef0; color: #c43b3b; border: 1.5px solid #f5c0c0; border-radius: 7px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 600; transition: all 0.18s; margin-top: 4px; width: fit-content; }
-    .btn-reset:hover { background: #c43b3b; color: white; border-color: #c43b3b; }
-
-    .card-modes { display: flex; gap: 6px; flex-wrap: wrap; }
-    .mode-chip { font-size: 0.7rem; padding: 3px 9px; border-radius: 8px; border: 1px solid var(--border); color: var(--muted); font-weight: 500; }
-    .checkbox-group { display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
-    .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text); cursor: pointer; }
-    .checkbox-label input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--text); cursor: pointer; }
-    .card-footer { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .open-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--text); color: var(--bg); text-decoration: none; font-size: 0.82rem; font-weight: 600; padding: 9px 18px; border-radius: 10px; transition: opacity 0.18s, transform 0.18s; font-family: 'DM Sans', sans-serif; }
-    .open-btn:hover { opacity: 0.82; transform: translateX(2px); }
-    .card-date { font-size: 0.75rem; color: var(--muted); font-weight: 300; }
-
-    .request-bar { max-width: 1100px; margin: 0 auto 20px; padding: 0 48px; }
-    .request-inner { display: flex; align-items: flex-start; gap: 14px; background: #f0f7ff; border: 1.5px solid #cde0f5; border-radius: 12px; padding: 14px 18px; }
-    .request-icon { flex-shrink: 0; width: 34px; height: 34px; background: #3b82c4; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; margin-top: 1px; }
-    .request-text strong { font-size: 0.88rem; font-weight: 600; color: var(--text); display: block; margin-bottom: 3px; }
-    .request-text p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; font-weight: 300; }
-    .req-highlight { font-weight: 500; color: #3b82c4; }
-
-    .disclaimer-bar { max-width: 1100px; margin: 0 auto 32px; padding: 0 48px; }
-    .disclaimer-inner { display: flex; align-items: flex-start; gap: 12px; background: #fdfbf7; border: 1.5px solid #e8e2d5; border-radius: 12px; padding: 14px 18px; }
-    .disclaimer-inner svg { flex-shrink: 0; color: var(--muted); margin-top: 1px; }
-    .disclaimer-inner p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; font-weight: 300; }
-    .disclaimer-inner p strong { color: var(--text); font-weight: 600; }
-
-    footer { border-top: 1.5px solid var(--border); max-width: 1100px; margin: 0 auto; padding: 24px 48px; }
-    footer p { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
-    footer strong { font-weight: 600; color: var(--text); }
-
-    /* Admin trigger — subtle icon, only appears on long hover */
-    #admin-trigger {
-      position: fixed;
-      bottom: 22px;
-      right: 22px;
-      width: 38px;
-      height: 38px;
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow);
-      z-index: 100;
-      cursor: pointer;
-      opacity: 0.3;
-      transition: opacity 0.2s ease;
-      outline: none;
+    /* ── Floating Install FAB ── */
+    #install-fab{
+      position:fixed;bottom:24px;right:24px;z-index:150;
+      display:none;align-items:center;gap:9px;
+      background:var(--text);color:var(--bg);
+      border:none;border-radius:14px;
+      padding:13px 14px 13px 18px;
+      font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:600;
+      cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,0.28);
+      transition:opacity .2s,transform .2s;
     }
-    #admin-trigger:hover { opacity: 1; }
+    #install-fab.show{display:inline-flex;animation:fabIn .4s cubic-bezier(.16,1,.3,1);}
+    @keyframes fabIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+    #install-fab:hover{opacity:.88;transform:translateY(-2px);}
+    #fab-dismiss{
+      background:rgba(255,255,255,.18);border:none;color:var(--bg);
+      cursor:pointer;font-size:.72rem;padding:4px 7px;border-radius:7px;
+      line-height:1;margin-left:2px;transition:background .15s;font-family:'DM Sans',sans-serif;
+    }
+    #fab-dismiss:hover{background:rgba(255,255,255,.35);}
 
-    .admin-tabs { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
-    .admin-tab { padding: 8px 18px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); font-family: 'DM Sans', sans-serif; font-size: 0.84rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.18s; }
-    .admin-tab:hover { border-color: var(--text); color: var(--text); }
-    .admin-tab.active { background: var(--text); border-color: var(--text); color: var(--bg); }
+    /* ── Notification Toast ── */
+    #notif-toast{position:fixed;top:20px;right:20px;z-index:300;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.13);padding:16px 18px;max-width:310px;display:none;animation:slideRight .35s cubic-bezier(.16,1,.3,1);}
+    #notif-toast.show{display:block;}
+    @keyframes slideRight{from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:translateX(0);}}
+    .nt-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+    .nt-bell{width:32px;height:32px;background:#fff8ed;border:1.5px solid #f5d9a0;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+    .nt-head strong{font-size:.88rem;font-weight:600;flex:1;}
+    .nt-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:2px;transition:color .18s;}
+    .nt-close:hover{color:var(--text);}
+    .nt-body{font-size:.8rem;color:var(--muted);line-height:1.55;margin-bottom:13px;}
+    .nt-actions{display:flex;gap:8px;}
+    .nt-allow{flex:1;background:var(--text);color:var(--bg);border:none;border-radius:8px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:opacity .18s;}
+    .nt-allow:hover{opacity:.8;}
+    .nt-later{background:none;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--muted);cursor:pointer;transition:all .18s;}
+    .nt-later:hover{border-color:var(--text);color:var(--text);}
 
-    #delete-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
-    .delete-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--bg); }
-    .delete-item-title { font-size: 0.88rem; font-weight: 600; color: var(--text); }
-    .delete-item-sub { font-size: 0.76rem; color: var(--muted); margin-top: 2px; }
-    .btn-delete { padding: 6px 14px; background: #fceef0; color: #c43b3b; border: 1.5px solid #f5c0c0; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
-    .btn-delete:hover { background: #c43b3b; color: white; border-color: #c43b3b; }
+    /* ── Admin ── */
+    #admin-trigger{position:fixed;bottom:22px;left:22px;width:38px;height:38px;background:var(--surface);border:1.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);z-index:100;cursor:pointer;opacity:.25;transition:opacity .2s;outline:none;}
+    #admin-trigger:hover{opacity:1;}
+    .admin-stats-box{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+    .admin-stat-pill{flex:1;min-width:110px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:3px;}
+    .admin-stat-pill .asp-num{font-family:'Lora',serif;font-size:1.4rem;font-weight:600;line-height:1;}
+    .admin-stat-pill .asp-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+    .btn-reset{font-size:.75rem;padding:4px 10px;background:#fceef0;color:#c43b3b;border:1.5px solid #f5c0c0;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:all .18s;margin-top:4px;width:fit-content;}
+    .btn-reset:hover{background:#c43b3b;color:white;border-color:#c43b3b;}
+    .admin-tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+    .admin-tab{padding:8px 18px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .18s;}
+    .admin-tab:hover{border-color:var(--text);color:var(--text);}
+    .admin-tab.active{background:var(--text);border-color:var(--text);color:var(--bg);}
+    #delete-list{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
+    .delete-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);}
+    .delete-item-title{font-size:.88rem;font-weight:600;color:var(--text);}
+    .delete-item-sub{font-size:.76rem;color:var(--muted);margin-top:2px;}
+    .btn-delete{padding:6px 14px;background:#fceef0;color:#c43b3b;border:1.5px solid #f5c0c0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .18s;white-space:nowrap;}
+    .btn-delete:hover{background:#c43b3b;color:white;border-color:#c43b3b;}
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(44,42,38,.5);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px);}
+    .modal-overlay.open{display:flex;}
+    .modal{background:var(--surface);border-radius:20px;padding:36px;width:100%;max-width:520px;box-shadow:0 24px 64px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto;}
+    .modal h2{font-family:'Lora',serif;font-size:1.35rem;font-weight:600;margin-bottom:6px;}
+    .modal-sub{font-size:.85rem;color:var(--muted);margin-bottom:24px;}
+    .form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+    .form-row label{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);}
+    .form-row input,.form-row select{padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.9rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .18s;}
+    .form-row input:focus,.form-row select:focus{border-color:var(--text);}
+    .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+    .form-row-2 .form-row{margin-bottom:0;}
+    .checkbox-label{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text);cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0;}
+    .checkbox-label input[type=checkbox]{width:15px;height:15px;accent-color:var(--text);cursor:pointer;}
+    .modal-actions{display:flex;gap:10px;margin-top:22px;}
+    .btn-primary{flex:1;padding:11px;background:var(--text);color:var(--bg);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:opacity .18s;}
+    .btn-primary:hover{opacity:.8;}
+    .btn-secondary{padding:11px 20px;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.88rem;cursor:pointer;transition:all .18s;}
+    .btn-secondary:hover{border-color:var(--text);color:var(--text);}
+    .pw-error{font-size:.8rem;color:#c43b3b;margin-top:4px;display:none;}
+    .success-msg{background:#edf8f2;border:1.5px solid #a3dfc0;color:#2e7d52;border-radius:10px;padding:12px 16px;font-size:.85rem;font-weight:500;display:none;margin-top:12px;}
 
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(44,42,38,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(3px); }
-    .modal-overlay.open { display: flex; }
-    .modal { background: var(--surface); border-radius: 20px; padding: 36px; width: 100%; max-width: 520px; box-shadow: 0 24px 64px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-    .modal h2 { font-family: 'Lora', serif; font-size: 1.35rem; font-weight: 600; margin-bottom: 6px; }
-    .modal-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 24px; }
-    .form-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-    .form-row label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
-    .form-row input, .form-row select { padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; background: var(--bg); color: var(--text); outline: none; transition: border-color 0.18s; }
-    .form-row input:focus, .form-row select:focus { border-color: var(--text); }
-    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
-    .form-row-2 .form-row { margin-bottom: 0; }
-    .modal-actions { display: flex; gap: 10px; margin-top: 22px; }
-    .btn-primary { flex: 1; padding: 11px; background: var(--text); color: var(--bg); border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: opacity 0.18s; }
-    .btn-primary:hover { opacity: 0.8; }
-    .btn-secondary { padding: 11px 20px; background: transparent; color: var(--muted); border: 1.5px solid var(--border); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; cursor: pointer; transition: all 0.18s; }
-    .btn-secondary:hover { border-color: var(--text); color: var(--text); }
-    .pw-error { font-size: 0.8rem; color: #c43b3b; margin-top: 4px; display: none; }
-    .success-msg { background: #edf8f2; border: 1.5px solid #a3dfc0; color: #2e7d52; border-radius: 10px; padding: 12px 16px; font-size: 0.85rem; font-weight: 500; display: none; margin-top: 12px; }
-    .rules-notice { background: #fff8ed; border: 1.5px solid #f5d9a0; border-radius: 10px; padding: 12px 16px; font-size: 0.82rem; color: #7a5a1e; margin-bottom: 16px; line-height: 1.55; }
-    .rules-notice strong { font-weight: 600; }
-    .rules-notice code { background: #fef0d0; padding: 1px 5px; border-radius: 4px; font-family: monospace; font-size: 0.78rem; }
+    /* ── Modes builder ── */
+    .modes-builder{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+    .modes-defaults{display:flex;flex-wrap:wrap;gap:7px;}
+    .mode-toggle{display:inline-flex;align-items:center;gap:5px;padding:5px 12px 5px 10px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all .18s;user-select:none;}
+    .mode-toggle.on{background:var(--text);border-color:var(--text);color:var(--bg);}
+    .mode-toggle .check{font-size:.68rem;opacity:.85;}
+    .custom-modes-row{display:flex;gap:8px;align-items:center;}
+    .custom-modes-row input{flex:1;padding:8px 12px;border:1.5px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.84rem;background:var(--bg);color:var(--text);outline:none;transition:border-color .18s;}
+    .custom-modes-row input:focus{border-color:var(--text);}
+    .btn-add-mode{padding:8px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;color:var(--text);cursor:pointer;transition:all .18s;white-space:nowrap;}
+    .btn-add-mode:hover{background:var(--text);color:var(--bg);border-color:var(--text);}
+    .custom-chips-list{display:flex;flex-wrap:wrap;gap:6px;}
+    .custom-chip-admin{display:inline-flex;align-items:center;gap:5px;padding:4px 9px 4px 11px;border-radius:8px;border:1px solid var(--border);background:var(--surface);font-size:.74rem;font-weight:500;color:var(--text);}
+    .custom-chip-admin button{background:none;border:none;cursor:pointer;color:var(--muted);font-size:.8rem;line-height:1;padding:0;transition:color .15s;}
+    .custom-chip-admin button:hover{color:#c43b3b;}
+    .modes-hint{font-size:.73rem;color:var(--muted);}
 
-    @media (max-width: 640px) {
-      header, .divider, .stats-bar, .filter-area, .grid-section, .request-bar, .disclaimer-bar, footer { padding-left: 20px; padding-right: 20px; }
-      header { padding-top: 36px; }
-      .logo-area h1 { font-size: 1.8rem; }
-      .grid { grid-template-columns: 1fr; }
-      .form-row-2 { grid-template-columns: 1fr; }
+    @media(max-width:640px){
+      header,.divider,.stats-bar,.filter-area,.grid-section,.request-bar,.disclaimer-bar,footer{padding-left:20px;padding-right:20px;}
+      header{padding-top:36px;}
+      .logo-area h1{font-size:1.8rem;}
+      .grid{grid-template-columns:1fr;}
+      .form-row-2{grid-template-columns:1fr;}
+      #notif-toast{right:12px;left:12px;max-width:none;}
+      #install-fab{bottom:16px;right:16px;}
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-top">
-      <div class="logo-area">
-        <h1><a href="https://intranet.kswe.ch/home" target="_blank">Lern<span>hub</span></a></h1>
-        <p>Alle Lernapps – übersichtlich an einem Ort.</p>
+<header>
+  <div class="header-top">
+    <div class="logo-area">
+      <h1><a href="https://intranet.kswe.ch/home" target="_blank">Lern<span>hub</span></a></h1>
+      <p>Alle Lernapps – übersichtlich an einem Ort.</p>
+    </div>
+    <div class="header-right">
+      <div class="badge">F2AB</div>
+      <div class="total-visitors">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span id="total-visitors-count">–</span>&nbsp;Besucher insgesamt
       </div>
-      <div class="header-right">
-        <div class="badge">F2AB</div>
-        <div class="total-visitors">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          <span id="total-visitors-count">–</span>&nbsp;Besucher insgesamt
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="divider"><hr /></div>
-
-  <div class="stats-bar">
-    <div class="stat">
-      <span class="stat-num" id="count-total">–</span>
-      <span class="stat-label">Lern-Apps</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num" id="count-subjects">–</span>
-      <span class="stat-label">Fächer</span>
-    </div>
-  </div>
-
-  <div class="filter-area">
-    <span class="filter-label">Filter:</span>
-    <button class="pill active" data-filter="alle">Alle</button>
-    <button class="pill" data-filter="gesellschaft">Gesellschaft</button>
-    <button class="pill" data-filter="mathematik">Mathematik</button>
-    <button class="pill" data-filter="französisch">Französisch</button>
-    <button class="pill" data-filter="italienisch">Italienisch</button>
-    <button class="pill" data-filter="musik">Musik</button>
-    <button class="pill" data-filter="wirtschaft">Wirtschaft</button>
-    <button class="pill" data-filter="psychologie">Psychologie</button>
-    <button class="pill" data-filter="deutsch">Deutsch</button>
-    <button class="pill" data-filter="informatik">Informatik</button>
-    <button class="pill" data-filter="anderes">Anderes</button>
-  </div>
-
-  <div class="grid-section">
-    <div class="grid" id="card-grid">
-      <div class="loading-grid">Lernapps werden geladen…</div>
-    </div>
-  </div>
-
-  <div class="request-bar">
-    <div class="request-inner">
-      <div class="request-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-      </div>
-      <div class="request-text">
-        <strong>Neue Lernapp anfragen?</strong>
-        <p>Schicke Clément deine Zusammenfassung und schreib dazu, bis wann du die App brauchst. <span class="req-highlight">Eine Zusammenfassung ist zwingend erforderlich.</span></p>
+      <div class="header-pills">
+        <button class="hpill" id="notif-pill" onclick="handleNotifPill()">
+          🔔 <span id="notif-label">Benachrichtigungen</span>
+        </button>
       </div>
     </div>
   </div>
+</header>
 
-  <div class="disclaimer-bar">
-    <div class="disclaimer-inner">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <p><strong>Hinweis:</strong> Diese Lernapps werden ausschliesslich auf Basis der bereitgestellten Zusammenfassungen erstellt. Die Inhalte werden nicht von mir überprüft – sie sollten korrekt sein, ich übernehme jedoch keine Gewähr für die Richtigkeit der Informationen.</p>
+<div class="divider"><hr /></div>
+
+<div class="stats-bar">
+  <div class="stat"><span class="stat-num" id="count-total">–</span><span class="stat-label">Lern-Apps</span></div>
+  <div class="stat"><span class="stat-num" id="count-subjects">–</span><span class="stat-label">Fächer</span></div>
+</div>
+
+<div class="filter-area">
+  <span class="filter-label">Filter:</span>
+  <button class="pill active" data-filter="alle">Alle</button>
+  <button class="pill" data-filter="gesellschaft">Gesellschaft</button>
+  <button class="pill" data-filter="mathematik">Mathematik</button>
+  <button class="pill" data-filter="französisch">Französisch</button>
+  <button class="pill" data-filter="italienisch">Italienisch</button>
+  <button class="pill" data-filter="musik">Musik</button>
+  <button class="pill" data-filter="wirtschaft">Wirtschaft</button>
+  <button class="pill" data-filter="psychologie">Psychologie</button>
+  <button class="pill" data-filter="deutsch">Deutsch</button>
+  <button class="pill" data-filter="informatik">Informatik</button>
+  <button class="pill" data-filter="anderes">Anderes</button>
+</div>
+
+<div class="grid-section">
+  <div class="grid" id="card-grid"><div class="loading-grid">Lernapps werden geladen…</div></div>
+</div>
+
+<div class="request-bar">
+  <div class="request-inner">
+    <div class="request-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    </div>
+    <div class="request-text">
+      <strong>Neue Lernapp anfragen?</strong>
+      <p>Schicke Clément deine Zusammenfassung und schreib dazu, bis wann du die App brauchst. <span class="req-highlight">Eine Zusammenfassung ist zwingend erforderlich.</span></p>
     </div>
   </div>
+</div>
 
-  <footer>
-    <p>Lernhub · <strong>F2AB</strong> · Alle Lernapps</p>
-  </footer>
+<div class="disclaimer-bar">
+  <div class="disclaimer-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <p><strong>Hinweis:</strong> Diese Lernapps werden ausschliesslich auf Basis der bereitgestellten Zusammenfassungen erstellt. Die Inhalte werden nicht von mir überprüft – sie sollten korrekt sein, ich übernehme jedoch keine Gewähr für die Richtigkeit der Informationen.</p>
+  </div>
+</div>
 
-  <!-- Admin trigger: subtle icon, only visible on long hover -->
-  <button id="admin-trigger">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-  </button>
+<footer><p>Lernhub · <strong>F2AB</strong> · Alle Lernapps</p></footer>
 
-  <div class="modal-overlay" id="modal-overlay">
-    <div class="modal">
-      <div id="pw-screen">
-        <h2>🔒 Admin-Zugang</h2>
+<!-- ── Floating Install FAB ── -->
+<button id="install-fab" onclick="triggerInstall(event)">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  App installieren
+  <button id="fab-dismiss" onclick="dismissFab(event)">✕</button>
+</button>
+
+<!-- ── Notification Toast ── -->
+<div id="notif-toast">
+  <div class="nt-head">
+    <div class="nt-bell">🔔</div>
+    <strong>Neue Lernapps nicht verpassen</strong>
+    <button class="nt-close" onclick="closeNotifToast()">✕</button>
+  </div>
+  <div class="nt-body">Erhalte eine Benachrichtigung, sobald eine neue Lernapp für die F2AB hinzugefügt wird.</div>
+  <div class="nt-actions">
+    <button class="nt-allow" onclick="requestNotifPermission()">Aktivieren</button>
+    <button class="nt-later" onclick="closeNotifToast()">Später</button>
+  </div>
+</div>
+
+<!-- Admin trigger (bottom-left) -->
+<button id="admin-trigger">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+</button>
+
+<!-- Admin Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div id="pw-screen">
+      <h2>🔒 Admin-Zugang</h2>
+      <div class="form-row"><label>Passwort</label><input type="password" id="pw-input" placeholder="••••••••" /></div>
+      <p class="pw-error" id="pw-error">Falsches Passwort.</p>
+      <div class="modal-actions">
+        <button class="btn-primary" onclick="checkPassword()">Einloggen</button>
+        <button class="btn-secondary" onclick="closeModal()">Abbrechen</button>
+      </div>
+    </div>
+
+    <div id="admin-form" style="display:none;">
+      <div class="admin-tabs">
+        <button class="admin-tab active" id="tab-add" onclick="switchTab('add')">➕ Hinzufügen</button>
+        <button class="admin-tab" id="tab-delete" onclick="switchTab('delete')">🗑️ Entfernen</button>
+        <button class="admin-tab" id="tab-stats" onclick="switchTab('stats')">📊 Statistik</button>
+      </div>
+
+      <!-- ADD panel -->
+      <div id="panel-add">
+        <h2>Neue Lernapp</h2>
+        <p class="modal-sub">Erscheint sofort für alle auf dem Lernhub.</p>
+        <div class="form-row"><label>Titel *</label><input type="text" id="f-title" placeholder="z.B. Migration, Pythagoras…" /></div>
+        <div class="form-row"><label>Untertitel <span style="font-weight:300;text-transform:none;letter-spacing:0;">(optional)</span></label><input type="text" id="f-subtitle" placeholder="z.B. anhand ChatGPT…" /></div>
+
+        <!-- Modes builder -->
         <div class="form-row">
-          <label>Passwort</label>
-          <input type="password" id="pw-input" placeholder="••••••••" />
+          <label>Modi / Chips</label>
+          <div class="modes-builder">
+            <div class="modes-defaults">
+              <button type="button" class="mode-toggle on" data-mode="Crash Course" onclick="toggleMode(this)"><span class="check">✓</span> Crash Course</button>
+              <button type="button" class="mode-toggle on" data-mode="Standard" onclick="toggleMode(this)"><span class="check">✓</span> Standard</button>
+              <button type="button" class="mode-toggle on" data-mode="Vollständig" onclick="toggleMode(this)"><span class="check">✓</span> Vollständig</button>
+              <button type="button" class="mode-toggle on" data-mode="Quiz" onclick="toggleMode(this)"><span class="check">✓</span> Quiz</button>
+            </div>
+            <div class="custom-modes-row">
+              <input type="text" id="custom-mode-input" placeholder="Eigener Chip, z.B. «Prüfung 2»" />
+              <button type="button" class="btn-add-mode" onclick="addCustomMode()">+ Hinzufügen</button>
+            </div>
+            <div class="custom-chips-list" id="custom-chips-list"></div>
+            <span class="modes-hint">Standard-Chips an/ausschalten · eigene beliebig hinzufügen (Enter)</span>
+          </div>
         </div>
-        <p class="pw-error" id="pw-error">Falsches Passwort.</p>
+
+        <div class="form-row-2">
+          <div class="form-row"><label>Fach *</label>
+            <select id="f-subject">
+              <option value="gesellschaft">Gesellschaft</option>
+              <option value="mathematik">Mathematik</option>
+              <option value="französisch">Französisch</option>
+              <option value="italienisch">Italienisch</option>
+              <option value="musik">Musik</option>
+              <option value="wirtschaft">Wirtschaft</option>
+              <option value="psychologie">Psychologie</option>
+              <option value="deutsch">Deutsch</option>
+              <option value="informatik">Informatik</option>
+              <option value="anderes">Anderes</option>
+            </select>
+          </div>
+          <div class="form-row"><label>Jahr</label><input type="text" id="f-year" placeholder="2026" value="2026" /></div>
+        </div>
+        <div class="form-row"><label>Link *</label><input type="url" id="f-link" placeholder="https://…" /></div>
+        <div class="form-row"><label>Datum</label><input type="text" id="f-date" placeholder="z.B. März 2026" /></div>
+        <div class="form-row">
+          <label class="checkbox-label" style="margin-top:4px;">
+            <input type="checkbox" id="f-notify" checked>
+            <span>Abonnenten benachrichtigen</span>
+          </label>
+        </div>
         <div class="modal-actions">
-          <button class="btn-primary" onclick="checkPassword()">Einloggen</button>
+          <button class="btn-primary" id="btn-add-submit" onclick="addCard()">Hinzufügen</button>
           <button class="btn-secondary" onclick="closeModal()">Abbrechen</button>
         </div>
+        <div class="success-msg" id="success-msg">✅ Lernapp erfolgreich hinzugefügt!</div>
+        <div class="success-msg" id="error-msg" style="background:#fceef0;border-color:#f5c0c0;color:#c43b3b;">❌ Fehler. Firebase-Regeln prüfen.</div>
       </div>
 
-      <div id="admin-form" style="display:none;">
-        <div class="admin-tabs">
-          <button class="admin-tab active" id="tab-add"    onclick="switchTab('add')">➕ Hinzufügen</button>
-          <button class="admin-tab"        id="tab-delete" onclick="switchTab('delete')">🗑️ Entfernen</button>
-          <button class="admin-tab"        id="tab-stats"  onclick="switchTab('stats')">📊 Statistik</button>
-        </div>
+      <!-- DELETE panel -->
+      <div id="panel-delete" style="display:none;">
+        <h2>Lernapp entfernen</h2>
+        <p class="modal-sub">Wähle eine Lernapp und lösche sie dauerhaft.</p>
+        <div id="delete-list"></div>
+        <div class="modal-actions" style="margin-top:20px;"><button class="btn-secondary" onclick="closeModal()">Schliessen</button></div>
+        <div class="success-msg" id="delete-msg">🗑️ Erfolgreich entfernt.</div>
+      </div>
 
-        <div id="panel-add">
-          <div class="rules-notice">
-            ⚠️ <strong>Einmalige Einrichtung:</strong> Firebase Regeln müssen auf <code>true</code> gesetzt sein:<br>
-            <strong>Firebase Console → Realtime Database → Regeln →</strong> <code>{ "rules": { ".read": true, ".write": true } }</code><br><br>
-            🔑 <strong>Erstes Login:</strong> Das Passwort wird beim ersten Einloggen automatisch in Firebase gespeichert. Danach ist es nur noch in Firebase – nicht mehr im Code.
-          </div>
-          <h2>Neue Lernapp</h2>
-          <p class="modal-sub">Erscheint sofort für alle auf dem Lernhub.</p>
-          <div class="form-row">
-            <label>Titel *</label>
-            <input type="text" id="f-title" placeholder="z.B. Migration, Pythagoras…" />
-          </div>
-          <div class="form-row">
-            <label>Untertitel <span style="font-weight:300;text-transform:none;letter-spacing:0;">(optional, z.B. «anhand ChatGPT»)</span></label>
-            <input type="text" id="f-subtitle" placeholder="z.B. anhand ChatGPT, Zusammenfassung Müller…" />
-          </div>
-          <div class="form-row">
-            <label>Modi (was ist enthalten?)</label>
-            <div class="checkbox-group">
-              <label class="checkbox-label"><input type="checkbox" id="m-crash" checked /> Crash Course</label>
-              <label class="checkbox-label"><input type="checkbox" id="m-standard" checked /> Standard</label>
-              <label class="checkbox-label"><input type="checkbox" id="m-voll" checked /> Vollständig</label>
-              <label class="checkbox-label"><input type="checkbox" id="m-quiz" checked /> Quiz</label>
-            </div>
-          </div>
-          <div class="form-row-2">
-            <div class="form-row">
-              <label>Fach *</label>
-              <select id="f-subject">
-                <option value="gesellschaft">Gesellschaft</option>
-                <option value="mathematik">Mathematik</option>
-                <option value="französisch">Französisch</option>
-                <option value="italienisch">Italienisch</option>
-                <option value="musik">Musik</option>
-                <option value="wirtschaft">Wirtschaft</option>
-                <option value="psychologie">Psychologie</option>
-                <option value="deutsch">Deutsch</option>
-                <option value="informatik">Informatik</option>
-                <option value="anderes">Anderes</option>
-              </select>
-            </div>
-            <div class="form-row">
-              <label>Jahr</label>
-              <input type="text" id="f-year" placeholder="2026" value="2026" />
-            </div>
-          </div>
-          <div class="form-row">
-            <label>Link *</label>
-            <input type="url" id="f-link" placeholder="https://..." />
-          </div>
-          <div class="form-row">
-            <label>Datum (Anzeige)</label>
-            <input type="text" id="f-date" placeholder="z.B. März 2026" />
-          </div>
-          <div class="modal-actions">
-            <button class="btn-primary" id="btn-add-submit" onclick="addCard()">Hinzufügen</button>
-            <button class="btn-secondary" onclick="closeModal()">Abbrechen</button>
-          </div>
-          <div class="success-msg" id="success-msg">✅ Lernapp erfolgreich hinzugefügt!</div>
-          <div class="success-msg" id="error-msg" style="background:#fceef0;border-color:#f5c0c0;color:#c43b3b;">❌ Fehler beim Speichern. Bitte Firebase-Regeln prüfen.</div>
+      <!-- STATS panel -->
+      <div id="panel-stats" style="display:none;">
+        <h2>📊 Statistik</h2>
+        <p class="modal-sub">Live-Daten aus Firebase.</p>
+        <div class="admin-stats-box">
+          <div class="admin-stat-pill"><span class="asp-num" id="admin-active">–</span><span class="asp-label">🟢 Gerade aktiv</span></div>
+          <div class="admin-stat-pill"><span class="asp-num" id="admin-total-vis">–</span><span class="asp-label">👥 Besucher total</span><button class="btn-reset" onclick="resetVisitors()">Zurücksetzen</button></div>
+          <div class="admin-stat-pill"><span class="asp-num" id="admin-notif-count">–</span><span class="asp-label">🔔 Abonnenten</span></div>
         </div>
-
-        <div id="panel-delete" style="display:none;">
-          <h2>Lernapp entfernen</h2>
-          <p class="modal-sub">Wähle eine Lernapp aus und lösche sie dauerhaft.</p>
-          <div id="delete-list"></div>
-          <div class="modal-actions" style="margin-top:20px;">
-            <button class="btn-secondary" onclick="closeModal()">Schliessen</button>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:10px;">Öffnungen pro Lernapp</p>
+        <div id="admin-opens-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+        <div style="margin-top:20px;padding-top:16px;border-top:1.5px solid var(--border);">
+          <p style="font-size:.82rem;color:var(--muted);margin-bottom:10px;font-weight:500;">🔑 Passwort ändern</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <input type="password" id="new-pw-input" placeholder="Neues Passwort" style="flex:1;min-width:140px;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.86rem;background:var(--bg);color:var(--text);outline:none;">
+            <button class="btn-primary" style="flex:none;padding:8px 16px;" onclick="changeAdminPassword()">Speichern</button>
           </div>
-          <div class="success-msg" id="delete-msg">🗑️ Lernapp erfolgreich entfernt.</div>
+          <div id="pw-change-msg" class="success-msg" style="margin-top:8px;">✅ Passwort geändert.</div>
         </div>
-
-        <div id="panel-stats" style="display:none;">
-          <h2>📊 Statistik</h2>
-          <p class="modal-sub">Live-Daten aus Firebase.</p>
-          <div class="admin-stats-box">
-            <div class="admin-stat-pill">
-              <span class="asp-num" id="admin-active">–</span>
-              <span class="asp-label">🟢 Gerade aktiv</span>
-            </div>
-            <div class="admin-stat-pill">
-              <span class="asp-num" id="admin-total-vis">–</span>
-              <span class="asp-label">👥 Besucher total</span>
-              <button class="btn-reset" onclick="resetVisitors()">Zurücksetzen</button>
-            </div>
-          </div>
-          <p style="font-size:0.82rem;color:var(--muted);font-weight:400;margin-bottom:10px;">Öffnungen pro Lernapp</p>
-          <div id="admin-opens-list" style="display:flex;flex-direction:column;gap:8px;"></div>
-          <div style="margin-top:20px;padding-top:16px;border-top:1.5px solid var(--border);">
-            <p style="font-size:0.82rem;color:var(--muted);margin-bottom:10px;font-weight:500;">🔑 Admin-Passwort ändern</p>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <input type="password" id="new-pw-input" placeholder="Neues Passwort" style="flex:1;min-width:140px;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.86rem;background:var(--bg);color:var(--text);outline:none;" />
-              <button class="btn-primary" style="flex:none;padding:8px 16px;" onclick="changeAdminPassword()">Speichern</button>
-            </div>
-            <div id="pw-change-msg" class="success-msg" style="margin-top:8px;">✅ Passwort erfolgreich geändert.</div>
-          </div>
-          <div class="modal-actions" style="margin-top:16px;">
-            <button class="btn-secondary" onclick="closeModal()">Schliessen</button>
-          </div>
-        </div>
+        <div class="modal-actions" style="margin-top:16px;"><button class="btn-secondary" onclick="closeModal()">Schliessen</button></div>
       </div>
     </div>
   </div>
+</div>
 
-  <script type="module">
-    import { initializeApp }
-      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, onValue, set, get, push, onDisconnect, remove, runTransaction }
-      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+<!-- ══ FIREBASE ══ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, set, get, push, onDisconnect, remove, runTransaction }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-    const app = initializeApp({
-      apiKey: "AIzaSyCypekmx1vuhDLhX1dPQQ7OB9cV6aULT9w",
-      authDomain: "lernapp-6609b.firebaseapp.com",
-      projectId: "lernapp-6609b",
-      storageBucket: "lernapp-6609b.firebasestorage.app",
-      messagingSenderId: "274603273597",
-      appId: "1:274603273597:web:8d241c387186f298827014",
-      databaseURL: "https://lernapp-6609b-default-rtdb.europe-west1.firebasedatabase.app"
+  const app = initializeApp({
+    apiKey:"AIzaSyCypekmx1vuhDLhX1dPQQ7OB9cV6aULT9w",
+    authDomain:"lernapp-6609b.firebaseapp.com",
+    projectId:"lernapp-6609b",
+    storageBucket:"lernapp-6609b.firebasestorage.app",
+    messagingSenderId:"274603273597",
+    appId:"1:274603273597:web:8d241c387186f298827014",
+    databaseURL:"https://lernapp-6609b-default-rtdb.europe-west1.firebasedatabase.app"
+  });
+  const db = getDatabase(app);
+
+  const TAG_CLASS={gesellschaft:'tag-ges',mathematik:'tag-math',französisch:'tag-fra',italienisch:'tag-ita',musik:'tag-mus',wirtschaft:'tag-wir',psychologie:'tag-psy',deutsch:'tag-deu',informatik:'tag-inf',anderes:'tag-other'};
+  const TAG_LABEL={gesellschaft:'Gesellschaft',mathematik:'Mathematik',französisch:'Französisch',italienisch:'Italienisch',musik:'Musik',wirtschaft:'Wirtschaft',psychologie:'Psychologie',deutsch:'Deutsch',informatik:'Informatik',anderes:'Anderes'};
+
+  get(ref(db,'cards')).then(s=>{
+    if(!s.exists()) set(ref(db,'cards/card_migration'),{title:'Migration',subject:'gesellschaft',year:'2026',link:'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/migration-lerne/',date:'März 2026',order:1,opens:0,modes:['Crash Course','Standard','Vollständig','Quiz']});
+  }).catch(()=>{});
+
+  runTransaction(ref(db,'meta/totalVisitors'),c=>(c||0)+1).catch(()=>{});
+  onValue(ref(db,'meta/totalVisitors'),s=>{const e=document.getElementById('total-visitors-count');if(e)e.textContent=(s.val()||0).toLocaleString('de-CH');});
+
+  const myP=push(ref(db,'presence/hub'));
+  set(myP,true); onDisconnect(myP).remove();
+
+  onValue(ref(db,'cards'),snap=>{
+    const grid=document.getElementById('card-grid');
+    grid.innerHTML='';
+    const data=snap.val();
+    if(!data){grid.innerHTML='<div class="loading-grid">Noch keine Lernapps.</div>';return;}
+    const cards=Object.entries(data).sort((a,b)=>(a[1].order||99)-(b[1].order||99));
+    cards.forEach(([id,card],idx)=>{
+      const subj=card.subject||'anderes';
+      const modes=card.modes||['Crash Course','Standard','Vollständig','Quiz'];
+      const div=document.createElement('div');
+      div.className='card'; div.dataset.subject=subj;
+      div.innerHTML=`
+        <div class="card-top">
+          <span class="subject-tag ${TAG_CLASS[subj]||'tag-other'}">${TAG_LABEL[subj]||'Anderes'}</span>
+          <span class="card-number">#${String(idx+1).padStart(2,'0')}</span>
+        </div>
+        <h2>${card.title}</h2>
+        ${card.subtitle?`<p class="card-subtitle">${card.subtitle}</p>`:''}
+        <div class="card-meta">
+          <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>F2AB</span>
+          <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${card.year||'2026'}</span>
+          <span class="opens-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span id="oc-${id}">${(card.opens||0).toLocaleString('de-CH')}</span></span>
+        </div>
+        <div class="card-modes">${modes.map(m=>`<span class="mode-chip">${m}</span>`).join('')}</div>
+        <div class="card-footer">
+          <span class="card-date">Hinzugefügt: ${card.date||''}</span>
+          <a class="open-btn" href="${card.link}" target="_blank" data-card-id="${id}">Öffnen <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        </div>`;
+      grid.appendChild(div);
+      onValue(ref(db,`cards/${id}/opens`),s=>{const c=document.getElementById(`oc-${id}`);if(c)c.textContent=(s.val()||0).toLocaleString('de-CH');});
     });
-    const db = getDatabase(app);
+    grid.querySelectorAll('.open-btn[data-card-id]').forEach(btn=>{
+      btn.addEventListener('click',()=>runTransaction(ref(db,`cards/${btn.dataset.cardId}/opens`),c=>(c||0)+1).catch(()=>{}));
+    });
+    document.getElementById('count-total').textContent=cards.length;
+    document.getElementById('count-subjects').textContent=new Set(cards.map(([,c])=>c.subject)).size;
+    applyFilter(document.querySelector('.pill.active')?.dataset.filter||'alle');
+  });
 
-    const TAG_CLASS = { gesellschaft:'tag-ges', mathematik:'tag-math', französisch:'tag-fra', italienisch:'tag-ita', musik:'tag-mus', wirtschaft:'tag-wir', psychologie:'tag-psy', deutsch:'tag-deu', informatik:'tag-inf', anderes:'tag-other' };
-    const TAG_LABEL = { gesellschaft:'Gesellschaft', mathematik:'Mathematik', französisch:'Französisch', italienisch:'Italienisch', musik:'Musik', wirtschaft:'Wirtschaft', psychologie:'Psychologie', deutsch:'Deutsch', informatik:'Informatik', anderes:'Anderes' };
+  onValue(ref(db,'meta/notifSubs'),snap=>{
+    const el=document.getElementById('admin-notif-count');
+    if(el) el.textContent=snap.val()?Object.keys(snap.val()).length:0;
+  });
 
-    // ── SEED ─────────────────────────────────────────────────────────────────
-    get(ref(db, 'cards')).then(snap => {
+  let lastNotifTs=Date.now();
+  onValue(ref(db,'meta/lastNotif'),snap=>{
+    if(!snap.exists()) return;
+    const d=snap.val();
+    if(d.ts&&d.ts>lastNotifTs&&('Notification' in window)&&Notification.permission==='granted'){
+      lastNotifTs=d.ts;
+      new Notification(d.title||'Lernhub F2AB',{body:d.body||'',icon:'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/lernapp/icon-192.png'});
+    }
+  });
+
+  function applyFilter(f){document.querySelectorAll('#card-grid .card').forEach(c=>{c.style.display=(f==='alle'||c.dataset.subject===f)?'':'none';});}
+  document.querySelectorAll('.pill').forEach(p=>p.addEventListener('click',()=>{
+    document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+    p.classList.add('active'); applyFilter(p.dataset.filter);
+  }));
+
+  window._firebaseReady=true;
+  window._db=db; window._ref=ref; window._set=set; window._get=get; window._remove=remove; window._push=push;
+  window._TAG_LABEL=TAG_LABEL; window._cardsCache={};
+  onValue(ref(db,'cards'),s=>{ window._cardsCache=s.val()||{}; });
+  onValue(ref(db,'presence/hub'),s=>{window._activeUsers=s.val()?Object.keys(s.val()).length:0;const e=document.getElementById('admin-active');if(e)e.textContent=window._activeUsers;});
+  onValue(ref(db,'meta/totalVisitors'),s=>{window._totalVisitors=s.val()||0;const e=document.getElementById('admin-total-vis');if(e)e.textContent=(s.val()||0).toLocaleString('de-CH');});
+
+  window.resetVisitors=async()=>{if(!confirm('Besucherzähler auf 0?'))return;await set(ref(db,'meta/totalVisitors'),0).catch(e=>alert(e.message));};
+  window._saveNotifSub=async(id)=>{ await set(ref(db,`meta/notifSubs/${id}`),{ts:Date.now()}).catch(()=>{}); };
+  window._notifyAll=async(title,body)=>{ await set(ref(db,'meta/lastNotif'),{title,body,ts:Date.now()}).catch(()=>{}); };
+</script>
+
+<!-- ══ APP LOGIC ══ -->
+<script>
+  // ── PWA INSTALL ──
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (!localStorage.getItem('fab-dismissed')) {
+      document.getElementById('install-fab').classList.add('show');
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    document.getElementById('install-fab').classList.remove('show');
+    deferredPrompt = null;
+  });
+
+  window.triggerInstall = async (e) => {
+    if (e.target.id === 'fab-dismiss') return;
+    if (!deferredPrompt) {
+      alert('App-Installation nicht verfügbar.\n\nChrome/Edge: Suche das Installieren-Symbol in der Adressleiste.\nSafari iOS: Teilen → "Zum Home-Bildschirm".');
+      return;
+    }
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') document.getElementById('install-fab').classList.remove('show');
+    deferredPrompt = null;
+  };
+
+  window.dismissFab = (e) => {
+    e.stopPropagation();
+    document.getElementById('install-fab').classList.remove('show');
+    localStorage.setItem('fab-dismissed', '1');
+  };
+
+  // ── NOTIFICATIONS ──
+  function syncNotifPill() {
+    const pill = document.getElementById('notif-pill');
+    const label = document.getElementById('notif-label');
+    if (!('Notification' in window)) { pill.style.display = 'none'; return; }
+    if (Notification.permission === 'granted') {
+      pill.classList.add('granted'); pill.classList.remove('denied');
+      label.textContent = 'Aktiv ✓';
+    } else if (Notification.permission === 'denied') {
+      pill.classList.add('denied'); label.textContent = 'Blockiert';
+    } else {
+      pill.classList.remove('granted', 'denied');
+      label.textContent = 'Benachrichtigungen';
+    }
+  }
+  syncNotifPill();
+
+  window.handleNotifPill = () => {
+    if (!('Notification' in window)) { alert('Dein Browser unterstützt keine Benachrichtigungen.'); return; }
+    if (Notification.permission === 'granted') { new Notification('✅ Lernhub F2AB', { body: 'Benachrichtigungen sind bereits aktiv.' }); return; }
+    if (Notification.permission === 'denied') { alert('Benachrichtigungen sind blockiert. Bitte in den Browser-Einstellungen erlauben.'); return; }
+    document.getElementById('notif-toast').classList.add('show');
+  };
+  window.closeNotifToast = () => document.getElementById('notif-toast').classList.remove('show');
+  window.requestNotifPermission = async () => {
+    closeNotifToast();
+    const perm = await Notification.requestPermission();
+    syncNotifPill();
+    if (perm === 'granted') {
+      const subId = 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+      if (window._saveNotifSub) window._saveNotifSub(subId);
+      setTimeout(() => new Notification('🎉 Lernhub F2AB', { body: 'Super! Du wirst benachrichtigt, sobald eine neue Lernapp erscheint.', icon: 'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/lernapp/icon-192.png' }), 400);
+    }
+  };
+  if (!localStorage.getItem('notif-asked') && 'Notification' in window && Notification.permission === 'default') {
+    setTimeout(() => { document.getElementById('notif-toast').classList.add('show'); localStorage.setItem('notif-asked', '1'); }, 9000);
+  }
+
+  // ── MODES BUILDER ──
+  let customModes = [];
+
+  window.toggleMode = (btn) => {
+    btn.classList.toggle('on');
+    btn.querySelector('.check').textContent = btn.classList.contains('on') ? '✓' : '';
+  };
+
+  window.addCustomMode = () => {
+    const inp = document.getElementById('custom-mode-input');
+    const val = inp.value.trim();
+    if (!val) return;
+    if (customModes.includes(val)) { inp.value = ''; return; }
+    customModes.push(val);
+    renderCustomChips();
+    inp.value = '';
+    inp.focus();
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const inp = document.getElementById('custom-mode-input');
+    if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addCustomMode(); } });
+  });
+
+  function renderCustomChips() {
+    const list = document.getElementById('custom-chips-list');
+    list.innerHTML = '';
+    customModes.forEach((m, i) => {
+      const chip = document.createElement('span');
+      chip.className = 'custom-chip-admin';
+      chip.innerHTML = `${m}<button onclick="removeCustomMode(${i})" title="Entfernen">✕</button>`;
+      list.appendChild(chip);
+    });
+  }
+
+  window.removeCustomMode = (i) => {
+    customModes.splice(i, 1);
+    renderCustomChips();
+  };
+
+  function getSelectedModes() {
+    const defaults = [...document.querySelectorAll('.mode-toggle.on')].map(b => b.dataset.mode);
+    return [...defaults, ...customModes];
+  }
+
+  function resetModesBuilder() {
+    document.querySelectorAll('.mode-toggle').forEach(b => {
+      b.classList.add('on');
+      b.querySelector('.check').textContent = '✓';
+    });
+    customModes = [];
+    renderCustomChips();
+    const inp = document.getElementById('custom-mode-input');
+    if (inp) inp.value = '';
+  }
+
+  // ── ADMIN ──
+  async function sha256hex(text) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  window.closeModal = () => document.getElementById('modal-overlay').classList.remove('open');
+
+  function openAdminModal() {
+    document.getElementById('modal-overlay').classList.add('open');
+    document.getElementById('pw-screen').style.display = '';
+    document.getElementById('admin-form').style.display = 'none';
+    document.getElementById('pw-error').style.display = 'none';
+    document.getElementById('pw-input').value = '';
+    setTimeout(() => document.getElementById('pw-input').focus(), 80);
+  }
+  document.getElementById('admin-trigger').onclick = openAdminModal;
+  document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target.id === 'modal-overlay') closeModal(); });
+  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+
+  window.checkPassword = async () => {
+    const btn = document.querySelector('#pw-screen .btn-primary');
+    btn.textContent = '…'; btn.disabled = true;
+    try {
+      const entered = document.getElementById('pw-input').value;
+      if (!entered) return;
+      let a = 0; while (!window._firebaseReady && a < 30) { await new Promise(r => setTimeout(r, 200)); a++; }
+      if (!window._firebaseReady) { alert('Firebase nicht bereit.'); return; }
+      const hash = await sha256hex(entered);
+      let snap;
+      try { snap = await window._get(window._ref(window._db, 'meta/adminHash')); }
+      catch (e) { alert('Firebase lesen fehlgeschlagen: ' + e.message); return; }
       if (!snap.exists()) {
-        set(ref(db, 'cards/card_migration'), {
-          title:'Migration', subject:'gesellschaft', year:'2026',
-          link:'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/migration-lerne/',
-          date:'März 2026', order:1, opens:0
-        });
+        try { await window._set(window._ref(window._db, 'meta/adminHash'), hash); }
+        catch (e) { alert('Firebase schreiben fehlgeschlagen: ' + e.message); return; }
+        document.getElementById('pw-screen').style.display = 'none';
+        document.getElementById('admin-form').style.display = '';
+        switchTab('add'); return;
       }
-    }).catch(()=>{});
+      if (hash === snap.val()) {
+        document.getElementById('pw-screen').style.display = 'none';
+        document.getElementById('admin-form').style.display = '';
+        switchTab('add');
+      } else {
+        document.getElementById('pw-error').style.display = 'block';
+        document.getElementById('pw-input').value = '';
+        document.getElementById('pw-input').focus();
+      }
+    } catch (e) { alert('Fehler: ' + e.message); }
+    finally { btn.textContent = 'Einloggen'; btn.disabled = false; }
+  };
 
-    // ── VISITOR COUNTER ───────────────────────────────────────────────────────
-    runTransaction(ref(db, 'meta/totalVisitors'), cur => (cur||0)+1).catch(()=>{});
-    onValue(ref(db, 'meta/totalVisitors'), snap => {
-      const el = document.getElementById('total-visitors-count');
-      if (el) el.textContent = (snap.val()||0).toLocaleString('de-CH');
+  window.switchTab = tab => {
+    ['add', 'delete', 'stats'].forEach(t => {
+      document.getElementById('panel-' + t).style.display = tab === t ? '' : 'none';
+      document.getElementById('tab-' + t).classList.toggle('active', tab === t);
     });
-
-    // ── PRESENCE ──────────────────────────────────────────────────────────────
-    const myPresence = push(ref(db, 'presence/hub'));
-    set(myPresence, true);
-    onDisconnect(myPresence).remove();
-
-    // ── CARDS ─────────────────────────────────────────────────────────────────
-    onValue(ref(db, 'cards'), snap => {
-      const grid = document.getElementById('card-grid');
-      grid.innerHTML = '';
-      const data = snap.val();
-      if (!data) { grid.innerHTML = '<div class="loading-grid">Noch keine Lernapps.</div>'; return; }
-      const cards = Object.entries(data).sort((a,b)=>(a[1].order||99)-(b[1].order||99));
-      cards.forEach(([id, card], idx) => {
-        const subj  = card.subject||'anderes';
-        const num   = String(idx+1).padStart(2,'0');
-        const opens = card.opens||0;
-        const div   = document.createElement('div');
-        div.className = 'card';
-        div.dataset.subject = subj;
-        div.innerHTML = `
-          <div class="card-top">
-            <span class="subject-tag ${TAG_CLASS[subj]||'tag-other'}">${TAG_LABEL[subj]||'Anderes'}</span>
-            <span class="card-number">#${num}</span>
-          </div>
-          <h2>${card.title}</h2>
-          ${card.subtitle ? `<p class="card-subtitle">${card.subtitle}</p>` : ''}
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>F2AB
-            </span>
-            <span class="meta-item">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${card.year||'2026'}
-            </span>
-            <span class="opens-badge" title="Mal geöffnet">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span id="oc-${id}">${opens.toLocaleString('de-CH')}</span>
-            </span>
-          </div>
-          <div class="card-modes">
-            ${(card.modes||['Crash Course','Standard','Vollständig','Quiz']).map(m=>`<span class="mode-chip">${m}</span>`).join('')}
-          </div>
-          <div class="card-footer">
-            <span class="card-date">Hinzugefügt: ${card.date||''}</span>
-            <a class="open-btn" href="${card.link}" target="_blank" data-card-id="${id}">
-              Öffnen
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </a>
-          </div>`;
-        grid.appendChild(div);
-        onValue(ref(db, `cards/${id}/opens`), s => {
-          const c = document.getElementById(`oc-${id}`);
-          if (c) c.textContent = (s.val()||0).toLocaleString('de-CH');
-        });
-      });
-      grid.querySelectorAll('.open-btn[data-card-id]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          runTransaction(ref(db, `cards/${btn.dataset.cardId}/opens`), cur=>(cur||0)+1).catch(()=>{});
-        });
-      });
-      document.getElementById('count-total').textContent    = cards.length;
-      document.getElementById('count-subjects').textContent = new Set(cards.map(([,c])=>c.subject)).size;
-      applyFilter(document.querySelector('.pill.active')?.dataset.filter||'alle');
-    });
-
-    function applyFilter(f) {
-      document.querySelectorAll('#card-grid .card').forEach(c => {
-        c.style.display = (f==='alle'||c.dataset.subject===f)?'':'none';
+    if (tab === 'delete') {
+      const list = document.getElementById('delete-list');
+      list.innerHTML = '';
+      const cards = Object.entries(window._cardsCache || {}).sort((a, b) => (a[1].order || 99) - (b[1].order || 99));
+      if (!cards.length) { list.innerHTML = '<p style="font-size:.85rem;color:var(--muted);padding:12px 0;">Keine Lernapps.</p>'; return; }
+      cards.forEach(([id, card]) => {
+        const item = document.createElement('div');
+        item.className = 'delete-item';
+        item.innerHTML = `<div><div class="delete-item-title">${card.title}</div><div class="delete-item-sub">${(window._TAG_LABEL || {})[card.subject] || 'Anderes'} · ${card.year || '2026'}</div></div><button class="btn-delete" onclick="deleteCard('${id}',this)">Löschen</button>`;
+        list.appendChild(item);
       });
     }
-    document.querySelectorAll('.pill').forEach(p => p.addEventListener('click', ()=>{
-      document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
-      p.classList.add('active');
-      applyFilter(p.dataset.filter);
-    }));
-
-    // ── EXPOSE for admin ──────────────────────────────────────────────────────
-    window._firebaseReady = true;
-    window._db     = db;
-    window._ref    = ref;
-    window._set    = set;
-    window._get    = get;
-    window._remove = remove;
-    window._TAG_LABEL = TAG_LABEL;
-    window._cardsCache = {};
-    onValue(ref(db, 'cards'), snap => { window._cardsCache = snap.val()||{}; });
-
-    onValue(ref(db, 'presence/hub'), snap => {
-      window._activeUsers = snap.val() ? Object.keys(snap.val()).length : 0;
-      const el = document.getElementById('admin-active');
-      if (el) el.textContent = window._activeUsers;
-    });
-    onValue(ref(db, 'meta/totalVisitors'), snap => {
-      window._totalVisitors = snap.val()||0;
-      const el = document.getElementById('admin-total-vis');
-      if (el) el.textContent = (snap.val()||0).toLocaleString('de-CH');
-    });
-
-    window.resetVisitors = async function() {
-      if (!confirm('Besucherzähler wirklich auf 0 zurücksetzen?')) return;
-      await set(ref(db, 'meta/totalVisitors'), 0).catch(e=>alert('Fehler: '+e.message));
-    };
-  </script>
-
-  <script>
-    // ── ADMIN — password hash lives in Firebase only, nothing secret here ──
-
-    async function sha256hex(text) {
-      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-    }
-
-    window.closeModal = function() {
-      document.getElementById('modal-overlay').classList.remove('open');
-    };
-
-    function openAdminModal() {
-      document.getElementById('modal-overlay').classList.add('open');
-      document.getElementById('pw-screen').style.display  = '';
-      document.getElementById('admin-form').style.display = 'none';
-      document.getElementById('pw-error').style.display   = 'none';
-      document.getElementById('pw-input').value           = '';
-      setTimeout(() => document.getElementById('pw-input').focus(), 80);
-    }
-
-    // Wire up after DOM is ready — script is at end of body so DOM exists
-    document.getElementById('admin-trigger').onclick = openAdminModal;
-
-    document.getElementById('modal-overlay').addEventListener('click', e => {
-      if (e.target.id === 'modal-overlay') closeModal();
-    });
-    document.getElementById('pw-input').addEventListener('keydown', e => {
-      if (e.key === 'Enter') checkPassword();
-    });
-
-    window.checkPassword = async function() {
-      const btn = document.querySelector('#pw-screen .btn-primary');
-      btn.textContent = '…'; btn.disabled = true;
-      try {
-        const entered = document.getElementById('pw-input').value;
-        if (!entered) return;
-
-        // Wait for Firebase to be ready
-        let attempts = 0;
-        while (!window._firebaseReady && attempts < 30) {
-          await new Promise(r => setTimeout(r, 200)); attempts++;
-        }
-        if (!window._firebaseReady) { alert('Firebase nicht bereit – Seite neu laden.'); return; }
-
-        const enteredHash = await sha256hex(entered);
-
-        // Fetch stored hash from Firebase
-        let snap;
-        try {
-          snap = await window._get(window._ref(window._db, 'meta/adminHash'));
-        } catch(fetchErr) {
-          alert('Firebase lesen fehlgeschlagen: ' + fetchErr.message + '\n\nFirebase-Regeln auf ".read": true setzen!');
-          return;
-        }
-
-        if (!snap.exists()) {
-          // First-time setup: store hash and grant access
-          try {
-            await window._set(window._ref(window._db, 'meta/adminHash'), enteredHash);
-          } catch(writeErr) {
-            alert('Firebase schreiben fehlgeschlagen: ' + writeErr.message + '\n\nFirebase-Regeln auf ".write": true setzen!');
-            return;
-          }
-          document.getElementById('pw-screen').style.display  = 'none';
-          document.getElementById('admin-form').style.display = '';
-          switchTab('add');
-          return;
-        }
-
-        const storedHash = snap.val();
-        if (enteredHash === storedHash) {
-          document.getElementById('pw-screen').style.display  = 'none';
-          document.getElementById('admin-form').style.display = '';
-          switchTab('add');
-        } else {
-          document.getElementById('pw-error').style.display = 'block';
-          document.getElementById('pw-input').value = '';
-          document.getElementById('pw-input').focus();
-        }
-      } catch(e) {
-        alert('Unbekannter Fehler: ' + e.message);
-      } finally {
-        btn.textContent = 'Einloggen'; btn.disabled = false;
-      }
-    };
-
-    window.switchTab = function(tab) {
-      ['add','delete','stats'].forEach(t => {
-        document.getElementById('panel-'+t).style.display = tab===t ? '' : 'none';
-        document.getElementById('tab-'+t).classList.toggle('active', tab===t);
+    if (tab === 'stats') {
+      const ae = document.getElementById('admin-active'); if (ae) ae.textContent = window._activeUsers ?? '–';
+      const ve = document.getElementById('admin-total-vis'); if (ve) ve.textContent = window._totalVisitors != null ? window._totalVisitors.toLocaleString('de-CH') : '–';
+      const ol = document.getElementById('admin-opens-list'); ol.innerHTML = '';
+      const cards = Object.entries(window._cardsCache || {}).sort((a, b) => (b[1].opens || 0) - (a[1].opens || 0));
+      if (!cards.length) { ol.innerHTML = '<p style="font-size:.82rem;color:var(--muted);">Keine Lernapps.</p>'; return; }
+      cards.forEach(([id, card]) => {
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;';
+        row.innerHTML = `<span style="font-size:.84rem;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${card.title}</span><span style="font-size:.82rem;color:var(--muted);white-space:nowrap;" id="aoc-${id}">${(card.opens || 0).toLocaleString('de-CH')}</span><button class="btn-reset" onclick="resetCardOpens('${id}',this)">Reset</button>`;
+        ol.appendChild(row);
       });
+    }
+  };
 
-      if (tab==='delete') {
-        const list  = document.getElementById('delete-list');
-        list.innerHTML = '';
-        const cards = Object.entries(window._cardsCache||{}).sort((a,b)=>(a[1].order||99)-(b[1].order||99));
-        if (!cards.length) { list.innerHTML='<p style="font-size:0.85rem;color:var(--muted);padding:12px 0;">Keine Lernapps vorhanden.</p>'; return; }
-        cards.forEach(([id,card])=>{
-          const item = document.createElement('div');
-          item.className = 'delete-item';
-          item.innerHTML = `
-            <div>
-              <div class="delete-item-title">${card.title}</div>
-              <div class="delete-item-sub">${(window._TAG_LABEL||{})[card.subject]||'Anderes'} · ${card.year||'2026'}</div>
-            </div>
-            <button class="btn-delete" onclick="deleteCard('${id}',this)">Löschen</button>`;
-          list.appendChild(item);
-        });
+  window.resetCardOpens = async (id, btn) => {
+    if (!confirm('Öffnungen auf 0?')) return;
+    btn.textContent = '…'; btn.disabled = true;
+    try {
+      await window._set(window._ref(window._db, `cards/${id}/opens`), 0);
+      [document.getElementById(`aoc-${id}`), document.getElementById(`oc-${id}`)].forEach(e => { if (e) e.textContent = '0'; });
+    } catch (e) { alert(e.message); }
+    finally { btn.textContent = 'Reset'; btn.disabled = false; }
+  };
+
+  window.deleteCard = async (id, btn) => {
+    if (!confirm('Sicher löschen?')) return;
+    btn.textContent = '…'; btn.disabled = true;
+    try {
+      await window._remove(window._ref(window._db, `cards/${id}`));
+      btn.closest('.delete-item').remove();
+      const m = document.getElementById('delete-msg'); m.style.display = 'block';
+      setTimeout(() => { m.style.display = 'none'; }, 3000);
+    } catch (e) { btn.textContent = 'Löschen'; btn.disabled = false; alert(e.message); }
+  };
+
+  window.changeAdminPassword = async () => {
+    const inp = document.getElementById('new-pw-input');
+    const pw = inp.value.trim();
+    if (!pw || pw.length < 6) { alert('Mindestens 6 Zeichen.'); return; }
+    try {
+      await window._set(window._ref(window._db, 'meta/adminHash'), await sha256hex(pw));
+      inp.value = '';
+      const m = document.getElementById('pw-change-msg'); m.style.display = 'block';
+      setTimeout(() => { m.style.display = 'none'; }, 3000);
+    } catch (e) { alert(e.message); }
+  };
+
+  window.addCard = async () => {
+    const title = document.getElementById('f-title').value.trim();
+    const subtitle = document.getElementById('f-subtitle').value.trim();
+    const subject = document.getElementById('f-subject').value;
+    const year = document.getElementById('f-year').value.trim() || '2026';
+    const link = document.getElementById('f-link').value.trim();
+    const date = document.getElementById('f-date').value.trim();
+    const doNotify = document.getElementById('f-notify').checked;
+    const modes = getSelectedModes();
+    if (!title || !link) { alert('Titel und Link sind Pflichtfelder!'); return; }
+    if (!modes.length) { alert('Mindestens ein Chip muss ausgewählt oder hinzugefügt sein.'); return; }
+    let a = 0; while (!window._firebaseReady && a < 30) { await new Promise(r => setTimeout(r, 200)); a++; }
+    if (!window._firebaseReady) { alert('Firebase nicht bereit.'); return; }
+    const btn = document.getElementById('btn-add-submit'); btn.textContent = '…'; btn.disabled = true;
+    try {
+      const snap = await window._get(window._ref(window._db, 'cards'));
+      const count = snap.exists() ? Object.keys(snap.val()).length : 0;
+      const newId = 'card_' + Date.now();
+      const dateStr = date || new Date().toLocaleDateString('de-CH', { month: 'long', year: 'numeric' });
+      const cardData = { title, subject, year, link, date: dateStr, order: count + 1, opens: 0, modes };
+      if (subtitle) cardData.subtitle = subtitle;
+      await window._set(window._ref(window._db, `cards/${newId}`), cardData);
+      if (doNotify && window._notifyAll) {
+        await window._notifyAll(`📚 Neue Lernapp: ${title}`, `Eine neue ${(window._TAG_LABEL || {})[subject] || ''}-App ist jetzt im Lernhub verfügbar!`);
       }
-
-      if (tab==='stats') {
-        const ae = document.getElementById('admin-active');
-        if (ae) ae.textContent = window._activeUsers!=null ? window._activeUsers : '–';
-        const ve = document.getElementById('admin-total-vis');
-        if (ve) ve.textContent = window._totalVisitors!=null ? window._totalVisitors.toLocaleString('de-CH') : '–';
-        const ol = document.getElementById('admin-opens-list');
-        ol.innerHTML = '';
-        const cards = Object.entries(window._cardsCache||{}).sort((a,b)=>(b[1].opens||0)-(a[1].opens||0));
-        if (!cards.length) { ol.innerHTML='<p style="font-size:0.82rem;color:var(--muted);">Keine Lernapps.</p>'; return; }
-        cards.forEach(([id,card])=>{
-          const row = document.createElement('div');
-          row.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;';
-          row.innerHTML=`
-            <span style="font-size:0.84rem;font-weight:500;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${card.title}</span>
-            <span style="font-size:0.82rem;color:var(--muted);white-space:nowrap;">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span id="aoc-${id}">${(card.opens||0).toLocaleString('de-CH')}</span>
-            </span>
-            <button class="btn-reset" onclick="resetCardOpens('${id}',this)">Reset</button>`;
-          ol.appendChild(row);
-        });
-      }
-    };
-
-    window.resetCardOpens = async function(id, btn) {
-      if (!confirm('Öffnungen für diese Lernapp auf 0 zurücksetzen?')) return;
-      btn.textContent='…'; btn.disabled=true;
-      try {
-        await window._set(window._ref(window._db,`cards/${id}/opens`),0);
-        const el=document.getElementById(`aoc-${id}`); if(el) el.textContent='0';
-        const oc=document.getElementById(`oc-${id}`);  if(oc) oc.textContent='0';
-      } catch(e){ alert('Fehler: '+e.message); }
-      finally { btn.textContent='Reset'; btn.disabled=false; }
-    };
-
-    window.deleteCard = async function(id, btn) {
-      if (!confirm('Sicher? Diese Lernapp wird dauerhaft gelöscht.')) return;
-      btn.textContent='…'; btn.disabled=true;
-      try {
-        await window._remove(window._ref(window._db,`cards/${id}`));
-        btn.closest('.delete-item').remove();
-        const msg=document.getElementById('delete-msg');
-        msg.style.display='block';
-        setTimeout(()=>{ msg.style.display='none'; },3000);
-      } catch(e){
-        btn.textContent='Löschen'; btn.disabled=false;
-        alert('Fehler: '+e.message+'\n\nFirebase-Regeln auf ".write": true setzen.');
-      }
-    };
-
-    window.changeAdminPassword = async function() {
-      const input = document.getElementById('new-pw-input');
-      const pw = input.value.trim();
-      if (!pw) { alert('Bitte ein neues Passwort eingeben.'); return; }
-      if (pw.length < 6) { alert('Mindestens 6 Zeichen.'); return; }
-      try {
-        const hash = await sha256hex(pw);
-        await window._set(window._ref(window._db, 'meta/adminHash'), hash);
-        input.value = '';
-        const msg = document.getElementById('pw-change-msg');
-        msg.style.display = 'block';
-        setTimeout(() => { msg.style.display = 'none'; }, 3000);
-      } catch(e) { alert('Fehler: ' + e.message); }
-    };
-
-    window.addCard = async function() {
-      const title    = document.getElementById('f-title').value.trim();
-      const subtitle = document.getElementById('f-subtitle').value.trim();
-      const subject  = document.getElementById('f-subject').value;
-      const year     = document.getElementById('f-year').value.trim()||'2026';
-      const link     = document.getElementById('f-link').value.trim();
-      const date     = document.getElementById('f-date').value.trim();
-      const modes    = [];
-      if (document.getElementById('m-crash').checked)    modes.push('Crash Course');
-      if (document.getElementById('m-standard').checked) modes.push('Standard');
-      if (document.getElementById('m-voll').checked)     modes.push('Vollständig');
-      if (document.getElementById('m-quiz').checked)     modes.push('Quiz');
-      if (!title||!link) { alert('Titel und Link sind Pflichtfelder!'); return; }
-      let attempts=0;
-      while (!window._firebaseReady&&attempts<30) { await new Promise(r=>setTimeout(r,200)); attempts++; }
-      if (!window._firebaseReady) { alert('Firebase nicht bereit. Seite neu laden.'); return; }
-      const btn=document.getElementById('btn-add-submit');
-      btn.textContent='…'; btn.disabled=true;
-      try {
-        const snap    = await window._get(window._ref(window._db,'cards'));
-        const count   = snap.exists()?Object.keys(snap.val()).length:0;
-        const newId   = 'card_'+Date.now();
-        const dateStr = date||new Date().toLocaleDateString('de-CH',{month:'long',year:'numeric'});
-        const cardData = {title,subject,year,link,date:dateStr,order:count+1,opens:0,modes};
-        if (subtitle) cardData.subtitle = subtitle;
-        await window._set(window._ref(window._db,`cards/${newId}`),cardData);
-        document.getElementById('success-msg').style.display='block';
-        document.getElementById('error-msg').style.display='none';
-        document.getElementById('f-title').value='';
-        document.getElementById('f-subtitle').value='';
-        document.getElementById('f-link').value='';
-        document.getElementById('f-date').value='';
-        document.getElementById('f-year').value='2026';
-        ['m-crash','m-standard','m-voll','m-quiz'].forEach(id=>{ document.getElementById(id).checked=true; });
-        setTimeout(()=>{ document.getElementById('success-msg').style.display='none'; },4000);
-      } catch(e){
-        document.getElementById('error-msg').style.display='block';
-        console.error('addCard error:',e);
-      } finally { btn.textContent='Hinzufügen'; btn.disabled=false; }
-    };
-  </script>
+      document.getElementById('success-msg').style.display = 'block';
+      document.getElementById('error-msg').style.display = 'none';
+      ['f-title', 'f-subtitle', 'f-link', 'f-date'].forEach(id => { document.getElementById(id).value = ''; });
+      document.getElementById('f-year').value = '2026';
+      document.getElementById('f-notify').checked = true;
+      resetModesBuilder();
+      setTimeout(() => { document.getElementById('success-msg').style.display = 'none'; }, 4000);
+    } catch (e) {
+      document.getElementById('error-msg').style.display = 'block';
+      console.error(e);
+    } finally { btn.textContent = 'Hinzufügen'; btn.disabled = false; }
+  };
+</script>
 
 </body>
 </html>
