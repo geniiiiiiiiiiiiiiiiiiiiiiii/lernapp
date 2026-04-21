@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,45 +29,71 @@
       --psy:  #9e3b7c; --psy-bg:  #fbeef6;
       --deu:  #6b7c3b; --deu-bg:  #f3f6ee;
       --inf:  #3b6b9e; --inf-bg:  #eef3fc;
+      --eng:  #b85c20; --eng-bg:  #fef3ec;
       --other:#5e7a8a; --other-bg:#eef3f6;
+    }
+    [data-theme="dark"] {
+      --bg:      #181715;
+      --surface: #232220;
+      --border:  #35332e;
+      --text:    #ede9e1;
+      --muted:   #7a7670;
+      --shadow:    0 2px 12px rgba(0,0,0,0.28);
+      --shadow-h:  0 6px 28px rgba(0,0,0,0.42);
+      --ges-bg:  #2e1f0e; --math-bg: #0e2318; --fra-bg:  #2a0f19;
+      --ita-bg:  #0e231a; --mus-bg:  #1c1430; --wir-bg:  #0e2030;
+      --psy-bg:  #28102a; --deu-bg:  #191f0e; --inf-bg:  #0e1a2e;
+      --eng-bg:  #2e1808; --other-bg:#121c22;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
-    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .25s,color .25s;}
 
     header{padding:52px 48px 0;max-width:1100px;margin:0 auto;}
     .header-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;}
-
-    /* ── LA Logo ── */
     .logo-area{display:flex;align-items:center;gap:14px;}
-    .la-icon{
-      flex-shrink:0;width:52px;height:52px;
-      background:var(--text);border-radius:14px;
-      display:flex;align-items:center;justify-content:center;
-      position:relative;
-      box-shadow:0 2px 10px rgba(44,42,38,.20);
-      overflow:hidden;
-    }
-    .la-icon::after{
-      content:'';position:absolute;inset:0;
-      background:linear-gradient(135deg,rgba(255,255,255,.10) 0%,transparent 65%);
-      border-radius:14px;pointer-events:none;
-    }
+    .la-icon{flex-shrink:0;width:52px;height:52px;background:var(--text);border-radius:14px;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 2px 10px rgba(44,42,38,.20);overflow:hidden;}
+    .la-icon::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.10) 0%,transparent 65%);border-radius:14px;pointer-events:none;}
     .logo-text h1{font-family:'Lora',serif;font-size:2.4rem;font-weight:600;letter-spacing:-0.5px;line-height:1.15;}
     .logo-text h1 span{font-style:italic;color:var(--muted);}
     .logo-text h1 a{text-decoration:none;color:inherit;transition:opacity .18s;}
     .logo-text h1 a:hover{opacity:.7;}
     .logo-text p{margin-top:8px;font-size:.95rem;color:var(--muted);font-weight:300;}
-
     .header-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
-    .badge{background:var(--text);color:var(--bg);font-size:.75rem;font-weight:600;padding:5px 12px;border-radius:20px;letter-spacing:.6px;text-transform:uppercase;}
+    .badge{background:var(--text);color:var(--bg);font-size:.75rem;font-weight:600;padding:5px 12px;border-radius:20px;letter-spacing:.6px;text-transform:uppercase;transition:background .25s,color .25s;}
     .total-visitors{display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);}
     .total-visitors span{font-weight:600;color:var(--text);font-family:'Lora',serif;}
-    .header-pills{display:flex;gap:7px;margin-top:4px;flex-wrap:wrap;justify-content:flex-end;}
+    .header-pills{display:flex;gap:7px;margin-top:4px;flex-wrap:wrap;justify-content:flex-end;align-items:center;}
     .hpill{display:inline-flex;align-items:center;gap:6px;font-size:.77rem;font-weight:500;padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .18s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
     .hpill:hover{border-color:var(--text);color:var(--text);}
     .hpill.granted{background:var(--text);border-color:var(--text);color:var(--bg);}
     .hpill.denied{opacity:.45;cursor:not-allowed;}
+
+    /* ── Dark/Light Toggle ── */
+    .theme-toggle{
+      display:inline-flex;align-items:center;gap:7px;
+      font-size:.77rem;font-weight:500;padding:5px 5px 5px 11px;
+      border-radius:20px;border:1.5px solid var(--border);
+      background:var(--surface);color:var(--muted);
+      cursor:pointer;transition:all .18s;
+      font-family:'DM Sans',sans-serif;white-space:nowrap;
+      user-select:none;line-height:1;
+    }
+    .theme-toggle:hover{border-color:var(--text);color:var(--text);}
+    .toggle-track{
+      width:30px;height:17px;border-radius:9px;
+      background:var(--border);position:relative;
+      transition:background .22s;flex-shrink:0;
+    }
+    [data-theme="dark"] .toggle-track{background:#6b6760;}
+    .toggle-thumb{
+      position:absolute;top:2.5px;left:2.5px;
+      width:12px;height:12px;border-radius:50%;
+      background:var(--surface);
+      transition:transform .22s,background .22s;
+      box-shadow:0 1px 4px rgba(0,0,0,.22);
+    }
+    [data-theme="dark"] .toggle-thumb{transform:translateX(13px);}
 
     .divider{max-width:1100px;margin:32px auto 0;padding:0 48px;}
     .divider hr{border:none;border-top:1.5px solid var(--border);}
@@ -83,7 +109,7 @@
     .grid-section{max-width:1100px;margin:36px auto 40px;padding:0 48px;}
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;}
     .loading-grid{grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-size:.9rem;}
-    .card{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:26px 24px 22px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;}
+    .card{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:26px 24px 22px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s,background .25s,border-color .25s;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;}
     .card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;}
     .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-h);}
     .card[data-subject="gesellschaft"]::before{background:var(--ges);}
@@ -95,6 +121,7 @@
     .card[data-subject="psychologie"]::before{background:var(--psy);}
     .card[data-subject="deutsch"]::before{background:var(--deu);}
     .card[data-subject="informatik"]::before{background:var(--inf);}
+    .card[data-subject="englisch"]::before{background:var(--eng);}
     .card[data-subject="anderes"]::before{background:var(--other);}
     .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
     .subject-tag{font-size:.72rem;font-weight:600;padding:4px 11px;border-radius:12px;text-transform:uppercase;letter-spacing:.5px;}
@@ -107,6 +134,7 @@
     .tag-psy{background:var(--psy-bg);color:var(--psy);}
     .tag-deu{background:var(--deu-bg);color:var(--deu);}
     .tag-inf{background:var(--inf-bg);color:var(--inf);}
+    .tag-eng{background:var(--eng-bg);color:var(--eng);}
     .tag-other{background:var(--other-bg);color:var(--other);}
     .card-number{font-size:.72rem;color:var(--muted);font-weight:400;padding-top:2px;}
     .card h2{font-family:'Lora',serif;font-size:1.15rem;font-weight:600;line-height:1.3;}
@@ -122,12 +150,13 @@
     .card-date{font-size:.75rem;color:var(--muted);font-weight:300;}
     .request-bar{max-width:1100px;margin:0 auto 20px;padding:0 48px;}
     .request-inner{display:flex;align-items:flex-start;gap:14px;background:#f0f7ff;border:1.5px solid #cde0f5;border-radius:12px;padding:14px 18px;}
+    [data-theme="dark"] .request-inner{background:#0e1f2e;border-color:#1a3550;}
     .request-icon{flex-shrink:0;width:34px;height:34px;background:#3b82c4;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;margin-top:1px;}
     .request-text strong{font-size:.88rem;font-weight:600;color:var(--text);display:block;margin-bottom:3px;}
     .request-text p{font-size:.8rem;color:var(--muted);line-height:1.55;font-weight:300;}
     .req-highlight{font-weight:500;color:#3b82c4;}
     .disclaimer-bar{max-width:1100px;margin:0 auto 32px;padding:0 48px;}
-    .disclaimer-inner{display:flex;align-items:flex-start;gap:12px;background:#fdfbf7;border:1.5px solid #e8e2d5;border-radius:12px;padding:14px 18px;}
+    .disclaimer-inner{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px 18px;}
     .disclaimer-inner svg{flex-shrink:0;color:var(--muted);margin-top:1px;}
     .disclaimer-inner p{font-size:.8rem;color:var(--muted);line-height:1.55;font-weight:300;}
     .disclaimer-inner p strong{color:var(--text);font-weight:600;}
@@ -135,34 +164,14 @@
     footer p{font-size:.8rem;color:var(--muted);font-weight:300;}
     footer strong{font-weight:600;color:var(--text);}
 
-    /* ── Floating Install FAB ── */
-    #install-fab{
-      position:fixed;bottom:24px;right:24px;z-index:150;
-      display:none;align-items:center;gap:9px;
-      background:var(--text);color:var(--bg);
-      border:none;border-radius:14px;
-      padding:13px 14px 13px 18px;
-      font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:600;
-      cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,0.28);
-      transition:opacity .2s,transform .2s;
-    }
+    #install-fab{position:fixed;bottom:24px;right:24px;z-index:150;display:none;align-items:center;gap:9px;background:var(--text);color:var(--bg);border:none;border-radius:14px;padding:13px 14px 13px 18px;font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:600;cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,0.28);transition:opacity .2s,transform .2s;}
     #install-fab.show{display:inline-flex;animation:fabIn .4s cubic-bezier(.16,1,.3,1);}
     @keyframes fabIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
     #install-fab:hover{opacity:.88;transform:translateY(-2px);}
-    #fab-dismiss{
-      background:rgba(255,255,255,.18);border:none;color:var(--bg);
-      cursor:pointer;font-size:.72rem;padding:4px 7px;border-radius:7px;
-      line-height:1;margin-left:2px;transition:background .15s;font-family:'DM Sans',sans-serif;
-    }
+    #fab-dismiss{background:rgba(255,255,255,.18);border:none;color:var(--bg);cursor:pointer;font-size:.72rem;padding:4px 7px;border-radius:7px;line-height:1;margin-left:2px;transition:background .15s;font-family:'DM Sans',sans-serif;}
     #fab-dismiss:hover{background:rgba(255,255,255,.35);}
 
-    /* ── iOS install banner ── */
-    #ios-install-banner{
-      position:fixed;bottom:0;left:0;right:0;z-index:200;
-      background:var(--surface);border-top:1.5px solid var(--border);
-      padding:18px 24px 32px;box-shadow:0 -6px 28px rgba(0,0,0,.12);
-      display:none;
-    }
+    #ios-install-banner{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--surface);border-top:1.5px solid var(--border);padding:18px 24px 32px;box-shadow:0 -6px 28px rgba(0,0,0,.12);display:none;}
     #ios-install-banner.show{display:block;animation:slideUp .35s cubic-bezier(.16,1,.3,1);}
     @keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
     .iib-head{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
@@ -173,7 +182,6 @@
     .iib-steps{font-size:.82rem;color:var(--muted);line-height:1.7;}
     .iib-steps strong{color:var(--text);}
 
-    /* ── Notification Toast ── */
     #notif-toast{position:fixed;top:20px;right:20px;z-index:300;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.13);padding:16px 18px;max-width:310px;display:none;animation:slideRight .35s cubic-bezier(.16,1,.3,1);}
     #notif-toast.show{display:block;}
     @keyframes slideRight{from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:translateX(0);}}
@@ -189,18 +197,9 @@
     .nt-later{background:none;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--muted);cursor:pointer;transition:all .18s;}
     .nt-later:hover{border-color:var(--text);color:var(--text);}
 
-    /* ── Admin — bottom-RIGHT ── */
-    #admin-trigger{
-      position:fixed;bottom:22px;right:22px;
-      width:38px;height:38px;
-      background:var(--surface);border:1.5px solid var(--border);border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:var(--shadow);z-index:100;cursor:pointer;
-      opacity:.22;transition:opacity .2s,bottom .25s;outline:none;
-    }
+    #admin-trigger{position:fixed;bottom:22px;right:22px;width:38px;height:38px;background:var(--surface);border:1.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);z-index:100;cursor:pointer;opacity:.22;transition:opacity .2s,bottom .25s;outline:none;}
     #admin-trigger:hover{opacity:1;}
     #admin-trigger.fab-up{bottom:76px;}
-
     .admin-stats-box{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
     .admin-stat-pill{flex:1;min-width:110px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:3px;}
     .admin-stat-pill .asp-num{font-family:'Lora',serif;font-size:1.4rem;font-weight:600;line-height:1;}
@@ -270,24 +269,17 @@
 <header>
   <div class="header-top">
     <div class="logo-area">
-      <!-- LA Icon: open book with initials -->
       <div class="la-icon" aria-hidden="true">
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- book left page -->
           <path d="M3 7.5 C3 7.5 9 6 15 7.5 L15 23.5 C9 22 3 23.5 3 23.5 Z" fill="rgba(255,255,255,0.13)" stroke="rgba(255,255,255,0.6)" stroke-width="1.1" stroke-linejoin="round"/>
-          <!-- book right page -->
           <path d="M27 7.5 C27 7.5 21 6 15 7.5 L15 23.5 C21 22 27 23.5 27 23.5 Z" fill="rgba(255,255,255,0.13)" stroke="rgba(255,255,255,0.6)" stroke-width="1.1" stroke-linejoin="round"/>
-          <!-- spine line -->
           <line x1="15" y1="7.5" x2="15" y2="23.5" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
-          <!-- text lines left page -->
           <line x1="6" y1="12" x2="12" y2="11.2" stroke="rgba(255,255,255,0.38)" stroke-width="0.9" stroke-linecap="round"/>
           <line x1="6" y1="14.5" x2="12" y2="13.8" stroke="rgba(255,255,255,0.38)" stroke-width="0.9" stroke-linecap="round"/>
           <line x1="6" y1="17" x2="10" y2="16.5" stroke="rgba(255,255,255,0.38)" stroke-width="0.9" stroke-linecap="round"/>
-          <!-- text lines right page -->
           <line x1="18" y1="11.2" x2="24" y2="12" stroke="rgba(255,255,255,0.38)" stroke-width="0.9" stroke-linecap="round"/>
           <line x1="18" y1="13.8" x2="24" y2="14.5" stroke="rgba(255,255,255,0.38)" stroke-width="0.9" stroke-linecap="round"/>
           <line x1="18" y1="16.5" x2="22" y2="17" stroke="rgba(255,255,255,0.38)" stroke-width="0.9" stroke-linecap="round"/>
-          <!-- LA text badge at top center -->
           <rect x="9.5" y="1.5" width="11" height="7" rx="2" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.5)" stroke-width="0.8"/>
           <text x="15" y="7.2" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="5" font-weight="700" fill="rgba(255,255,255,0.97)" letter-spacing="0.3">LA</text>
         </svg>
@@ -304,10 +296,15 @@
         <span id="total-visitors-count">–</span>&nbsp;Besucher insgesamt
       </div>
       <div class="header-pills">
+        <!-- Dark / Light toggle -->
+        <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Dark/Light Mode wechseln">
+          <span id="theme-icon">🌙</span>
+          <span id="theme-label">Dark</span>
+          <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        </button>
         <button class="hpill" id="notif-pill" onclick="handleNotifPill()">
           🔔 <span id="notif-label">Benachrichtigungen</span>
         </button>
-        <!-- Install pill — shown when install is available -->
         <button class="hpill" id="install-pill" onclick="handleInstallPill()" style="display:none;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           <span>App installieren</span>
@@ -331,6 +328,7 @@
   <button class="pill" data-filter="mathematik">Mathematik</button>
   <button class="pill" data-filter="französisch">Französisch</button>
   <button class="pill" data-filter="italienisch">Italienisch</button>
+  <button class="pill" data-filter="englisch">Englisch</button>
   <button class="pill" data-filter="musik">Musik</button>
   <button class="pill" data-filter="wirtschaft">Wirtschaft</button>
   <button class="pill" data-filter="psychologie">Psychologie</button>
@@ -364,14 +362,12 @@
 
 <footer><p>Lernhub · <strong>F2AB</strong> · Alle Lernapps</p></footer>
 
-<!-- ── Floating Install FAB (Chrome/Edge/Android) ── -->
 <button id="install-fab" onclick="triggerInstall(event)">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
   App installieren
   <button id="fab-dismiss" onclick="dismissFab(event)">✕</button>
 </button>
 
-<!-- ── iOS install banner ── -->
 <div id="ios-install-banner">
   <div class="iib-head">
     <div class="iib-logo">
@@ -393,7 +389,6 @@
   </p>
 </div>
 
-<!-- ── Notification Toast ── -->
 <div id="notif-toast">
   <div class="nt-head">
     <div class="nt-bell">🔔</div>
@@ -407,12 +402,10 @@
   </div>
 </div>
 
-<!-- Admin trigger — bottom-RIGHT -->
 <button id="admin-trigger">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
 </button>
 
-<!-- Admin Modal -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <div id="pw-screen">
@@ -432,7 +425,6 @@
         <button class="admin-tab" id="tab-stats" onclick="switchTab('stats')">📊 Statistik</button>
       </div>
 
-      <!-- ADD panel -->
       <div id="panel-add">
         <h2>Neue Lernapp</h2>
         <p class="modal-sub">Erscheint sofort für alle auf dem Lernhub.</p>
@@ -462,6 +454,7 @@
               <option value="mathematik">Mathematik</option>
               <option value="französisch">Französisch</option>
               <option value="italienisch">Italienisch</option>
+              <option value="englisch">Englisch</option>
               <option value="musik">Musik</option>
               <option value="wirtschaft">Wirtschaft</option>
               <option value="psychologie">Psychologie</option>
@@ -488,7 +481,6 @@
         <div class="success-msg" id="error-msg" style="background:#fceef0;border-color:#f5c0c0;color:#c43b3b;">❌ Fehler. Firebase-Regeln prüfen.</div>
       </div>
 
-      <!-- DELETE panel -->
       <div id="panel-delete" style="display:none;">
         <h2>Lernapp entfernen</h2>
         <p class="modal-sub">Wähle eine Lernapp und lösche sie dauerhaft.</p>
@@ -497,7 +489,6 @@
         <div class="success-msg" id="delete-msg">🗑️ Erfolgreich entfernt.</div>
       </div>
 
-      <!-- STATS panel -->
       <div id="panel-stats" style="display:none;">
         <h2>📊 Statistik</h2>
         <p class="modal-sub">Live-Daten aus Firebase.</p>
@@ -539,8 +530,8 @@
   });
   const db = getDatabase(app);
 
-  const TAG_CLASS={gesellschaft:'tag-ges',mathematik:'tag-math',französisch:'tag-fra',italienisch:'tag-ita',musik:'tag-mus',wirtschaft:'tag-wir',psychologie:'tag-psy',deutsch:'tag-deu',informatik:'tag-inf',anderes:'tag-other'};
-  const TAG_LABEL={gesellschaft:'Gesellschaft',mathematik:'Mathematik',französisch:'Französisch',italienisch:'Italienisch',musik:'Musik',wirtschaft:'Wirtschaft',psychologie:'Psychologie',deutsch:'Deutsch',informatik:'Informatik',anderes:'Anderes'};
+  const TAG_CLASS={gesellschaft:'tag-ges',mathematik:'tag-math',französisch:'tag-fra',italienisch:'tag-ita',musik:'tag-mus',wirtschaft:'tag-wir',psychologie:'tag-psy',deutsch:'tag-deu',informatik:'tag-inf',englisch:'tag-eng',anderes:'tag-other'};
+  const TAG_LABEL={gesellschaft:'Gesellschaft',mathematik:'Mathematik',französisch:'Französisch',italienisch:'Italienisch',musik:'Musik',wirtschaft:'Wirtschaft',psychologie:'Psychologie',deutsch:'Deutsch',informatik:'Informatik',englisch:'Englisch',anderes:'Anderes'};
 
   get(ref(db,'cards')).then(s=>{
     if(!s.exists()) set(ref(db,'cards/card_migration'),{title:'Migration',subject:'gesellschaft',year:'2026',link:'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/migration-lerne/',date:'März 2026',order:1,opens:0,modes:['Crash Course','Standard','Vollständig','Quiz']});
@@ -557,12 +548,7 @@
     grid.innerHTML='';
     const data=snap.val();
     if(!data){grid.innerHTML='<div class="loading-grid">Noch keine Lernapps.</div>';return;}
-
-    // Sort by order asc, then reverse → newest (highest order) first
-    const cards=Object.entries(data)
-      .sort((a,b)=>(a[1].order||99)-(b[1].order||99))
-      .reverse();
-
+    const cards=Object.entries(data).sort((a,b)=>(a[1].order||99)-(b[1].order||99)).reverse();
     cards.forEach(([id,card],idx)=>{
       const subj=card.subject||'anderes';
       const modes=card.modes||['Crash Course','Standard','Vollständig','Quiz'];
@@ -631,308 +617,287 @@
 
 <!-- ══ APP LOGIC ══ -->
 <script>
+  // ── DARK / LIGHT MODE (runs immediately, before paint) ──
+  (function(){
+    const saved = localStorage.getItem('lernhub-theme');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme','dark');
+    }
+  })();
+
+  window.toggleTheme = function() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('lernhub-theme', isDark ? 'light' : 'dark');
+    updateThemeUI();
+  };
+
+  function updateThemeUI() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const icon = document.getElementById('theme-icon');
+    const label = document.getElementById('theme-label');
+    if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+    if (label) label.textContent = isDark ? 'Light' : 'Dark';
+  }
+  // Run on load to sync icon with saved preference
+  document.addEventListener('DOMContentLoaded', updateThemeUI);
+
   // ── PWA INSTALL ──
   let deferredPrompt = null;
   const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
   const isInStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
-  function setAdminPos(up) {
-    document.getElementById('admin-trigger').classList.toggle('fab-up', up);
-  }
+  function setAdminPos(up){document.getElementById('admin-trigger').classList.toggle('fab-up',up);}
 
-  // Chrome/Edge/Android: native install prompt
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (!localStorage.getItem('fab-dismissed')) {
-      document.getElementById('install-fab').classList.add('show');
-      setAdminPos(true);
-    }
-    // Also show pill in header
-    document.getElementById('install-pill').style.display = 'inline-flex';
+  window.addEventListener('beforeinstallprompt',e=>{
+    e.preventDefault(); deferredPrompt=e;
+    if(!localStorage.getItem('fab-dismissed')){document.getElementById('install-fab').classList.add('show');setAdminPos(true);}
+    document.getElementById('install-pill').style.display='inline-flex';
   });
-
-  window.addEventListener('appinstalled', () => {
+  window.addEventListener('appinstalled',()=>{
     document.getElementById('install-fab').classList.remove('show');
-    document.getElementById('install-pill').style.display = 'none';
-    setAdminPos(false);
-    deferredPrompt = null;
+    document.getElementById('install-pill').style.display='none';
+    setAdminPos(false); deferredPrompt=null;
   });
-
-  // iOS Safari: show banner after delay (not in standalone, not dismissed)
-  if (isIos && !isInStandalone && !localStorage.getItem('ios-banner-dismissed')) {
-    document.getElementById('install-pill').style.display = 'inline-flex';
-    setTimeout(() => {
-      document.getElementById('ios-install-banner').classList.add('show');
-    }, 5000);
+  if(isIos&&!isInStandalone&&!localStorage.getItem('ios-banner-dismissed')){
+    document.getElementById('install-pill').style.display='inline-flex';
+    setTimeout(()=>{document.getElementById('ios-install-banner').classList.add('show');},5000);
   }
-
-  window.dismissIosBanner = () => {
-    document.getElementById('ios-install-banner').classList.remove('show');
-    localStorage.setItem('ios-banner-dismissed', '1');
+  window.dismissIosBanner=()=>{document.getElementById('ios-install-banner').classList.remove('show');localStorage.setItem('ios-banner-dismissed','1');};
+  window.handleInstallPill=()=>{
+    if(isIos){document.getElementById('ios-install-banner').classList.add('show');}
+    else if(deferredPrompt){triggerInstall({target:{id:'pill'}});}
+    else if(!isInStandalone){alert('App-Installation: Suche das Installieren-Symbol ⊕ in der Adressleiste deines Browsers.');}
   };
-
-  // Header pill click
-  window.handleInstallPill = () => {
-    if (isIos) {
-      document.getElementById('ios-install-banner').classList.add('show');
-    } else if (deferredPrompt) {
-      triggerInstall({ target: { id: 'pill' } });
-    } else if (!isInStandalone) {
-      alert('App-Installation: Suche das Installieren-Symbol ⊕ in der Adressleiste deines Browsers.');
-    }
-  };
-
-  // FAB click
-  window.triggerInstall = async (e) => {
-    if (e.target && e.target.id === 'fab-dismiss') return;
-    if (!deferredPrompt) {
-      if (isIos) { document.getElementById('ios-install-banner').classList.add('show'); return; }
+  window.triggerInstall=async(e)=>{
+    if(e.target&&e.target.id==='fab-dismiss') return;
+    if(!deferredPrompt){
+      if(isIos){document.getElementById('ios-install-banner').classList.add('show');return;}
       alert('App-Installation nicht verfügbar.\n\nChrome/Edge: Installieren-Symbol in der Adressleiste.\nSafari iOS: Teilen → "Zum Home-Bildschirm".');
       return;
     }
     deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      document.getElementById('install-fab').classList.remove('show');
-      setAdminPos(false);
-    }
-    deferredPrompt = null;
+    const{outcome}=await deferredPrompt.userChoice;
+    if(outcome==='accepted'){document.getElementById('install-fab').classList.remove('show');setAdminPos(false);}
+    deferredPrompt=null;
   };
-
-  window.dismissFab = (e) => {
+  window.dismissFab=(e)=>{
     e.stopPropagation();
     document.getElementById('install-fab').classList.remove('show');
     setAdminPos(false);
-    localStorage.setItem('fab-dismissed', '1');
+    localStorage.setItem('fab-dismissed','1');
   };
 
   // ── NOTIFICATIONS ──
-  function syncNotifPill() {
-    const pill = document.getElementById('notif-pill');
-    const label = document.getElementById('notif-label');
-    if (!('Notification' in window)) { pill.style.display = 'none'; return; }
-    if (Notification.permission === 'granted') {
-      pill.classList.add('granted'); pill.classList.remove('denied');
-      label.textContent = 'Aktiv ✓';
-    } else if (Notification.permission === 'denied') {
-      pill.classList.add('denied'); label.textContent = 'Blockiert';
-    } else {
-      pill.classList.remove('granted', 'denied');
-      label.textContent = 'Benachrichtigungen';
-    }
+  function syncNotifPill(){
+    const pill=document.getElementById('notif-pill');
+    const label=document.getElementById('notif-label');
+    if(!('Notification' in window)){pill.style.display='none';return;}
+    if(Notification.permission==='granted'){pill.classList.add('granted');pill.classList.remove('denied');label.textContent='Aktiv ✓';}
+    else if(Notification.permission==='denied'){pill.classList.add('denied');label.textContent='Blockiert';}
+    else{pill.classList.remove('granted','denied');label.textContent='Benachrichtigungen';}
   }
   syncNotifPill();
-
-  window.handleNotifPill = () => {
-    if (!('Notification' in window)) { alert('Dein Browser unterstützt keine Benachrichtigungen.'); return; }
-    if (Notification.permission === 'granted') { new Notification('✅ Lernhub F2AB', { body: 'Benachrichtigungen sind bereits aktiv.' }); return; }
-    if (Notification.permission === 'denied') { alert('Benachrichtigungen sind blockiert. Bitte in den Browser-Einstellungen erlauben.'); return; }
+  window.handleNotifPill=()=>{
+    if(!('Notification' in window)){alert('Dein Browser unterstützt keine Benachrichtigungen.');return;}
+    if(Notification.permission==='granted'){new Notification('✅ Lernhub F2AB',{body:'Benachrichtigungen sind bereits aktiv.'});return;}
+    if(Notification.permission==='denied'){alert('Benachrichtigungen sind blockiert. Bitte in den Browser-Einstellungen erlauben.');return;}
     document.getElementById('notif-toast').classList.add('show');
   };
-  window.closeNotifToast = () => document.getElementById('notif-toast').classList.remove('show');
-  window.requestNotifPermission = async () => {
+  window.closeNotifToast=()=>document.getElementById('notif-toast').classList.remove('show');
+  window.requestNotifPermission=async()=>{
     closeNotifToast();
-    const perm = await Notification.requestPermission();
+    const perm=await Notification.requestPermission();
     syncNotifPill();
-    if (perm === 'granted') {
-      const subId = 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
-      if (window._saveNotifSub) window._saveNotifSub(subId);
-      setTimeout(() => new Notification('🎉 Lernhub F2AB', { body: 'Super! Du wirst benachrichtigt, sobald eine neue Lernapp erscheint.', icon: 'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/lernapp/icon-192.png' }), 400);
+    if(perm==='granted'){
+      const subId='sub_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
+      if(window._saveNotifSub) window._saveNotifSub(subId);
+      setTimeout(()=>new Notification('🎉 Lernhub F2AB',{body:'Super! Du wirst benachrichtigt, sobald eine neue Lernapp erscheint.',icon:'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/lernapp/icon-192.png'}),400);
     }
   };
-  if (!localStorage.getItem('notif-asked') && 'Notification' in window && Notification.permission === 'default') {
-    setTimeout(() => { document.getElementById('notif-toast').classList.add('show'); localStorage.setItem('notif-asked', '1'); }, 9000);
+  if(!localStorage.getItem('notif-asked')&&'Notification' in window&&Notification.permission==='default'){
+    setTimeout(()=>{document.getElementById('notif-toast').classList.add('show');localStorage.setItem('notif-asked','1');},9000);
   }
 
   // ── MODES BUILDER ──
-  let customModes = [];
-  window.toggleMode = (btn) => {
-    btn.classList.toggle('on');
-    btn.querySelector('.check').textContent = btn.classList.contains('on') ? '✓' : '';
+  let customModes=[];
+  window.toggleMode=(btn)=>{btn.classList.toggle('on');btn.querySelector('.check').textContent=btn.classList.contains('on')?'✓':'';};
+  window.addCustomMode=()=>{
+    const inp=document.getElementById('custom-mode-input');
+    const val=inp.value.trim();
+    if(!val||customModes.includes(val)){inp.value='';return;}
+    customModes.push(val);renderCustomChips();inp.value='';inp.focus();
   };
-  window.addCustomMode = () => {
-    const inp = document.getElementById('custom-mode-input');
-    const val = inp.value.trim();
-    if (!val || customModes.includes(val)) { inp.value = ''; return; }
-    customModes.push(val);
-    renderCustomChips();
-    inp.value = ''; inp.focus();
-  };
-  document.addEventListener('DOMContentLoaded', () => {
-    const inp = document.getElementById('custom-mode-input');
-    if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addCustomMode(); } });
+  document.addEventListener('DOMContentLoaded',()=>{
+    const inp=document.getElementById('custom-mode-input');
+    if(inp) inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addCustomMode();}});
   });
-  function renderCustomChips() {
-    const list = document.getElementById('custom-chips-list');
-    list.innerHTML = '';
-    customModes.forEach((m, i) => {
-      const chip = document.createElement('span');
-      chip.className = 'custom-chip-admin';
-      chip.innerHTML = `${m}<button onclick="removeCustomMode(${i})" title="Entfernen">✕</button>`;
+  function renderCustomChips(){
+    const list=document.getElementById('custom-chips-list');list.innerHTML='';
+    customModes.forEach((m,i)=>{
+      const chip=document.createElement('span');chip.className='custom-chip-admin';
+      chip.innerHTML=`${m}<button onclick="removeCustomMode(${i})" title="Entfernen">✕</button>`;
       list.appendChild(chip);
     });
   }
-  window.removeCustomMode = (i) => { customModes.splice(i, 1); renderCustomChips(); };
-  function getSelectedModes() {
-    return [...[...document.querySelectorAll('.mode-toggle.on')].map(b => b.dataset.mode), ...customModes];
-  }
-  function resetModesBuilder() {
-    document.querySelectorAll('.mode-toggle').forEach(b => { b.classList.add('on'); b.querySelector('.check').textContent = '✓'; });
-    customModes = []; renderCustomChips();
-    const inp = document.getElementById('custom-mode-input'); if (inp) inp.value = '';
+  window.removeCustomMode=(i)=>{customModes.splice(i,1);renderCustomChips();};
+  function getSelectedModes(){return[[...document.querySelectorAll('.mode-toggle.on')].map(b=>b.dataset.mode),...customModes].flat();}
+  function resetModesBuilder(){
+    document.querySelectorAll('.mode-toggle').forEach(b=>{b.classList.add('on');b.querySelector('.check').textContent='✓';});
+    customModes=[];renderCustomChips();
+    const inp=document.getElementById('custom-mode-input');if(inp)inp.value='';
   }
 
   // ── ADMIN ──
-  async function sha256hex(text) {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  async function sha256hex(text){
+    const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
   }
-  window.closeModal = () => document.getElementById('modal-overlay').classList.remove('open');
-  function openAdminModal() {
+  window.closeModal=()=>document.getElementById('modal-overlay').classList.remove('open');
+  function openAdminModal(){
     document.getElementById('modal-overlay').classList.add('open');
-    document.getElementById('pw-screen').style.display = '';
-    document.getElementById('admin-form').style.display = 'none';
-    document.getElementById('pw-error').style.display = 'none';
-    document.getElementById('pw-input').value = '';
-    setTimeout(() => document.getElementById('pw-input').focus(), 80);
+    document.getElementById('pw-screen').style.display='';
+    document.getElementById('admin-form').style.display='none';
+    document.getElementById('pw-error').style.display='none';
+    document.getElementById('pw-input').value='';
+    setTimeout(()=>document.getElementById('pw-input').focus(),80);
   }
-  document.getElementById('admin-trigger').onclick = openAdminModal;
-  document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target.id === 'modal-overlay') closeModal(); });
-  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+  document.getElementById('admin-trigger').onclick=openAdminModal;
+  document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.target.id==='modal-overlay')closeModal();});
+  document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkPassword();});
 
-  window.checkPassword = async () => {
-    const btn = document.querySelector('#pw-screen .btn-primary');
-    btn.textContent = '…'; btn.disabled = true;
-    try {
-      const entered = document.getElementById('pw-input').value;
-      if (!entered) return;
-      let a = 0; while (!window._firebaseReady && a < 30) { await new Promise(r => setTimeout(r, 200)); a++; }
-      if (!window._firebaseReady) { alert('Firebase nicht bereit.'); return; }
-      const hash = await sha256hex(entered);
+  window.checkPassword=async()=>{
+    const btn=document.querySelector('#pw-screen .btn-primary');
+    btn.textContent='…';btn.disabled=true;
+    try{
+      const entered=document.getElementById('pw-input').value;
+      if(!entered)return;
+      let a=0;while(!window._firebaseReady&&a<30){await new Promise(r=>setTimeout(r,200));a++;}
+      if(!window._firebaseReady){alert('Firebase nicht bereit.');return;}
+      const hash=await sha256hex(entered);
       let snap;
-      try { snap = await window._get(window._ref(window._db, 'meta/adminHash')); }
-      catch (e) { alert('Firebase lesen fehlgeschlagen: ' + e.message); return; }
-      if (!snap.exists()) {
-        try { await window._set(window._ref(window._db, 'meta/adminHash'), hash); }
-        catch (e) { alert('Firebase schreiben fehlgeschlagen: ' + e.message); return; }
-        document.getElementById('pw-screen').style.display = 'none';
-        document.getElementById('admin-form').style.display = '';
-        switchTab('add'); return;
+      try{snap=await window._get(window._ref(window._db,'meta/adminHash'));}
+      catch(e){alert('Firebase lesen fehlgeschlagen: '+e.message);return;}
+      if(!snap.exists()){
+        try{await window._set(window._ref(window._db,'meta/adminHash'),hash);}
+        catch(e){alert('Firebase schreiben fehlgeschlagen: '+e.message);return;}
+        document.getElementById('pw-screen').style.display='none';
+        document.getElementById('admin-form').style.display='';
+        switchTab('add');return;
       }
-      if (hash === snap.val()) {
-        document.getElementById('pw-screen').style.display = 'none';
-        document.getElementById('admin-form').style.display = '';
+      if(hash===snap.val()){
+        document.getElementById('pw-screen').style.display='none';
+        document.getElementById('admin-form').style.display='';
         switchTab('add');
       } else {
-        document.getElementById('pw-error').style.display = 'block';
-        document.getElementById('pw-input').value = '';
+        document.getElementById('pw-error').style.display='block';
+        document.getElementById('pw-input').value='';
         document.getElementById('pw-input').focus();
       }
-    } catch (e) { alert('Fehler: ' + e.message); }
-    finally { btn.textContent = 'Einloggen'; btn.disabled = false; }
+    } catch(e){alert('Fehler: '+e.message);}
+    finally{btn.textContent='Einloggen';btn.disabled=false;}
   };
 
-  window.switchTab = tab => {
-    ['add', 'delete', 'stats'].forEach(t => {
-      document.getElementById('panel-' + t).style.display = tab === t ? '' : 'none';
-      document.getElementById('tab-' + t).classList.toggle('active', tab === t);
+  window.switchTab=tab=>{
+    ['add','delete','stats'].forEach(t=>{
+      document.getElementById('panel-'+t).style.display=tab===t?'':'none';
+      document.getElementById('tab-'+t).classList.toggle('active',tab===t);
     });
-    if (tab === 'delete') {
-      const list = document.getElementById('delete-list');
-      list.innerHTML = '';
-      const cards = Object.entries(window._cardsCache || {}).sort((a, b) => (a[1].order || 99) - (b[1].order || 99));
-      if (!cards.length) { list.innerHTML = '<p style="font-size:.85rem;color:var(--muted);padding:12px 0;">Keine Lernapps.</p>'; return; }
-      cards.forEach(([id, card]) => {
-        const item = document.createElement('div'); item.className = 'delete-item';
-        item.innerHTML = `<div><div class="delete-item-title">${card.title}</div><div class="delete-item-sub">${(window._TAG_LABEL || {})[card.subject] || 'Anderes'} · ${card.year || '2026'}</div></div><button class="btn-delete" onclick="deleteCard('${id}',this)">Löschen</button>`;
+    if(tab==='delete'){
+      const list=document.getElementById('delete-list');list.innerHTML='';
+      const cards=Object.entries(window._cardsCache||{}).sort((a,b)=>(a[1].order||99)-(b[1].order||99));
+      if(!cards.length){list.innerHTML='<p style="font-size:.85rem;color:var(--muted);padding:12px 0;">Keine Lernapps.</p>';return;}
+      cards.forEach(([id,card])=>{
+        const item=document.createElement('div');item.className='delete-item';
+        item.innerHTML=`<div><div class="delete-item-title">${card.title}</div><div class="delete-item-sub">${(window._TAG_LABEL||{})[card.subject]||'Anderes'} · ${card.year||'2026'}</div></div><button class="btn-delete" onclick="deleteCard('${id}',this)">Löschen</button>`;
         list.appendChild(item);
       });
     }
-    if (tab === 'stats') {
-      const ae = document.getElementById('admin-active'); if (ae) ae.textContent = window._activeUsers ?? '–';
-      const ve = document.getElementById('admin-total-vis'); if (ve) ve.textContent = window._totalVisitors != null ? window._totalVisitors.toLocaleString('de-CH') : '–';
-      const ol = document.getElementById('admin-opens-list'); ol.innerHTML = '';
-      const cards = Object.entries(window._cardsCache || {}).sort((a, b) => (b[1].opens || 0) - (a[1].opens || 0));
-      if (!cards.length) { ol.innerHTML = '<p style="font-size:.82rem;color:var(--muted);">Keine Lernapps.</p>'; return; }
-      cards.forEach(([id, card]) => {
-        const row = document.createElement('div');
-        row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;';
-        row.innerHTML = `<span style="font-size:.84rem;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${card.title}</span><span style="font-size:.82rem;color:var(--muted);white-space:nowrap;" id="aoc-${id}">${(card.opens || 0).toLocaleString('de-CH')}</span><button class="btn-reset" onclick="resetCardOpens('${id}',this)">Reset</button>`;
+    if(tab==='stats'){
+      const ae=document.getElementById('admin-active');if(ae)ae.textContent=window._activeUsers??'–';
+      const ve=document.getElementById('admin-total-vis');if(ve)ve.textContent=window._totalVisitors!=null?window._totalVisitors.toLocaleString('de-CH'):'–';
+      const ol=document.getElementById('admin-opens-list');ol.innerHTML='';
+      const cards=Object.entries(window._cardsCache||{}).sort((a,b)=>(b[1].opens||0)-(a[1].opens||0));
+      if(!cards.length){ol.innerHTML='<p style="font-size:.82rem;color:var(--muted);">Keine Lernapps.</p>';return;}
+      cards.forEach(([id,card])=>{
+        const row=document.createElement('div');
+        row.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;';
+        row.innerHTML=`<span style="font-size:.84rem;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${card.title}</span><span style="font-size:.82rem;color:var(--muted);white-space:nowrap;" id="aoc-${id}">${(card.opens||0).toLocaleString('de-CH')}</span><button class="btn-reset" onclick="resetCardOpens('${id}',this)">Reset</button>`;
         ol.appendChild(row);
       });
     }
   };
 
-  window.resetCardOpens = async (id, btn) => {
-    if (!confirm('Öffnungen auf 0?')) return;
-    btn.textContent = '…'; btn.disabled = true;
-    try {
-      await window._set(window._ref(window._db, `cards/${id}/opens`), 0);
-      [document.getElementById(`aoc-${id}`), document.getElementById(`oc-${id}`)].forEach(e => { if (e) e.textContent = '0'; });
-    } catch (e) { alert(e.message); }
-    finally { btn.textContent = 'Reset'; btn.disabled = false; }
+  window.resetCardOpens=async(id,btn)=>{
+    if(!confirm('Öffnungen auf 0?'))return;
+    btn.textContent='…';btn.disabled=true;
+    try{
+      await window._set(window._ref(window._db,`cards/${id}/opens`),0);
+      [document.getElementById(`aoc-${id}`),document.getElementById(`oc-${id}`)].forEach(e=>{if(e)e.textContent='0';});
+    } catch(e){alert(e.message);}
+    finally{btn.textContent='Reset';btn.disabled=false;}
   };
 
-  window.deleteCard = async (id, btn) => {
-    if (!confirm('Sicher löschen?')) return;
-    btn.textContent = '…'; btn.disabled = true;
-    try {
-      await window._remove(window._ref(window._db, `cards/${id}`));
+  window.deleteCard=async(id,btn)=>{
+    if(!confirm('Sicher löschen?'))return;
+    btn.textContent='…';btn.disabled=true;
+    try{
+      await window._remove(window._ref(window._db,`cards/${id}`));
       btn.closest('.delete-item').remove();
-      const m = document.getElementById('delete-msg'); m.style.display = 'block';
-      setTimeout(() => { m.style.display = 'none'; }, 3000);
-    } catch (e) { btn.textContent = 'Löschen'; btn.disabled = false; alert(e.message); }
+      const m=document.getElementById('delete-msg');m.style.display='block';
+      setTimeout(()=>{m.style.display='none';},3000);
+    } catch(e){btn.textContent='Löschen';btn.disabled=false;alert(e.message);}
   };
 
-  window.changeAdminPassword = async () => {
-    const inp = document.getElementById('new-pw-input');
-    const pw = inp.value.trim();
-    if (!pw || pw.length < 6) { alert('Mindestens 6 Zeichen.'); return; }
-    try {
-      await window._set(window._ref(window._db, 'meta/adminHash'), await sha256hex(pw));
-      inp.value = '';
-      const m = document.getElementById('pw-change-msg'); m.style.display = 'block';
-      setTimeout(() => { m.style.display = 'none'; }, 3000);
-    } catch (e) { alert(e.message); }
+  window.changeAdminPassword=async()=>{
+    const inp=document.getElementById('new-pw-input');
+    const pw=inp.value.trim();
+    if(!pw||pw.length<6){alert('Mindestens 6 Zeichen.');return;}
+    try{
+      await window._set(window._ref(window._db,'meta/adminHash'),await sha256hex(pw));
+      inp.value='';
+      const m=document.getElementById('pw-change-msg');m.style.display='block';
+      setTimeout(()=>{m.style.display='none';},3000);
+    } catch(e){alert(e.message);}
   };
 
-  window.addCard = async () => {
-    const title = document.getElementById('f-title').value.trim();
-    const subtitle = document.getElementById('f-subtitle').value.trim();
-    const subject = document.getElementById('f-subject').value;
-    const year = document.getElementById('f-year').value.trim() || '2026';
-    const link = document.getElementById('f-link').value.trim();
-    const date = document.getElementById('f-date').value.trim();
-    const doNotify = document.getElementById('f-notify').checked;
-    const modes = getSelectedModes();
-    if (!title || !link) { alert('Titel und Link sind Pflichtfelder!'); return; }
-    if (!modes.length) { alert('Mindestens ein Chip muss ausgewählt oder hinzugefügt sein.'); return; }
-    let a = 0; while (!window._firebaseReady && a < 30) { await new Promise(r => setTimeout(r, 200)); a++; }
-    if (!window._firebaseReady) { alert('Firebase nicht bereit.'); return; }
-    const btn = document.getElementById('btn-add-submit'); btn.textContent = '…'; btn.disabled = true;
-    try {
-      const snap = await window._get(window._ref(window._db, 'cards'));
-      const count = snap.exists() ? Object.keys(snap.val()).length : 0;
-      const newId = 'card_' + Date.now();
-      const dateStr = date || new Date().toLocaleDateString('de-CH', { month: 'long', year: 'numeric' });
-      const cardData = { title, subject, year, link, date: dateStr, order: count + 1, opens: 0, modes };
-      if (subtitle) cardData.subtitle = subtitle;
-      await window._set(window._ref(window._db, `cards/${newId}`), cardData);
-      if (doNotify && window._notifyAll) {
-        await window._notifyAll(`📚 Neue Lernapp: ${title}`, `Eine neue ${(window._TAG_LABEL || {})[subject] || ''}-App ist jetzt im Lernhub verfügbar!`);
+  window.addCard=async()=>{
+    const title=document.getElementById('f-title').value.trim();
+    const subtitle=document.getElementById('f-subtitle').value.trim();
+    const subject=document.getElementById('f-subject').value;
+    const year=document.getElementById('f-year').value.trim()||'2026';
+    const link=document.getElementById('f-link').value.trim();
+    const date=document.getElementById('f-date').value.trim();
+    const doNotify=document.getElementById('f-notify').checked;
+    const modes=getSelectedModes();
+    if(!title||!link){alert('Titel und Link sind Pflichtfelder!');return;}
+    if(!modes.length){alert('Mindestens ein Chip muss ausgewählt oder hinzugefügt sein.');return;}
+    let a=0;while(!window._firebaseReady&&a<30){await new Promise(r=>setTimeout(r,200));a++;}
+    if(!window._firebaseReady){alert('Firebase nicht bereit.');return;}
+    const btn=document.getElementById('btn-add-submit');btn.textContent='…';btn.disabled=true;
+    try{
+      const snap=await window._get(window._ref(window._db,'cards'));
+      const count=snap.exists()?Object.keys(snap.val()).length:0;
+      const newId='card_'+Date.now();
+      const dateStr=date||new Date().toLocaleDateString('de-CH',{month:'long',year:'numeric'});
+      const cardData={title,subject,year,link,date:dateStr,order:count+1,opens:0,modes};
+      if(subtitle)cardData.subtitle=subtitle;
+      await window._set(window._ref(window._db,`cards/${newId}`),cardData);
+      if(doNotify&&window._notifyAll){
+        await window._notifyAll(`📚 Neue Lernapp: ${title}`,`Eine neue ${(window._TAG_LABEL||{})[subject]||''}-App ist jetzt im Lernhub verfügbar!`);
       }
-      document.getElementById('success-msg').style.display = 'block';
-      document.getElementById('error-msg').style.display = 'none';
-      ['f-title', 'f-subtitle', 'f-link', 'f-date'].forEach(id => { document.getElementById(id).value = ''; });
-      document.getElementById('f-year').value = '2026';
-      document.getElementById('f-notify').checked = true;
+      document.getElementById('success-msg').style.display='block';
+      document.getElementById('error-msg').style.display='none';
+      ['f-title','f-subtitle','f-link','f-date'].forEach(id=>{document.getElementById(id).value='';});
+      document.getElementById('f-year').value='2026';
+      document.getElementById('f-notify').checked=true;
       resetModesBuilder();
-      setTimeout(() => { document.getElementById('success-msg').style.display = 'none'; }, 4000);
-    } catch (e) {
-      document.getElementById('error-msg').style.display = 'block';
+      setTimeout(()=>{document.getElementById('success-msg').style.display='none';},4000);
+    } catch(e){
+      document.getElementById('error-msg').style.display='block';
       console.error(e);
-    } finally { btn.textContent = 'Hinzufügen'; btn.disabled = false; }
+    } finally{btn.textContent='Hinzufügen';btn.disabled=false;}
   };
 </script>
 
