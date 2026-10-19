@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lernhub – F2AB</title>
-  <meta name="description" content="Alle Lernapps der F2AB – übersichtlich an einem Ort." />
+  <title>Lernhub – F3AB</title>
+  <meta name="description" content="Alle Lernapps der F3AB – übersichtlich an einem Ort." />
   <meta name="theme-color" content="#2c2a26" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -290,7 +290,7 @@
       </div>
     </div>
     <div class="header-right">
-      <div class="badge">F2AB</div>
+      <div class="badge">F3AB</div>
       <div class="total-visitors">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         <span id="total-visitors-count">–</span>&nbsp;Besucher insgesamt
@@ -360,7 +360,7 @@
   </div>
 </div>
 
-<footer><p>Lernhub · <strong>F2AB</strong> · Alle Lernapps</p></footer>
+<footer><p>Lernhub · <strong>F3AB</strong> · Alle Lernapps</p></footer>
 
 <button id="install-fab" onclick="triggerInstall(event)">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -395,7 +395,7 @@
     <strong>Neue Lernapps nicht verpassen</strong>
     <button class="nt-close" onclick="closeNotifToast()">✕</button>
   </div>
-  <div class="nt-body">Erhalte eine Benachrichtigung, sobald eine neue Lernapp für die F2AB hinzugefügt wird.</div>
+  <div class="nt-body">Erhalte eine Benachrichtigung, sobald eine neue Lernapp für die F3AB hinzugefügt wird.</div>
   <div class="nt-actions">
     <button class="nt-allow" onclick="requestNotifPermission()">Aktivieren</button>
     <button class="nt-later" onclick="closeNotifToast()">Später</button>
@@ -562,7 +562,7 @@
         <h2>${card.title}</h2>
         ${card.subtitle?`<p class="card-subtitle">${card.subtitle}</p>`:''}
         <div class="card-meta">
-          <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>F2AB</span>
+          <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>F3AB</span>
           <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${card.year||'2026'}</span>
           <span class="opens-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span id="oc-${id}">${(card.opens||0).toLocaleString('de-CH')}</span></span>
         </div>
@@ -593,7 +593,7 @@
     const d=snap.val();
     if(d.ts&&d.ts>lastNotifTs&&('Notification' in window)&&Notification.permission==='granted'){
       lastNotifTs=d.ts;
-      new Notification(d.title||'Lernhub F2AB',{body:d.body||'',icon:'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/lernapp/icon-192.png'});
+      new Notification(d.title||'Lernhub F3AB',{body:d.body||'',icon:'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/lernapp/icon-192.png'});
     }
   });
 
@@ -701,7 +701,7 @@
   syncNotifPill();
   window.handleNotifPill=()=>{
     if(!('Notification' in window)){alert('Dein Browser unterstützt keine Benachrichtigungen.');return;}
-    if(Notification.permission==='granted'){new Notification('✅ Lernhub F2AB',{body:'Benachrichtigungen sind bereits aktiv.'});return;}
+    if(Notification.permission==='granted'){new Notification('✅ Lernhub F3AB',{body:'Benachrichtigungen sind bereits aktiv.'});return;}
     if(Notification.permission==='denied'){alert('Benachrichtigungen sind blockiert. Bitte in den Browser-Einstellungen erlauben.');return;}
     document.getElementById('notif-toast').classList.add('show');
   };
@@ -713,7 +713,7 @@
     if(perm==='granted'){
       const subId='sub_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
       if(window._saveNotifSub) window._saveNotifSub(subId);
-      setTimeout(()=>new Notification('🎉 Lernhub F2AB',{body:'Super! Du wirst benachrichtigt, sobald eine neue Lernapp erscheint.',icon:'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/lernapp/icon-192.png'}),400);
+      setTimeout(()=>new Notification('🎉 Lernhub F3AB',{body:'Super! Du wirst benachrichtigt, sobald eine neue Lernapp erscheint.',icon:'https://geniiiiiiiiiiiiiiiiiiiiiiii.github.io/lernapp/icon-192.png'}),400);
     }
   };
   if(!localStorage.getItem('notif-asked')&&'Notification' in window&&Notification.permission==='default'){
